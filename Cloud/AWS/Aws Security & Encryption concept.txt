@@ -1,0 +1,213 @@
+VIII. AWS Security & Encryption
+-----------------------------------------------------------------------------
+
+1. Các thành phần trong hệ thống phân quyền IAM của AWS
+---------------------------------------------------------------------------------------
+- User: Đại diện cho một cá nhân hoặc một ứng dụng cần truy cập vào các tài nguyên AWS. Người dùng có thể có các chính sách gắn kèm để xác định những gì họ được phép làm.
+- Group: Một tập hợp các người dùng. Chính sách được gắn kèm với một nhóm sẽ áp dụng cho tất cả các thành viên trong nhóm đó. Điều này giúp quản lý quyền truy cập dễ dàng hơn vì bạn có thể gắn quyền cho nhóm thay vì từng người dùng riêng lẻ.
+- Role: Một tập hợp các quyền mà một thực thể có thể đảm nhận. Role được sử dụng trong các trường hợp khi một dịch vụ AWS cần truy cập tài nguyên, hoặc khi bạn muốn trao quyền tạm thời cho một người dùng hoặc dịch vụ.
+- Policy (Chính sách): Là tài liệu JSON chứa một hoặc nhiều tuyên bố (statement). Chính sách có thể được gắn vào người dùng, nhóm hoặc role. Mỗi tuyên bố trong chính sách xác định những hành động nào được phép hoặc bị từ chối đối với các tài nguyên cụ thể.
+
+
+
+2. IAM policy detail
+---------------------------------------------------------------------------------------
+IAM (Identity and Access Management) policy là một thành phần quan trọng trong hệ thống bảo mật của AWS (Amazon Web Services) nhằm kiểm soát quyền truy cập đến các tài nguyên AWS. 
+IAM policy là các tài liệu JSON định nghĩa những quyền cụ thể mà một người dùng, nhóm, hoặc role có thể thực hiện trên các tài nguyên AWS.
+
+Các thành phần chính của IAM policy bao gồm:
+- Statements (Các tuyên bố): Đây là các khối riêng lẻ trong chính sách xác định hành động được phép hoặc bị từ chối.
+- Effect (Hiệu lực): Quy định xem hành động được phép (Allow) hay bị từ chối (Deny).
+- Action (Hành động): Xác định những hành động nào được phép hoặc bị từ chối (ví dụ: s3:ListBucket cho S3).
+- Resource (Tài nguyên): Xác định tài nguyên mà hành động có thể được thực hiện (ví dụ: một bucket S3 cụ thể).
+- Condition (Điều kiện): Các điều kiện cụ thể để kiểm soát khi nào chính sách có hiệu lực.
+
+Ví du:
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::example_bucket"
+    }
+  ]
+}
+
+
+3. Một số nguyên tắc chính
+---------------------------------------------------------------------------------------
+Khi sử dụng IAM policy, có một số nguyên tắc quan trọng cần tuân thủ để đảm bảo quản lý quyền truy cập hiệu quả và an toàn trong môi trường AWS. Dưới đây là các nguyên tắc chính nên sử dụng IAM policy:
+
+- Một IAM user tương ứng với một người thật. Và không bao giờ chia sẻ tài khoản IAM user cho nhiều người dùng
+
+- Nguyên tắc ít quyền nhất (Principle of Least Privilege): 
+Chỉ cấp quyền tối thiểu cần thiết để người dùng, nhóm hoặc role có thể hoàn thành công việc của mình. Tránh cấp quyền rộng rãi hơn mức cần thiết.
+
+- Sử dụng nhóm (Groups) để quản lý quyền: 
+Thay vì gán quyền trực tiếp cho từng người dùng, nên tạo các nhóm và gán quyền cho nhóm. Sau đó thêm người dùng vào các nhóm phù hợp để quản lý quyền dễ dàng hơn.
+
+- Sử dụng role để cấp quyền tạm thời: 
+Role cho phép cấp quyền tạm thời cho người dùng hoặc dịch vụ. Điều này đặc biệt hữu ích khi bạn cần cấp quyền cho một dịch vụ AWS hoặc cho người dùng ngoài tổ chức của bạn (ví dụ: người dùng bên thứ ba).
+
+- Sử dụng chính sách được quản lý (Managed Policies): 
+AWS cung cấp các chính sách được quản lý sẵn để sử dụng cho các nhiệm vụ phổ biến. Sử dụng các chính sách này có thể giúp tiết kiệm thời gian và giảm nguy cơ lỗi cấu hình.
+
+- Giám sát và kiểm tra quyền truy cập thường xuyên: 
+Thường xuyên kiểm tra và giám sát các quyền truy cập để đảm bảo chúng vẫn phù hợp với nhu cầu hiện tại và không có quyền truy cập không cần thiết hoặc không mong muốn.
+
+- Sử dụng điều kiện (Conditions) trong chính sách: 
+Điều kiện giúp bạn kiểm soát chi tiết hơn về khi nào và dưới điều kiện nào các quyền được áp dụng. Điều này có thể dựa trên các yếu tố như thời gian, địa chỉ IP, hoặc các tag của tài nguyên.
+
+- Ghi nhật ký và kiểm toán (Logging and Auditing): 
+Sử dụng các dịch vụ như AWS CloudTrail để ghi lại và theo dõi hoạt động của người dùng và các thay đổi về cấu hình IAM. Điều này giúp phát hiện và phản ứng nhanh chóng với các sự cố bảo mật.
+
+- Sử dụng MFA (Multi-Factor Authentication): 
+Bật xác thực đa yếu tố cho người dùng IAM để tăng cường bảo mật. Điều này thêm một lớp bảo mật bổ sung bằng cách yêu cầu người dùng cung cấp thêm một yếu tố xác thực ngoài mật khẩu.
+
+- Tránh sử dụng tài khoản root: 
+Tài khoản root có quyền truy cập không giới hạn vào tài nguyên AWS của bạn. Hạn chế sử dụng tài khoản này và tạo người dùng IAM với các quyền cụ thể thay thế.
+
+- Gán quyền chi tiết thay vì quyền tổng quát: 
+Cố gắng gán quyền cụ thể cho từng hành động và tài nguyên thay vì sử dụng các quyền tổng quát hoặc wildcard (*). Điều này giúp kiểm soát quyền truy cập một cách chi tiết hơn.
+
+
+
+AWS KMS (Key Management Service)
+• Anytime you hear “encryption” for an AWS service, it’s most likely KMS
+• AWS manages encryption keys for us
+• Fully integrated with IAM for authorization
+• Easy way to control access to your data
+• Able to audit KMS Key usage using CloudTrail
+• Seamlessly integrated into most AWS services (EBS, S3, RDS, SSM…)
+• Never ever store your secrets in plaintext, especially in your code!
+	• KMS Key Encryption also available through API calls (SDK, CLI)
+	• Encrypted secrets can be stored in the code / environment variables
+
+KMS Keys Types
+• KMS Keys is the new name of KMS Customer Master Key
+• Symmetric (AES-256 keys)
+	• Single encryption key that is used to Encrypt and Decrypt
+	• AWS services that are integrated with KMS use Symmetric CMKs
+	• You never get access to the KMS Key unencrypted (must call KMS API to use)
+• Asymmetric (RSA & ECC key pairs)
+	• Public (Encrypt) and Private Key (Decrypt) pair
+	• Used for Encrypt/Decrypt, or Sign/Verify operations
+	• The public key is downloadable, but you can’t access the Private Key unencrypted
+	• Use case: encryption outside of AWS by users who can’t call the KMS API
+
+
+AWS Certificate Manager (ACM)
+• Easily provision, manage, and deploy TLS Certificates
+• Provide in-flight encryption for websites (HTTPS)
+• Supports both public and private TLS certificates
+• Free of charge for public TLS certificates
+• Automatic TLS certificate renewal
+• Integrations with (load TLS certificates on)
+	• Elastic Load Balancers (CLB, ALB, NLB)
+	• CloudFront Distributions
+	• APIs on API Gateway
+• Cannot use ACM with EC2 (can’t be extracted)
+
+
+AWS WAF – Web Application Firewall
+• Protects your web applications from common web exploits (Layer 7)
+• Layer 7 is HTTP (vs Layer 4 is TCP/UDP)
+• Deploy on
+	• Application Load Balancer
+	• API Gateway
+	• CloudFront
+	• AppSync GraphQL API
+	• Cognito User Pool
+
+
+AWS Shield: protect from DDoS attack
+• DDoS: Distributed Denial of Service – many requests at the same time
+• AWS Shield Standard:
+	• Free service that is activated for every AWS customer
+	• Provides protection from attacks such as SYN/UDP Floods, Reflection attacks and other layer 3/layer 4 attacks
+
+
+AWS Firewall Manager
+• Manage rules in all accounts of an AWS Organization
+• Security policy: common set of security rules
+	• WAF rules (Application Load Balancer, API Gateways, CloudFront)
+	• AWS Shield Advanced (ALB, CLB, NLB, Elastic IP, CloudFront)
+	• Security Groups for EC2, Application Load BAlancer and ENI resources in VPC
+	• AWS Network Firewall (VPC Level)
+	• Amazon Route 53 Resolver DNS Firewall
+	• Policies are created at the region level
+• Rules are applied to new resources as they are created (good for compliance) across all and future accounts in your Organization
+
+
+Amazon GuardDuty
+• Intelligent Threat discovery to protect your AWS Account
+• Uses Machine Learning algorithms, anomaly detection, 3rd party data
+• One click to enable (30 days trial), no need to install software
+• Input data includes:
+	• CloudTrail Events Logs – unusual API calls, unauthorized deployments
+	• CloudTrail Management Events – create VPC subnet, create trail, …
+	• CloudTrail S3 Data Events – get object, list objects, delete object, …
+	• VPC Flow Logs – unusual internal traffic, unusual IP address
+	• DNS Logs – compromised EC2 instances sending encoded data within DNS queries
+	• Optional Features – EKS Audit Logs, RDS & Aurora, EBS, Lambda, S3 Data Events…
+• Can setup EventBridge rules to be notified in case of findings
+• EventBridge rules can target AWS Lambda or SNS
+• Can protect against CryptoCurrency attacks (has a dedicated “finding” for it)
+
+
+Amazon Inspector
+• Automated Security Assessments
+• For EC2 instances
+	• Leveraging the AWS System Manager (SSM) agent
+	• Analyze against unintended network accessibility
+	• Analyze the running OS against known vulnerabilities
+• For Container Images push to Amazon ECR
+	• Assessment of Container Images as they are pushed
+• For Lambda Functions
+	• Identifies software vulnerabilities in function code and package dependencies
+	• Assessment of functions as they are deployed
+• Reporting & integration with AWS Security Hub
+• Send findings to Amazon Event Bridge
+
+
+AWS Macie
+• Amazon Macie is a fully managed data security and data privacy service that uses machine learning and pattern matching to discover and protect your sensitive data in AWS.
+• Macie helps identify and alert you to sensitive data, such as personally identifiable information (PII)
+
+
+10. AWS Secrets Manager
+---------------------------------------------------------------------------------------
+• Dịch vụ quản lý bí mật (secrets) được thiết kế để giúp bảo mật và quản lý các thông tin nhạy cảm như mật khẩu, khóa API, thông tin đăng nhập DB, hoặc bất kỳ dữ liệu bảo mật nào khác. 
+• AWS Secrets Manager giúp bạn lưu trữ, truy cập, xoay vòng, và quản lý các thông tin bảo mật này một cách dễ dàng, an toàn, và tự động.
+
+Tính năng của AWS Secrets Manager:
+
+Lưu trữ và quản lý bảo mật:
+- Bạn có thể lưu trữ các thông tin nhạy cảm như mật khẩu cơ sở dữ liệu, khóa API hoặc thông tin đăng nhập ứng dụng.
+- Secrets được mã hóa bằng AWS Key Management Service (KMS) để đảm bảo an toàn.
+
+Tự động xoay vòng bí mật:
+- Secrets Manager có khả năng tự động xoay vòng (rotate) các thông tin bí mật, chẳng hạn như mật khẩu cơ sở dữ liệu hoặc token API, theo một lịch trình định trước. Điều này giúp đảm bảo rằng thông tin bí mật luôn được cập nhật mà không cần sự can thiệp thủ công.
+Tích hợp dễ dàng với các dịch vụ khác của AWS:
+
+Dễ dàng tích hợp với các dịch vụ như Amazon RDS, Amazon Redshift, và Amazon DocumentDB để tự động xoay vòng và quản lý thông tin bảo mật liên quan đến các cơ sở dữ liệu này.
+- Các ứng dụng có thể truy cập secrets một cách an toàn thông qua API AWS SDK hoặc AWS CLI.
+
+Quản lý truy cập và quyền:
+- Bằng cách sử dụng AWS Identity and Access Management (IAM), bạn có thể kiểm soát ai có quyền truy cập hoặc thay đổi các secrets, giúp tăng cường bảo mật.
+
+Theo dõi và ghi nhật ký:
+- AWS Secrets Manager tích hợp với AWS CloudTrail để ghi lại các hành động thực hiện trên các secrets. 
+Điều này giúp bạn dễ dàng theo dõi và kiểm tra việc sử dụng thông tin bảo mật trong hệ thống.
+
+Lợi ích của AWS Secrets Manager:
+- Bảo mật cao: Secrets được mã hóa và quản lý tập trung, giảm nguy cơ bị lộ thông tin.
+- Tự động hóa: Việc xoay vòng tự động giúp bạn giảm bớt các rủi ro liên quan đến việc sử dụng các thông tin bảo mật cũ hoặc bị lộ.
+- Tiết kiệm thời gian: Bạn không cần quản lý thủ công các thông tin bảo mật, đặc biệt khi có yêu cầu thay đổi thường xuyên.
+- Dễ dàng tích hợp: Có thể sử dụng Secrets Manager với các ứng dụng, microservices và các dịch vụ khác của AWS một cách dễ dàng.
+
+Sử dụng AWS Secrets Manager:
+- Tạo bí mật: Bạn có thể lưu trữ thông tin như mật khẩu cơ sở dữ liệu, khóa API, v.v., và cấu hình xoay vòng nếu cần thiết.
+- Truy xuất bí mật: Ứng dụng của bạn có thể sử dụng API hoặc SDK của AWS để truy xuất thông tin bảo mật một cách an toàn.
+- Xoay vòng bí mật: Bạn có thể cấu hình để bí mật tự động thay đổi theo một khoảng thời gian định trước, hoặc bạn có thể xoay vòng thủ công nếu cần.

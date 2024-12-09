@@ -1,0 +1,537 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Try the new cross-platform PowerShell https://aka.ms/pscore6
+
+PS C:\Users\Administrator> aws --version
+aws-cli/2.8.0 Python/3.9.11 Windows/10 exe/AMD64 prompt/off
+PS C:\Users\Administrator> aws s3 cp s3://memsql-tpch-dataset/sf_100/ . --recursive
+
+PS C:\Users\Administrator>
+PS C:\Users\Administrator>
+PS C:\Users\Administrator> aws configure
+Default region name [None]: us-east-1
+Default output format [None]: json
+
+
+PS C:\Users\Administrator> aws s3 ls
+PS C:\Users\Administrator> ls
+
+
+    Directory: C:\Users\Administrator
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----         10/3/2022  11:13 AM                .aws
+d-r---         4/11/2022   4:30 AM                3D Objects
+d-r---         4/11/2022   4:30 AM                Contacts
+d-r---         8/18/2022  11:58 AM                Desktop
+d-r---         9/19/2022   9:57 AM                Documents
+d-r---         10/3/2022  11:01 AM                Downloads
+d-r---         4/11/2022   4:30 AM                Favorites
+d-r---         4/11/2022   4:30 AM                Links
+d-r---          6/8/2022  10:51 AM                Music
+d-r---         4/10/2022   3:58 PM                OneDrive
+d-r---         4/11/2022   4:30 AM                Pictures
+d-r---         4/11/2022   4:30 AM                Saved Games
+d-r---         4/11/2022   4:30 AM                Searches
+d-----         4/18/2022   8:18 AM                Tracing
+d-r---         8/16/2022  11:32 AM                Videos
+
+
+PS C:\Users\Administrator> mkdir aws
+
+
+    Directory: C:\Users\Administrator
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----         10/3/2022  11:14 AM                aws
+
+
+PS C:\Users\Administrator> cd aws
+PS C:\Users\Administrator\aws> ls -la
+Get-ChildItem : A parameter cannot be found that matches parameter name 'la'.
+At line:1 char:4
++ ls -la
++    ~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-ChildItem], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand
+
+PS C:\Users\Administrator\aws> dir
+PS C:\Users\Administrator\aws> aws s3 cp s3://memsql-tpch-dataset/sf_100/customer/ . --recursive
+download: s3://memsql-tpch-dataset/sf_100/customer/customer.tbl.01.gz to .\customer.tbl.01.gz
+download: s3://memsql-tpch-dataset/sf_100/customer/customer.tbl.04.gz to .\customer.tbl.04.gz
+download: s3://memsql-tpch-dataset/sf_100/customer/customer.tbl.02.gz to .\customer.tbl.02.gz
+download: s3://memsql-tpch-dataset/sf_100/customer/customer.tbl.00.gz to .\customer.tbl.00.gz
+download: s3://memsql-tpch-dataset/sf_100/customer/customer.tbl.05.gz to .\customer.tbl.05.gz
+download: s3://memsql-tpch-dataset/sf_100/customer/customer.tbl.08.gz to .\customer.tbl.08.gz
+download: s3://memsql-tpch-dataset/sf_100/customer/customer.tbl.03.gz to .\customer.tbl.03.gz
+download: s3://memsql-tpch-dataset/sf_100/customer/customer.tbl.07.gz to .\customer.tbl.07.gz
+download: s3://memsql-tpch-dataset/sf_100/customer/customer.tbl.06.gz to .\customer.tbl.06.gz
+PS C:\Users\Administrator\aws>
+PS C:\Users\Administrator\aws>
+PS C:\Users\Administrator\aws>
+PS C:\Users\Administrator\aws> aws s3 cp s3://memsql-tpch-dataset/sf_100/lineitem/ . --recursive
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.010.gz to .\lineitem.tbl.010.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0120.gz to .\lineitem.tbl.0120.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0110.gz to .\lineitem.tbl.0110.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.00.gz to .\lineitem.tbl.00.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0140.gz to .\lineitem.tbl.0140.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0130.gz to .\lineitem.tbl.0130.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0150.gz to .\lineitem.tbl.0150.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0170.gz to .\lineitem.tbl.0170.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0160.gz to .\lineitem.tbl.0160.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0100.gz to .\lineitem.tbl.0100.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0190.gz to .\lineitem.tbl.0190.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.020.gz to .\lineitem.tbl.020.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0180.gz to .\lineitem.tbl.0180.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0210.gz to .\lineitem.tbl.0210.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0200.gz to .\lineitem.tbl.0200.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0230.gz to .\lineitem.tbl.0230.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0250.gz to .\lineitem.tbl.0250.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0220.gz to .\lineitem.tbl.0220.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0240.gz to .\lineitem.tbl.0240.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0260.gz to .\lineitem.tbl.0260.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0270.gz to .\lineitem.tbl.0270.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0290.gz to .\lineitem.tbl.0290.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0320.gz to .\lineitem.tbl.0320.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.030.gz to .\lineitem.tbl.030.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0300.gz to .\lineitem.tbl.0300.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0280.gz to .\lineitem.tbl.0280.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.0310.gz to .\lineitem.tbl.0310.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.040.gz to .\lineitem.tbl.040.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.050.gz to .\lineitem.tbl.050.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.060.gz to .\lineitem.tbl.060.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.070.gz to .\lineitem.tbl.070.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.080.gz to .\lineitem.tbl.080.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.090.gz to .\lineitem.tbl.090.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.11.gz to .\lineitem.tbl.11.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1101.gz to .\lineitem.tbl.1101.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1121.gz to .\lineitem.tbl.1121.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1111.gz to .\lineitem.tbl.1111.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.111.gz to .\lineitem.tbl.111.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1131.gz to .\lineitem.tbl.1131.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1141.gz to .\lineitem.tbl.1141.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1151.gz to .\lineitem.tbl.1151.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1161.gz to .\lineitem.tbl.1161.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1181.gz to .\lineitem.tbl.1181.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1171.gz to .\lineitem.tbl.1171.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1191.gz to .\lineitem.tbl.1191.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1201.gz to .\lineitem.tbl.1201.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1211.gz to .\lineitem.tbl.1211.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.121.gz to .\lineitem.tbl.121.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1231.gz to .\lineitem.tbl.1231.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1241.gz to .\lineitem.tbl.1241.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1261.gz to .\lineitem.tbl.1261.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1271.gz to .\lineitem.tbl.1271.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1281.gz to .\lineitem.tbl.1281.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1251.gz to .\lineitem.tbl.1251.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1291.gz to .\lineitem.tbl.1291.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1221.gz to .\lineitem.tbl.1221.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1301.gz to .\lineitem.tbl.1301.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.1311.gz to .\lineitem.tbl.1311.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.141.gz to .\lineitem.tbl.141.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.131.gz to .\lineitem.tbl.131.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.151.gz to .\lineitem.tbl.151.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.161.gz to .\lineitem.tbl.161.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.181.gz to .\lineitem.tbl.181.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.171.gz to .\lineitem.tbl.171.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2102.gz to .\lineitem.tbl.2102.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2112.gz to .\lineitem.tbl.2112.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.191.gz to .\lineitem.tbl.191.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.212.gz to .\lineitem.tbl.212.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2122.gz to .\lineitem.tbl.2122.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2142.gz to .\lineitem.tbl.2142.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2132.gz to .\lineitem.tbl.2132.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2152.gz to .\lineitem.tbl.2152.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2172.gz to .\lineitem.tbl.2172.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2162.gz to .\lineitem.tbl.2162.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2182.gz to .\lineitem.tbl.2182.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2192.gz to .\lineitem.tbl.2192.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2202.gz to .\lineitem.tbl.2202.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.222.gz to .\lineitem.tbl.222.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2212.gz to .\lineitem.tbl.2212.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2222.gz to .\lineitem.tbl.2222.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2242.gz to .\lineitem.tbl.2242.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2232.gz to .\lineitem.tbl.2232.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2252.gz to .\lineitem.tbl.2252.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2262.gz to .\lineitem.tbl.2262.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2272.gz to .\lineitem.tbl.2272.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2282.gz to .\lineitem.tbl.2282.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2292.gz to .\lineitem.tbl.2292.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2302.gz to .\lineitem.tbl.2302.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.2312.gz to .\lineitem.tbl.2312.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.232.gz to .\lineitem.tbl.232.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.242.gz to .\lineitem.tbl.242.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.252.gz to .\lineitem.tbl.252.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.272.gz to .\lineitem.tbl.272.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.262.gz to .\lineitem.tbl.262.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.282.gz to .\lineitem.tbl.282.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.292.gz to .\lineitem.tbl.292.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3103.gz to .\lineitem.tbl.3103.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3113.gz to .\lineitem.tbl.3113.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.313.gz to .\lineitem.tbl.313.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3123.gz to .\lineitem.tbl.3123.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3133.gz to .\lineitem.tbl.3133.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3143.gz to .\lineitem.tbl.3143.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3163.gz to .\lineitem.tbl.3163.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3173.gz to .\lineitem.tbl.3173.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3183.gz to .\lineitem.tbl.3183.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3153.gz to .\lineitem.tbl.3153.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3193.gz to .\lineitem.tbl.3193.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3203.gz to .\lineitem.tbl.3203.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3213.gz to .\lineitem.tbl.3213.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3223.gz to .\lineitem.tbl.3223.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.323.gz to .\lineitem.tbl.323.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3233.gz to .\lineitem.tbl.3233.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3263.gz to .\lineitem.tbl.3263.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3273.gz to .\lineitem.tbl.3273.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3253.gz to .\lineitem.tbl.3253.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3283.gz to .\lineitem.tbl.3283.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3243.gz to .\lineitem.tbl.3243.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3293.gz to .\lineitem.tbl.3293.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3303.gz to .\lineitem.tbl.3303.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.333.gz to .\lineitem.tbl.333.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.3313.gz to .\lineitem.tbl.3313.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.343.gz to .\lineitem.tbl.343.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.373.gz to .\lineitem.tbl.373.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.383.gz to .\lineitem.tbl.383.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.353.gz to .\lineitem.tbl.353.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.363.gz to .\lineitem.tbl.363.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4114.gz to .\lineitem.tbl.4114.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4104.gz to .\lineitem.tbl.4104.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4134.gz to .\lineitem.tbl.4134.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4124.gz to .\lineitem.tbl.4124.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.393.gz to .\lineitem.tbl.393.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4144.gz to .\lineitem.tbl.4144.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.414.gz to .\lineitem.tbl.414.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4154.gz to .\lineitem.tbl.4154.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4184.gz to .\lineitem.tbl.4184.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4164.gz to .\lineitem.tbl.4164.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4174.gz to .\lineitem.tbl.4174.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4204.gz to .\lineitem.tbl.4204.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4214.gz to .\lineitem.tbl.4214.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4194.gz to .\lineitem.tbl.4194.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4224.gz to .\lineitem.tbl.4224.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4234.gz to .\lineitem.tbl.4234.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4244.gz to .\lineitem.tbl.4244.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.424.gz to .\lineitem.tbl.424.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4254.gz to .\lineitem.tbl.4254.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4274.gz to .\lineitem.tbl.4274.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4284.gz to .\lineitem.tbl.4284.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4304.gz to .\lineitem.tbl.4304.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4294.gz to .\lineitem.tbl.4294.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4314.gz to .\lineitem.tbl.4314.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.434.gz to .\lineitem.tbl.434.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.444.gz to .\lineitem.tbl.444.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.454.gz to .\lineitem.tbl.454.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.464.gz to .\lineitem.tbl.464.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.474.gz to .\lineitem.tbl.474.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.484.gz to .\lineitem.tbl.484.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.4264.gz to .\lineitem.tbl.4264.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5105.gz to .\lineitem.tbl.5105.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5125.gz to .\lineitem.tbl.5125.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5115.gz to .\lineitem.tbl.5115.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5135.gz to .\lineitem.tbl.5135.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.494.gz to .\lineitem.tbl.494.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5145.gz to .\lineitem.tbl.5145.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.515.gz to .\lineitem.tbl.515.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5165.gz to .\lineitem.tbl.5165.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5155.gz to .\lineitem.tbl.5155.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5175.gz to .\lineitem.tbl.5175.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5205.gz to .\lineitem.tbl.5205.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5195.gz to .\lineitem.tbl.5195.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5215.gz to .\lineitem.tbl.5215.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5185.gz to .\lineitem.tbl.5185.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5225.gz to .\lineitem.tbl.5225.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.525.gz to .\lineitem.tbl.525.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5235.gz to .\lineitem.tbl.5235.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5255.gz to .\lineitem.tbl.5255.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5245.gz to .\lineitem.tbl.5245.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5265.gz to .\lineitem.tbl.5265.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5275.gz to .\lineitem.tbl.5275.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5285.gz to .\lineitem.tbl.5285.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5295.gz to .\lineitem.tbl.5295.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5315.gz to .\lineitem.tbl.5315.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.5305.gz to .\lineitem.tbl.5305.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.545.gz to .\lineitem.tbl.545.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.555.gz to .\lineitem.tbl.555.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.565.gz to .\lineitem.tbl.565.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.535.gz to .\lineitem.tbl.535.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.575.gz to .\lineitem.tbl.575.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.585.gz to .\lineitem.tbl.585.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.595.gz to .\lineitem.tbl.595.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6116.gz to .\lineitem.tbl.6116.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6106.gz to .\lineitem.tbl.6106.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6126.gz to .\lineitem.tbl.6126.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6146.gz to .\lineitem.tbl.6146.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.616.gz to .\lineitem.tbl.616.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6166.gz to .\lineitem.tbl.6166.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6156.gz to .\lineitem.tbl.6156.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6176.gz to .\lineitem.tbl.6176.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6196.gz to .\lineitem.tbl.6196.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6206.gz to .\lineitem.tbl.6206.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6136.gz to .\lineitem.tbl.6136.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6186.gz to .\lineitem.tbl.6186.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6216.gz to .\lineitem.tbl.6216.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6226.gz to .\lineitem.tbl.6226.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6246.gz to .\lineitem.tbl.6246.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6236.gz to .\lineitem.tbl.6236.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.626.gz to .\lineitem.tbl.626.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6256.gz to .\lineitem.tbl.6256.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6266.gz to .\lineitem.tbl.6266.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6286.gz to .\lineitem.tbl.6286.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6296.gz to .\lineitem.tbl.6296.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6306.gz to .\lineitem.tbl.6306.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6316.gz to .\lineitem.tbl.6316.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.636.gz to .\lineitem.tbl.636.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.646.gz to .\lineitem.tbl.646.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.656.gz to .\lineitem.tbl.656.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.666.gz to .\lineitem.tbl.666.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.6276.gz to .\lineitem.tbl.6276.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.676.gz to .\lineitem.tbl.676.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.686.gz to .\lineitem.tbl.686.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.696.gz to .\lineitem.tbl.696.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7107.gz to .\lineitem.tbl.7107.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7117.gz to .\lineitem.tbl.7117.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7127.gz to .\lineitem.tbl.7127.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7137.gz to .\lineitem.tbl.7137.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7147.gz to .\lineitem.tbl.7147.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7167.gz to .\lineitem.tbl.7167.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7157.gz to .\lineitem.tbl.7157.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7177.gz to .\lineitem.tbl.7177.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.717.gz to .\lineitem.tbl.717.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7187.gz to .\lineitem.tbl.7187.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7197.gz to .\lineitem.tbl.7197.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7207.gz to .\lineitem.tbl.7207.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7227.gz to .\lineitem.tbl.7227.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7217.gz to .\lineitem.tbl.7217.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7237.gz to .\lineitem.tbl.7237.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7257.gz to .\lineitem.tbl.7257.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7247.gz to .\lineitem.tbl.7247.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7267.gz to .\lineitem.tbl.7267.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.727.gz to .\lineitem.tbl.727.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7287.gz to .\lineitem.tbl.7287.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7277.gz to .\lineitem.tbl.7277.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7297.gz to .\lineitem.tbl.7297.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7317.gz to .\lineitem.tbl.7317.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.737.gz to .\lineitem.tbl.737.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.747.gz to .\lineitem.tbl.747.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.7307.gz to .\lineitem.tbl.7307.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.757.gz to .\lineitem.tbl.757.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.777.gz to .\lineitem.tbl.777.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.787.gz to .\lineitem.tbl.787.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.767.gz to .\lineitem.tbl.767.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8108.gz to .\lineitem.tbl.8108.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.797.gz to .\lineitem.tbl.797.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8118.gz to .\lineitem.tbl.8118.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8128.gz to .\lineitem.tbl.8128.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8138.gz to .\lineitem.tbl.8138.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8158.gz to .\lineitem.tbl.8158.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8148.gz to .\lineitem.tbl.8148.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8178.gz to .\lineitem.tbl.8178.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.818.gz to .\lineitem.tbl.818.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8188.gz to .\lineitem.tbl.8188.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8168.gz to .\lineitem.tbl.8168.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8198.gz to .\lineitem.tbl.8198.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8208.gz to .\lineitem.tbl.8208.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8238.gz to .\lineitem.tbl.8238.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8218.gz to .\lineitem.tbl.8218.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8248.gz to .\lineitem.tbl.8248.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8228.gz to .\lineitem.tbl.8228.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.828.gz to .\lineitem.tbl.828.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8278.gz to .\lineitem.tbl.8278.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8258.gz to .\lineitem.tbl.8258.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8288.gz to .\lineitem.tbl.8288.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8268.gz to .\lineitem.tbl.8268.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8298.gz to .\lineitem.tbl.8298.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.838.gz to .\lineitem.tbl.838.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8308.gz to .\lineitem.tbl.8308.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.848.gz to .\lineitem.tbl.848.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.8318.gz to .\lineitem.tbl.8318.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.858.gz to .\lineitem.tbl.858.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.878.gz to .\lineitem.tbl.878.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.868.gz to .\lineitem.tbl.868.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.888.gz to .\lineitem.tbl.888.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.898.gz to .\lineitem.tbl.898.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.919.gz to .\lineitem.tbl.919.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.9259.gz to .\lineitem.tbl.9259.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.9269.gz to .\lineitem.tbl.9269.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.9279.gz to .\lineitem.tbl.9279.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.9249.gz to .\lineitem.tbl.9249.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.929.gz to .\lineitem.tbl.929.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.9309.gz to .\lineitem.tbl.9309.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.9299.gz to .\lineitem.tbl.9299.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.9289.gz to .\lineitem.tbl.9289.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.9319.gz to .\lineitem.tbl.9319.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.959.gz to .\lineitem.tbl.959.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.969.gz to .\lineitem.tbl.969.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.939.gz to .\lineitem.tbl.939.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.949.gz to .\lineitem.tbl.949.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.979.gz to .\lineitem.tbl.979.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.989.gz to .\lineitem.tbl.989.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.99.gz to .\lineitem.tbl.99.gz
+download: s3://memsql-tpch-dataset/sf_100/lineitem/lineitem.tbl.999.gz to .\lineitem.tbl.999.gz
+PS C:\Users\Administrator\aws> aws s3 cp s3://memsql-tpch-dataset/sf_100/nation/ . --recursive
+download: s3://memsql-tpch-dataset/sf_100/nation/nation.tbl.gz to .\nation.tbl.gz
+PS C:\Users\Administrator\aws> aws s3 cp s3://memsql-tpch-dataset/sf_100/orders/ . --recursive
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.03.gz to .\orders.tbl.03.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.01.gz to .\orders.tbl.01.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.00.gz to .\orders.tbl.00.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.02.gz to .\orders.tbl.02.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.04.gz to .\orders.tbl.04.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.06.gz to .\orders.tbl.06.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.05.gz to .\orders.tbl.05.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.09.gz to .\orders.tbl.09.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.08.gz to .\orders.tbl.08.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.10.gz to .\orders.tbl.10.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.11.gz to .\orders.tbl.11.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.14.gz to .\orders.tbl.14.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.07.gz to .\orders.tbl.07.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.15.gz to .\orders.tbl.15.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.17.gz to .\orders.tbl.17.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.18.gz to .\orders.tbl.18.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.12.gz to .\orders.tbl.12.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.16.gz to .\orders.tbl.16.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.19.gz to .\orders.tbl.19.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.13.gz to .\orders.tbl.13.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.20.gz to .\orders.tbl.20.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.23.gz to .\orders.tbl.23.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.28.gz to .\orders.tbl.28.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.27.gz to .\orders.tbl.27.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.26.gz to .\orders.tbl.26.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.25.gz to .\orders.tbl.25.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.24.gz to .\orders.tbl.24.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.30.gz to .\orders.tbl.30.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.29.gz to .\orders.tbl.29.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.32.gz to .\orders.tbl.32.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.31.gz to .\orders.tbl.31.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.22.gz to .\orders.tbl.22.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.33.gz to .\orders.tbl.33.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.21.gz to .\orders.tbl.21.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.35.gz to .\orders.tbl.35.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.36.gz to .\orders.tbl.36.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.38.gz to .\orders.tbl.38.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.34.gz to .\orders.tbl.34.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.42.gz to .\orders.tbl.42.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.41.gz to .\orders.tbl.41.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.40.gz to .\orders.tbl.40.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.39.gz to .\orders.tbl.39.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.43.gz to .\orders.tbl.43.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.37.gz to .\orders.tbl.37.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.44.gz to .\orders.tbl.44.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.46.gz to .\orders.tbl.46.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.47.gz to .\orders.tbl.47.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.45.gz to .\orders.tbl.45.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.48.gz to .\orders.tbl.48.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.49.gz to .\orders.tbl.49.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.53.gz to .\orders.tbl.53.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.52.gz to .\orders.tbl.52.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.50.gz to .\orders.tbl.50.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.54.gz to .\orders.tbl.54.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.51.gz to .\orders.tbl.51.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.56.gz to .\orders.tbl.56.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.59.gz to .\orders.tbl.59.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.58.gz to .\orders.tbl.58.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.57.gz to .\orders.tbl.57.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.55.gz to .\orders.tbl.55.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.61.gz to .\orders.tbl.61.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.62.gz to .\orders.tbl.62.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.60.gz to .\orders.tbl.60.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.64.gz to .\orders.tbl.64.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.63.gz to .\orders.tbl.63.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.67.gz to .\orders.tbl.67.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.65.gz to .\orders.tbl.65.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.66.gz to .\orders.tbl.66.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.68.gz to .\orders.tbl.68.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.71.gz to .\orders.tbl.71.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.70.gz to .\orders.tbl.70.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.73.gz to .\orders.tbl.73.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.69.gz to .\orders.tbl.69.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.72.gz to .\orders.tbl.72.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.75.gz to .\orders.tbl.75.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.74.gz to .\orders.tbl.74.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.78.gz to .\orders.tbl.78.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.76.gz to .\orders.tbl.76.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.77.gz to .\orders.tbl.77.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.83.gz to .\orders.tbl.83.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.80.gz to .\orders.tbl.80.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.79.gz to .\orders.tbl.79.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.81.gz to .\orders.tbl.81.gz
+download: s3://memsql-tpch-dataset/sf_100/orders/orders.tbl.82.gz to .\orders.tbl.82.gz
+PS C:\Users\Administrator\aws> aws s3 cp s3://memsql-tpch-dataset/sf_100/part/ . --recursive
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.02.gz to .\part.tbl.02.gz
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.00.gz to .\part.tbl.00.gz
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.04.gz to .\part.tbl.04.gz
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.03.gz to .\part.tbl.03.gz
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.01.gz to .\part.tbl.01.gz
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.05.gz to .\part.tbl.05.gz
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.07.gz to .\part.tbl.07.gz
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.06.gz to .\part.tbl.06.gz
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.11.gz to .\part.tbl.11.gz
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.09.gz to .\part.tbl.09.gz
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.10.gz to .\part.tbl.10.gz
+download: s3://memsql-tpch-dataset/sf_100/part/part.tbl.08.gz to .\part.tbl.08.gz
+PS C:\Users\Administrator\aws> aws s3 cp s3://memsql-tpch-dataset/sf_100/partsupp/ . --recursive
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.00.gz to .\partsupp.tbl.00.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.02.gz to .\partsupp.tbl.02.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.05.gz to .\partsupp.tbl.05.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.01.gz to .\partsupp.tbl.01.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.04.gz to .\partsupp.tbl.04.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.03.gz to .\partsupp.tbl.03.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.06.gz to .\partsupp.tbl.06.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.07.gz to .\partsupp.tbl.07.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.09.gz to .\partsupp.tbl.09.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.08.gz to .\partsupp.tbl.08.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.12.gz to .\partsupp.tbl.12.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.11.gz to .\partsupp.tbl.11.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.13.gz to .\partsupp.tbl.13.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.10.gz to .\partsupp.tbl.10.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.15.gz to .\partsupp.tbl.15.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.16.gz to .\partsupp.tbl.16.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.14.gz to .\partsupp.tbl.14.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.19.gz to .\partsupp.tbl.19.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.18.gz to .\partsupp.tbl.18.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.20.gz to .\partsupp.tbl.20.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.21.gz to .\partsupp.tbl.21.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.17.gz to .\partsupp.tbl.17.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.22.gz to .\partsupp.tbl.22.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.23.gz to .\partsupp.tbl.23.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.24.gz to .\partsupp.tbl.24.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.25.gz to .\partsupp.tbl.25.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.26.gz to .\partsupp.tbl.26.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.27.gz to .\partsupp.tbl.27.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.29.gz to .\partsupp.tbl.29.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.28.gz to .\partsupp.tbl.28.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.30.gz to .\partsupp.tbl.30.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.32.gz to .\partsupp.tbl.32.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.34.gz to .\partsupp.tbl.34.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.31.gz to .\partsupp.tbl.31.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.35.gz to .\partsupp.tbl.35.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.37.gz to .\partsupp.tbl.37.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.36.gz to .\partsupp.tbl.36.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.33.gz to .\partsupp.tbl.33.gz
+download failed: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.38.gz to .\partsupp.tbl.38.gz [Errno 28] No space left on device
+download failed: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.41.gz to .\partsupp.tbl.41.gz [Errno 28] No space left on device
+download failed: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.39.gz to .\partsupp.tbl.39.gz [Errno 28] No space left on device
+download failed: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.42.gz to .\partsupp.tbl.42.gz [Errno 28] No space left on device
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.43.gz to .\partsupp.tbl.43.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.44.gz to .\partsupp.tbl.44.gz
+download: s3://memsql-tpch-dataset/sf_100/partsupp/partsupp.tbl.40.gz to .\partsupp.tbl.40.gz
+PS C:\Users\Administrator\aws> aws s3 cp s3://memsql-tpch-dataset/sf_100/region/ . --recursive
+download: s3://memsql-tpch-dataset/sf_100/region/region.tbl.gz to .\region.tbl.gz
+PS C:\Users\Administrator\aws> aws s3 cp s3://memsql-tpch-dataset/sf_100/supplier/ . --recursive
+download failed: s3://memsql-tpch-dataset/sf_100/supplier/supplier.tbl.gz to .\supplier.tbl.gz [Errno 28] No space left on device
+PS C:\Users\Administrator\aws>
+PS C:\Users\Administrator\aws>
+PS C:\Users\Administrator\aws>
+PS C:\Users\Administrator\aws>
+PS C:\Users\Administrator\aws>
+PS C:\Users\Administrator\aws> aws s3 cp s3://memsql-tpch-dataset/sf_100/supplier/ . --recursive
+download: s3://memsql-tpch-dataset/sf_100/supplier/supplier.tbl.gz to .\supplier.tbl.gz
+PS C:\Users\Administrator\aws> aws s3 cp s3://memsql-tpch-dataset/sf_100/region/ . --recursive
+download: s3://memsql-tpch-dataset/sf_100/region/region.tbl.gz to .\region.tbl.gz
+PS C:\Users\Administrator\aws>

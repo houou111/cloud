@@ -1,0 +1,52 @@
+1. CloudFront:
+-------------------------------------------------------------------------
+AWS CloudFront là một dịch vụ Content Delivery Network (CDN) của Amazon, giúp phân phối nội dung web (như HTML, CSS, JavaScript, hình ảnh, video, API) đến người dùng một cách nhanh chóng và an toàn thông qua một mạng lưới các điểm biên (edge locations) phân phối trên toàn cầu.
+
+Các tính năng chính:
+- Tăng tốc phân phối nội dung: Khi một người dùng truy cập vào nội dung, CloudFront sẽ cung cấp nội dung từ một điểm biên gần nhất, giúp giảm độ trễ và tăng tốc độ tải trang.
+- Caching (Bộ nhớ đệm): CloudFront lưu trữ nội dung tĩnh như hình ảnh, video, tệp JavaScript và CSS tại các điểm biên. Điều này giúp giảm tải cho máy chủ gốc và tăng hiệu suất.
+- Tính bảo mật cao: CloudFront hỗ trợ tích hợp với AWS Shield để bảo vệ chống lại các cuộc tấn công DDoS và hỗ trợ SSL/TLS để bảo mật truyền tải dữ liệu.
+- Tích hợp với các dịch vụ khác của AWS: CloudFront có thể dễ dàng tích hợp với các dịch vụ AWS khác như S3 (để lưu trữ nội dung), EC2, và Elastic Load Balancer.
+- Tăng tốc cả nội dung tĩnh và động: CloudFront không chỉ tăng tốc các nội dung tĩnh mà còn hỗ trợ cả việc phân phối nội dung động và API.
+
+Ứng dụng:
+CloudFront thường được sử dụng cho các trang web có lưu lượng truy cập cao, phân phối video trực tuyến, phân phối phần mềm, và bất kỳ ứng dụng nào yêu cầu tải nội dung nhanh chóng và an toàn.
+
+
+
+2. Global Accelerator:
+-------------------------------------------------------------------------
+AWS Global Accelerator là một dịch vụ giúp tăng hiệu suất và độ tin cậy cho các ứng dụng toàn cầu bằng cách định tuyến lưu lượng thông qua mạng AWS với độ trễ thấp và độ tin cậy cao.
+Các tính năng chính:
+Tăng tốc kết nối ứng dụng toàn cầu: Global Accelerator sử dụng mạng riêng của AWS để định tuyến lưu lượng đến các khu vực AWS (AWS Regions) gần nhất với người dùng, giảm độ trễ và cải thiện hiệu suất ứng dụng.
+Hai địa chỉ IP tĩnh toàn cầu: Khi bạn thiết lập Global Accelerator, bạn sẽ nhận được hai địa chỉ IP tĩnh toàn cầu. Bạn có thể sử dụng chúng để làm các điểm vào cố định cho ứng dụng của mình. Điều này giúp đơn giản hóa việc quản lý và giảm độ phức tạp khi triển khai trên nhiều khu vực (Regions).
+Failover tự động: Global Accelerator hỗ trợ chuyển đổi dự phòng (failover) tự động, đảm bảo tính khả dụng của ứng dụng. Nếu một endpoint (như EC2, Elastic IP, ALB) gặp sự cố, Global Accelerator sẽ tự động chuyển hướng lưu lượng đến endpoint khả dụng tiếp theo.
+Tối ưu hóa định tuyến: Dịch vụ này tự động chọn tuyến đường tối ưu dựa trên độ trễ, cải thiện trải nghiệm người dùng cuối.
+Tăng cường bảo mật: Giống như CloudFront, Global Accelerator cũng có khả năng bảo mật tốt, hỗ trợ chống lại các cuộc tấn công DDoS và tích hợp với AWS Shield.
+Ứng dụng:
+Global Accelerator thường được sử dụng để tăng tốc các ứng dụng thời gian thực, hệ thống tài chính, các ứng dụng game online, hoặc bất kỳ ứng dụng nào yêu cầu độ trễ thấp, khả năng chuyển đổi dự phòng và hiệu suất cao trên toàn cầu.
+So sánh giữa CloudFront và Global Accelerator:
+CloudFront chủ yếu dùng để phân phối nội dung (CDN) và tối ưu hóa việc phân phối các nội dung tĩnh và động qua HTTP/HTTPS.
+Global Accelerator tối ưu hóa và tăng tốc lưu lượng mạng của toàn bộ ứng dụng thông qua các endpoint trên AWS (như Elastic Load Balancer, EC2, hay các IP tĩnh), không chỉ giới hạn ở nội dung web.
+Khi nào nên sử dụng:
+CloudFront: Khi bạn cần tối ưu hóa việc phân phối nội dung tĩnh hoặc động (như trang web, video, hình ảnh) cho người dùng trên toàn cầu.
+Global Accelerator: Khi bạn cần tăng hiệu suất mạng, giảm độ trễ và cải thiện độ tin cậy cho toàn bộ ứng dụng của mình trên AWS, bao gồm cả các endpoint như EC2, Elastic Load Balancer.
+Tóm lại, cả hai dịch vụ đều có vai trò quan trọng trong việc tối ưu hóa hiệu suất ứng dụng toàn cầu, nhưng có cách tiếp cận và phạm vi khác nhau.
+
+
+
+3. AWS Global Accelerator vs CloudFront
+-------------------------------------------------------------------------
+• They both use the AWS global network and its edge locations around the world
+• Both services integrate with AWS Shield for DDoS protection.
+
+• CloudFront
+	• Improves performance for both cacheable content (such as images and videos)
+	• Dynamic content (such as API acceleration and dynamic site delivery)
+	• Content is served at the edge
+• Global Accelerator
+	• Improves performance for a wide range of applications over TCP or UDP
+	• Proxying packets at the edge to applications running in one or more AWS Regions.
+	• Good fit for non-HTTP use cases, such as gaming (UDP), IoT (MQTT), or Voice over IP
+	• Good for HTTP use cases that require static IP addresses
+	• Good for HTTP use cases that required deterministic, fast regional failover

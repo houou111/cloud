@@ -1,0 +1,38 @@
+(giao tiếp đồng bộ) giữa các ứng dụng trong môi trường có lưu lượng truy cập biến động đột ngột. 
+Cụ thể, nó nêu ra một ví dụ về việc cần mã hóa 1000 video ngay lập tức, trong khi thông thường chỉ mã hóa khoảng 10 video. Điều này cho thấy rằng giao tiếp đồng bộ có thể gặp khó khăn và không hiệu quả khi khối lượng công việc tăng lên nhanh chóng.
+
+Để giải quyết vấn đề này, đoạn văn đề xuất phương pháp decoupling (tách biệt) các ứng dụng. Điều này có nghĩa là thay vì các ứng dụng phụ thuộc vào nhau theo cách đồng bộ, chúng có thể hoạt động độc lập thông qua việc sử dụng các dịch vụ khác nhau.
+
+Các mô hình và dịch vụ được đề cập:
+Amazon SQS (Simple Queue Service):
+
+Mô hình: Queue model (mô hình hàng đợi).
+Chức năng: Cho phép gửi và nhận thông điệp giữa các ứng dụng theo kiểu "first-in, first-out" (FIFO), giúp tách biệt quá trình xử lý và giảm tải cho các ứng dụng chính.
+
+
+
+Amazon SNS (Simple Notification Service):
+
+Mô hình: Pub/sub model (mô hình phát/đăng ký).
+Chức năng: Cho phép các ứng dụng gửi thông điệp đến nhiều người nhận (subscribers) cùng một lúc, giúp thông báo sự kiện một cách linh hoạt và hiệu quả.
+
+
+
+Amazon Kinesis:
+
+Mô hình: Real-time streaming model (mô hình streaming thời gian thực).
+Chức năng: Cho phép xử lý và phân tích dữ liệu theo dòng (streaming data) trong thời gian thực, rất hữu ích cho các ứng dụng cần xử lý dữ liệu ngay lập tức.
+
+Lợi ích:
+Các dịch vụ này có thể scale independently (mở rộng độc lập) với các ứng dụng, nghĩa là bạn có thể điều chỉnh quy mô của từng dịch vụ tùy theo nhu cầu mà không làm ảnh hưởng đến toàn bộ ứng dụng. Điều này giúp cải thiện hiệu suất và độ tin cậy của hệ thống, đặc biệt trong các tình huống có lưu lượng truy cập biến động mạnh.
+
+
+
+Amazon MQ
+• SQS, SNS are “cloud-native” services: proprietary protocols from AWS
+• Traditional applications running from on-premises may use open protocols such as: MQTT, AMQP, STOMP, Openwire, WSS
+• When migrating to the cloud, instead of re-engineering the application to use SQS and SNS, we can use Amazon MQ
+• Amazon MQ is a managed message broker service for RabbitMQ or ActiveMQ
+• Amazon MQ doesn’t “scale” as much as SQS / SNS
+• Amazon MQ runs on servers, can run in Multi-AZ with failover
+• Amazon MQ has both queue feature (~SQS) and topic features (~SNS)

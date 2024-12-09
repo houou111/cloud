@@ -1,0 +1,24 @@
+AWS Snow Family là một tập hợp các dịch vụ và thiết bị lưu trữ và xử lý dữ liệu được thiết kế để giúp các tổ chức di chuyển, lưu trữ, và xử lý lượng dữ liệu lớn trong môi trường không có kết nối Internet ổn định hoặc trong các địa điểm xa xôi. Các sản phẩm trong AWS Snow Family bao gồm:
+
+1. AWS Snowcone
+Là thiết bị di động nhỏ gọn nhất trong Snow Family, Snowcone cho phép bạn lưu trữ và xử lý dữ liệu với dung lượng lưu trữ lên đến 8 TB.
+Snowcone có thể được sử dụng để di chuyển dữ liệu đến AWS từ các vị trí không có kết nối Internet hoặc kết nối không ổn định.
+Thiết bị có thể hoạt động trong các môi trường khắc nghiệt, dễ dàng mang theo.
+2. AWS Snowball
+Là thiết bị lớn hơn với dung lượng lưu trữ từ 50 TB đến 80 TB. Snowball giúp bạn di chuyển lượng lớn dữ liệu đến và từ AWS nhanh chóng và an toàn.
+Snowball có các phiên bản hỗ trợ di chuyển dữ liệu và chạy các ứng dụng như phân tích dữ liệu hoặc machine learning trực tiếp trên thiết bị.
+Có hai phiên bản: Snowball Edge Storage Optimized (tối ưu hóa lưu trữ) và Snowball Edge Compute Optimized (tối ưu hóa tính toán).
+3. AWS Snowmobile
+Là một giải pháp di chuyển dữ liệu quy mô lớn, Snowmobile là một xe tải container có thể chứa lên đến exabytes dữ liệu.
+Thiết bị này được thiết kế cho các tổ chức có lượng dữ liệu khổng lồ muốn di chuyển đến AWS mà không cần truyền tải qua Internet.
+Các tính năng và lợi ích của AWS Snow Family:
+Bảo mật: Dữ liệu được mã hóa trước khi di chuyển và trong quá trình lưu trữ trên thiết bị. AWS cung cấp các biện pháp bảo mật để bảo vệ dữ liệu.
+Tiết kiệm chi phí: Di chuyển dữ liệu lớn bằng phương pháp vật lý thường rẻ hơn so với việc truyền tải qua Internet, đặc biệt khi nói đến các tệp dữ liệu lớn.
+Dễ dàng sử dụng: Các thiết bị Snow Family có thể được cấu hình và sử dụng dễ dàng. Người dùng có thể dễ dàng chuyển dữ liệu bằng cách sử dụng các công cụ quản lý của AWS.
+Tính linh hoạt: AWS Snow Family hỗ trợ nhiều loại môi trường và kịch bản khác nhau, từ môi trường di động đến các trung tâm dữ liệu lớn.
+Trường hợp sử dụng:
+Di chuyển dữ liệu lớn: Chuyển dữ liệu từ các trung tâm dữ liệu cũ hoặc các vị trí xa đến AWS.
+Lưu trữ và bảo vệ dữ liệu: Lưu trữ dữ liệu dự phòng và bảo vệ dữ liệu trong các tình huống không thể sử dụng Internet.
+Xử lý dữ liệu tại chỗ: Chạy các ứng dụng và phân tích dữ liệu trực tiếp trên thiết bị trước khi chuyển dữ liệu đến AWS.
+Kết luận:
+AWS Snow Family cung cấp một giải pháp mạnh mẽ cho việc di chuyển và xử lý dữ liệu trong các môi trường mà kết nối Internet không ổn định hoặc không khả thi. Các thiết bị trong Snow Family giúp các tổ chức dễ dàng chuyển lượng lớn dữ liệu đến AWS, từ đó tận dụng các dịch vụ đám mây của Amazon.

@@ -1,0 +1,130 @@
+I. (AWS) Virtual Private Cloud (VPC) 
+----------------------------------------------------------------------------------------------------------------------------------
+là một dịch vụ cho phép bạn tạo ra một phần mạng riêng biệt trong AWS, nơi bạn có thể triển khai các tài nguyên AWS như các instances của Amazon EC2, các cơ sở dữ liệu, và nhiều dịch vụ khác trong một mạng ảo riêng biệt mà bạn có toàn quyền kiểm soát.
+
+1. Kiến trúc của VPC
+-----------------------------------------------------------------
+Subnets:
+- Mỗi VPC có thể chia thành nhiều subnet (mạng con), có thể là public hoặc private.
+- Public subnet: Có thể truy cập từ Internet.
+- Private subnet: Không thể truy cập trực tiếp từ Internet, thường dùng cho các tài nguyên không cần thiết phải công khai.
+
+Route Tables:
+- Quy định các đường dẫn mà lưu lượng mạng sẽ đi qua. Mỗi subnet phải được liên kết với một bảng định tuyến.
+
+Internet Gateway (IGW):
+- Thành phần giúp các subnet trong VPC kết nối với Internet. Một VPC có thể có một IGW.
+
+NAT Gateway/Bastion Host:
+- NAT Gateway: Cho phép các instances trong private subnet kết nối ra Internet nhưng không cho phép kết nối từ Internet vào.
+- Bastion Host: Một instance đặc biệt được đặt trong public subnet để cung cấp quyền truy cập SSH/RDP an toàn vào các instances trong private subnet.
+
+Security Groups và Network ACLs:
+- Security Groups: Kiểm soát lưu lượng vào và ra tại mức instance.
+- Network ACLs: Kiểm soát lưu lượng vào và ra tại mức subnet.
+
+
+2. Tạo và Quản lý VPC
+-----------------------------------------------------------------
+Tạo VPC:
+- Bạn có thể tạo VPC với kích thước địa chỉ IP tùy chỉnh bằng cách chọn một CIDR block (Classless Inter-Domain Routing), ví dụ: 10.0.0.0/16.
+
+Tạo Subnets:
+- Trong VPC của bạn, bạn tạo các subnets bằng cách chỉ định một phần của CIDR block của VPC, ví dụ: 10.0.1.0/24 cho một subnet.
+
+Cấu hình Route Tables:
+- Mỗi subnet cần có một bảng định tuyến để xác định cách thức lưu lượng mạng được định tuyến.
+
+Liên kết với Internet:
+- Kết nối VPC với Internet thông qua Internet Gateway hoặc cấu hình NAT Gateway cho các subnet private.
+
+
+3. Bảo mật và Kiểm soát Truy cập
+-----------------------------------------------------------------
+
+1. Security Groups:
+-----------------------------------------------------------------
+Concept:
+- Kiểm soát lưu lượng mạng cho các instances dựa trên quy tắc inbound và outbound.
+- Security Groups are the fundamental of network security in AWS
+- They control how traffic is allowed into or out of our EC2 Instances.
+- Security groups only contain rules
+- Security groups rules can reference by IP or by security group
+
+Characteristic:
+- Security groups are acting as a “firewall” on EC2 instances
+- They regulate:
+	+ Access to Ports
+	+ Authorised IP ranges – IPv4 and IPv6
+	+ Control of inbound network (from other to the instance)
+	+ Control of outbound network (from the instance to other)
+- Can be attached to multiple instances
+- Locked down to a region / VPC combination
+- Does live “outside” the EC2 – if traffic is blocked the EC2 instance won’t see it
+- It’s good to maintain one separate security group for SSH access
+- If your application is not accessible (time out), then it’s a security group issue
+- If your application gives a “connection refused“ error, then it’s an application error or it’s not launched
+- All inbound traffic is blocked by default
+- All outbound traffic is authorised by default
+
+
+
+
+
+Network ACLs:
+- Một lớp bảo mật bổ sung kiểm soát lưu lượng vào và ra tại mức subnet, hoạt động trên nguyên tắc "cho phép hoặc từ chối".
+
+VPN và Direct Connect:
+- Kết nối VPC với mạng on-premises của bạn thông qua VPN hoặc Direct Connect để có kết nối an toàn và ổn định.
+
+
+4. Sử dụng VPC với các Dịch vụ AWS Khác
+-----------------------------------------------------------------
+Amazon EC2:
+- Bạn có thể khởi tạo các instances EC2 trong VPC và đặt chúng vào các subnets tùy chọn.
+
+Amazon RDS:
+- Triển khai các cơ sở dữ liệu trong private subnet để đảm bảo chúng không thể truy cập trực tiếp từ Internet.
+
+AWS Lambda và VPC:
+- Bạn có thể cấu hình các function Lambda để chạy trong một VPC, cho phép chúng truy cập các tài nguyên riêng tư trong VPC.
+
+
+5. Các Tính năng Tiên Tiến
+-----------------------------------------------------------------
+VPC Peering:
+- Cho phép bạn kết nối hai VPC lại với nhau một cách trực tiếp, cho phép lưu lượng mạng giữa hai VPC.
+
+Transit Gateway:
+- Một giải pháp kết nối mạng trung tâm cho phép bạn dễ dàng kết nối nhiều VPC và VPN lại với nhau.
+
+Flow Logs:
+- Ghi lại lưu lượng mạng đi qua các interface trong VPC để phân tích và kiểm tra.
+
+
+6. Quản lý và Giám sát
+-----------------------------------------------------------------
+CloudWatch:
+- Giám sát và báo cáo các hoạt động trong VPC, bao gồm các log và metric liên quan.
+
+AWS Config:
+- Giám sát các thay đổi cấu hình và tuân thủ các tiêu chuẩn bảo mật và quy định.
+
+
+II. AWS Direct Connect
+----------------------------------------------------------------------------------------------------------------------------------
+• Direct Connect là một kết nối mạng riêng vật lý, trực tiếp từ hệ thống mạng của một doanh nghiệp đến trung tâm dữ liệu Data Center của AWS cloud
+✓ Kết nối mạng vật lý trực tiếp
+✓ Kết nối ngay tại chỗ giữa trung tâm dữ Liệu Data Center của doanh nghiệp Và AWS cloud
+✓ Hệ thống mạng truy cập dữ liệu giữa mạng nội bộ và AWS Cloud nhanh, như là làm việc trong mạng nội bộ LAN
+✓ Hỗ trợ một môi trường lai giữa mạng nội bộ và đám mây (hybrid environment)
+
+
+
+III. AWS VPN
+----------------------------------------------------------------------------------------------------------------------------------
+• Site to Site VPN tạo một sự kết nối bảo mật và ổn định giữa mạng nội bộ của bạn và hệ thống AWS cloud của bạn.
+✓ Tương tự như kết nối Direct Connect , tuy nhiên dữ liệu đi qua internet
+✓ Kết nối ngay tại chỗ giữa trung tâm dữ Liệu Data Center của doanh nghiệp và AWS cloud
+✓ Dữ liệu được mã hóa
+✓ Hỗ trợ một môi trường lai giữa mạng nội bộ và đám mây (hybrid environment)

@@ -1,0 +1,614 @@
+I. AWS Storage summary 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1. Block Storage (Lưu trữ khối)
+------------------------------------------------------------
+Mô tả: 
+- Lưu trữ khối là cách lưu trữ dữ liệu dưới dạng các khối (blocks) với kích thước cố định. 
+- Mỗi khối có một địa chỉ duy nhất và có thể được truy cập độc lập.
+- Block Storage thường được sử dụng làm tầng lưu trữ cho các instance EC2, cung cấp lưu trữ cho hệ thống tệp (file system) và ứng dụng.
+- Thích hợp cho các ứng dụng yêu cầu truy cập nhanh và độ trễ thấp, như cơ sở dữ liệu (databases) và ứng dụng doanh nghiệp.
+
+Service: 
+- Amazon Elastic Block Store (EBS).
+- EC2 Instance Store
+
+
+2. File Storage (Lưu trữ tệp)
+------------------------------------------------------------
+Mô tả: 
+- Lưu trữ tệp tổ chức dữ liệu theo cấu trúc cây thư mục và cho phép nhiều người dùng truy cập vào các tệp cùng một lúc thông qua giao thức mạng như NFS hoặc SMB.
+- Thích hợp cho các ứng dụng cần chia sẻ tệp giữa nhiều người dùng hoặc nhiều instance, như ứng dụng web, lưu trữ tệp lớn, hoặc ứng dụng phân tích.
+- File Storage có thể hoạt động trên các khối dữ liệu từ Block Storage, cho phép xây dựng hệ thống tệp phức tạp hơn, trong đó các tệp được lưu trữ trên các khối.
+
+Service: 
+- Amazon Elastic File System (EFS)
+- Amazon FSx
+
+
+3. Object Storage (Lưu trữ đối tượng)
+------------------------------------------------------------
+Mô tả: 
+- Lưu trữ đối tượng lưu trữ dữ liệu dưới dạng các đối tượng, mỗi đối tượng bao gồm dữ liệu, siêu dữ liệu và một ID duy nhất. 
+- Dữ liệu được lưu trữ theo dạng "bucket" và có thể được truy cập qua Internet thông qua giao thức HTTP/HTTPS.
+- Tối ưu cho lưu trữ dữ liệu không cấu trúc, như video, hình ảnh, backups, và dữ liệu lớn. 
+- S3 có khả năng mở rộng vô hạn và là lựa chọn lý tưởng cho lưu trữ dài hạn.
+
+Service: 
+- Amazon Simple Storage Service (S3).
+- Amazon Glacier: Object Archival
+
+
+
+II. Block Storage (Lưu trữ đối tượng)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1. Amazon Elastic Block Store (EBS).
+------------------------------------------------------------
+
+
+
+2. EC2 Instance Store
+------------------------------------------------------------
+
+
+
+
+III. File Storage (Lưu trữ tệp)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1. Elastic File System (EFS).
+------------------------------------------------------------
+
+
+
+2. Amazon FSx
+------------------------------------------------------------
+
+
+
+
+IV. Object Storage (Lưu trữ đối tượng)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1. Amazon Simple Storage Service (S3).
+------------------------------------------------------------
+S3 concept:
+- S3 (Simple Storage Service) là một dịch vụ lưu trữ đối tượng được cung cấp bởi Amazon Web Services (AWS). 
+- Cho phép người dùng lưu trữ và truy xuất bất kỳ lượng dữ liệu nào, bất kỳ lúc nào, từ bất kỳ đâu trên web. 
+- Dưới đây là một số đặc điểm chính của S3:
+	+ Lưu trữ đối tượng: Dữ liệu được lưu trữ dưới dạng các đối tượng trong các "bucket". Mỗi đối tượng bao gồm dữ liệu, metadata và một ID duy nhất.
+	+ Khả năng mở rộng và độ bền cao: S3 được thiết kế để cung cấp khả năng mở rộng không giới hạn và đảm bảo độ bền dữ liệu cao, với tỷ lệ 99,999999999% (11 số 9).
+	+ Bảo mật: S3 cung cấp nhiều tính năng bảo mật, bao gồm mã hóa dữ liệu khi lưu trữ (at-rest) và trong quá trình truyền tải (in-transit), cùng với các cơ chế kiểm soát truy cập.
+	+ Quản lý phiên bản: S3 hỗ trợ quản lý phiên bản, cho phép người dùng theo dõi và phục hồi các phiên bản trước của đối tượng.
+	+ Chính sách vòng đời: Người dùng có thể định nghĩa các chính sách để tự động di chuyển dữ liệu giữa các lớp lưu trữ hoặc xóa dữ liệu sau một thời gian nhất định.
+	+ Tích hợp với các dịch vụ AWS khác: S3 tích hợp tốt với nhiều dịch vụ khác của AWS như EC2, RDS, CloudFront, và Lambda.
+
+
+Amazon S3 Use cases
+• Backup and storage
+• Disaster Recovery
+• Archive
+• Hybrid Cloud storage
+• Application hosting
+• Media hosting
+• Data lakes & big data analytics
+• Software delivery
+• Static website
+
+
+Amazon S3 - Buckets
+• Amazon S3 allows people to store objects (files) in “buckets” (directories)
+• Buckets must have a globally unique name (across all regions all accounts)
+• Buckets are defined at the region level
+• S3 looks like a global service but buckets are created in a region
+
+
+
+Amazon S3 - Objects
+• Objects (files) have a Key
+• The key is the FULL path:
+	• s3://my-bucket/my_file.txt
+	• s3://my-bucket/my_folder1/another_folder/my_file.txt
+• The key is composed of prefix + object name
+	• s3://my-bucket/my_folder1/another_folder/my_file.txt
+• There’s no concept of “directories” within buckets (although the UI will trick you to think otherwise)
+• Just keys with very long names that contain slashes (“/”)
+
+
+Amazon S3 – Objects (cont.)
+• Object values are the content of the body:
+	• Max. Object Size is 5TB (5000GB)
+	• If uploading more than 5GB, must use “multi-part upload”
+• Metadata (list of text key / value pairs – system or user metadata)
+• Tags (Unicode key / value pair – up to 10) – useful for security / lifecycle
+• Version ID (if versioning is enabled)
+
+
+Amazon S3 – Security
+• User-Based
+	• IAM Policies – which API calls should be allowed for a specific user from IAM
+• Resource-Based
+	• Bucket Policies – bucket wide rules from the S3 console - allows cross account
+	• Object Access Control List (ACL) – finer grain (can be disabled)
+	• Bucket Access Control List (ACL) – less common (can be disabled)
+• Note: an IAM principal can access an S3 object if
+	• The user IAM permissions ALLOW it OR the resource policy ALLOWS it
+	• AND there’s no explicit DENY
+• Encryption: encrypt objects in Amazon S3 using encryption keys
+
+
+S3 Bucket Policies
+• JSON based policies
+	• Resources: buckets and objects
+	• Effect: Allow / Deny
+	• Actions: Set of API to Allow or Deny
+	• Principal: The account or user to apply the policy to
+• Use S3 bucket for policy to:
+	• Grant public access to the bucket
+	• Force objects to be encrypted at upload
+	• Grant access to another account (Cross Account)
+	
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicRead",
+      "Effect": "Allow",
+      " Principal": "*",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3::: examplebucket/*"
+      ]
+    }
+  ]
+}
+
+
+A company uses AWS Organizations to manage multiple AWS accounts for different departments. The management account has an Amazon S3 bucket that contains project reports. 
+The company wants to limit access to this S3 bucket to only users of accounts within the organization in AWS Organizations.
+Which solution meets these requirements with the LEAST amount of operational overhead?
+-> A. Add the aws PrincipalOrgID global condition key with a reference to the organization ID to the S3 bucket policy
+
+
+A company uses NFS to store large video ¬les in on-premises network attached storage. Each video ¬le ranges in size from 1 MB to 500 GB. The
+total storage is 70 TB and is no longer growing. The company decides to migrate the video ¬les to Amazon S3. The company must migrate the
+video ¬les as soon as possible while using the least possible network bandwidth.
+Which solution will meet these requirements?
+-> B. Create an AWS Snowball Edge job. Receive a Snowball Edge device on premises. Use the Snowball Edge client to transfer data to the
+device. Return the device so that AWS can import the data into Amazon S3.
+
+
+Amazon S3 – Static Website Hosting
+• S3 can host static websites and have them accessible on the Internet
+• The website URL will be (depending on the region)
+	• http://bucket-name.s3-website-aws-region.amazonaws.com
+	OR
+	• http://bucket-name.s3-website.aws-region.amazonaws.com
+• If you get a 403 Forbidden error, make sure the bucket policy allows public reads!
+
+
+Amazon S3 -Versioning
+• You can version your files in Amazon S3
+• It is enabled at the bucket level
+• Same key overwrite will change the “version”: 1, 2, 3….
+• It is best practice to version your buckets
+	• Protect against unintended deletes (ability to restore a version)
+	• Easy roll back to previous version
+• Notes:
+	• Any file that is not versioned prior to enabling versioning will have version “null”
+	• Suspending versioning does not delete the previous versions
+
+
+Amazon S3 – Replication (CRR & SRR)
+• Must enable Versioning in source and destination buckets
+• Cross-Region Replication (CRR)
+• Same-Region Replication (SRR)
+• Buckets can be in different AWS accounts
+• Copying is asynchronous
+• Must give proper IAM permissions to S3
+• Use cases:
+	• CRR – compliance, lower latency access, replication across accounts
+	• SRR – log aggregation, live replication between production and test accounts
+
+
+Amazon S3 – Replication (Notes)
+• After you enable Replication, only new objects are replicated
+• Optionally, you can replicate existing objects using S3 Batch Replication
+	• Replicates existing objects and objects that failed replication
+• For DELETE operations
+	• Can replicate delete markers from source to target (optional setting)
+	• Deletions with a version ID are not replicated (to avoid malicious deletes)
+• There is no “chaining” of replication
+	• If bucket 1 has replication into bucket 2, which has replication into bucket 3
+	• Then objects created in bucket 1 are not replicated to bucket 3
+
+
+
+S3 Storage Classes
+-----------------------------------------------------------
+1) S3 Standard
+Mục đích nói chung là sử dụng để lưu trữ dữ liệu
+Dữ liệu được lưu trên nhiều vùng trung tâm dữ liệu đề đảm bảo sự sẵn sàng.
+Có độ trễ thấp (low latency) và thông lượng cao (throughpout).
+-> Tư vấn dùng cho trường hợp: Thường xuyên truy cập dữ liệu
+
+2) S3 Intelligent-Tiering
+Tự động giảm chi phí lưu trữ bằng cách chuyển dữ liệu của bạn sang bậc truy cập tiết kiệm chi phí nhất, dựa trên tần xuất truy cập mà không ảnh hưởng đến hiệu năng, chi phí truy xuất và vận hành.
+Tự động tiết kiệm chi phí
+Không tính phi truy xuất dữ liệu
+Dữ liệu được lưu trên nhiều vùng trung tâm dữ liệu để đảm bảo sự sẵn sàng.
+-> Tư vấn dùng cho trường hợp: Dữ liệu không xác định, hoặc thay đổi cách thức truy cập
+
+3) S3 Standard-Infrequent Access(IA)
+Dữ liệu ít truy cập thường xuyên, nhưng đòi hỏi tốc độ truy cập nhanh
+Dữ liệu được lưu trên nhiều vùng trung tâm dữ liệu để đảm bảo sự sẵn sàng.
+Chi phí sử dụng rẻ hơn S3 Standard
+-> Tư vấn dùng cho trường hợp: Lưu dữ liệu lâu dài, ít truy cập thường xuyên, truy cập dữ liệu tốc độ cao mức Millisecond khi cần
+
+4) S3 One Zone-Infrequent Access(IA)
+Giống như S3 Standard-Infrequent Access(IA), nhưng data chỉ được lưu trong một vùng trung tâm dữ liệu
+Chi phí sử dụng rẻ hơn 20% S3 Standard-Infrequent (IA)
+Dữ liệu được lưu trong lớp lưu trữ dữ liệu có thể bị mất
+-> Tư vấn dùng cho trường hợp: Có khả năng tạo lại dữ liệu, không cần truy cập thường xuyên với tốc độ truy cập dữ liệu theo milli giây, không quan trọng cần phải lưu dữ liệu với tỉnh sẵn sàn và tính bên vùng
+
+5) S3 Glacier
+Lưu trữ dữ liệu dài hạn và lưu trữ với giá thấp
+Khi truy xuất dữ liệu có dung lượng lớn thường phải mất một thời gian dài mới có thể truy xuất ( trong 5-12 giờ)
+Có 3 khoảng thời gian cho lựa chọn truy xuất dữ liệu: 1-5 phút, 3-5 giờ, hoặc 5 đến 12 giờ
+Dữ liệu được lưu trên nhiều vùng trung tâm dữ liệu đề đảm bảo sự sẵn sàng.
+-> Tư vấn dùng cho trường hợp: Sao lưu (Backup) dữ liệu trong một thời gian dài. Dùng cho trường hợp lưu trữ dữ liệu giá rẻ
+
+6) S3 Glacier Deep Archive
+Giống với S3 Glacier, nhưng mất thời gian truy cập lấy dữ liệu lâu hơn
+Có 2 khoảng thời gian cho lựa chọn truy xuất dữ liệu: 12 giờ hoặc 48 giờ
+Rẻ nhất trong các lựa chọn lưu trữ S3
+Dữ liệu được lưu trên nhiều vùng trung tâm dữ liệu để đảm bảo sự sẵn sàng.
+-> Tư vấn dùng cho trường hợp: Sao lưu (Backup) dữ liệu trong một thời gian dài hoặc hai năm một lần. Dùng cho lưu trữ có các yêu cầu tuân thủ nghiêm ngặt.
+
+7) S3 Outposts
+Cung cấp dịch vụ lưu trữ dữ liệu ngay tại chỗ
+$3 trên Outposts cung cấp một lớp lưu trữ S3 duy nhất
+Dữ liệu được hưu trữ trên nhiều thiết bị lưu trữ và các máy chủ
+-> Tư vấn dùng trong trường hợp: Dữ liệu của bạn phải được lưu trữ trong mạng nội bộ. Đòi hỏi tốc độ truy xuất dữ liệu và ứng dụng rất cao.
+
+
+S3 Intelligent-Tiering
+• Small monthly monitoring and auto-tiering fee
+• Moves objects automatically between Access Tiers based on usage
+• There are no retrieval charges in S3 Intelligent-Tiering
+• Frequent Access tier (automatic): default tier
+• Infrequent Access tier (automatic): objects not accessed for 30 days
+• Archive Instant Access tier (automatic): objects not accessed for 90 days
+• Archive Access tier (optional): configurable from 90 days to 700+ days
+• Deep Archive Access tier (optional): config. from 180 days to 700+ days
+
+
+
+II. S3 advance
+------------------------------------------------------------------------------------
+Amazon S3 – Moving between Storage Classes
+• You can transition objects between storage classes
+• For infrequently accessed object, move them to Standard IA
+• For archive objects that you don’t need fast access to, move them to Glacier or Glacier Deep Archive
+• Moving objects can be automated using a Lifecycle Rules
+
+
+Amazon S3 – Lifecycle Rules
+• Transition Actions – configure objects to transition to another storage class
+	• Move objects to Standard IA class 60 days after creation
+	• Move to Glacier for archiving after 6 months
+• Expiration actions – configure objects to expire (delete) after some time
+	• Access log files can be set to delete after a 365 days
+	• Can be used to delete old versions of files (if versioning is enabled)
+	• Can be used to delete incomplete Multi-Part uploads
+• Rules can be created for a certain prefix (example: s3://mybucket/mp3/*)
+• Rules can be created for certain objects Tags (example: Department: Finance)
+
+
+Amazon S3 – Lifecycle Rules (Scenario 1)
+• Your application on EC2 creates images thumbnails after profile photos are uploaded to Amazon S3. 
+These thumbnails can be easily recreated, and only need to be kept for 60 days.
+The source images should be able to be immediately retrieved for these 60 days, and afterwards, the user can wait up to 6 hours.
+ • How would you design this?
+	-> S3 source images can be on Standard, with a lifecycle configuration to transition them to Glacier after 60 days
+	-> S3 thumbnails can be on One-Zone IA, with a lifecycle configuration to expire them (delete them) after 60 days
+	
+	
+Amazon S3 – Lifecycle Rules (Scenario 2)
+• A rule in your company states that you should be able to recover your deleted S3 objects immediately for 30 days, although this may happen rarely. 
+After this time, and for up to 365 days, deleted objects should be recoverable within 48 hours.
+• How would you design this?
+	-> Enable S3 Versioning in order to have object versions, so that “deleted objects” are in fact hidden by a “delete marker” and can be recovered
+	-> Transition the “noncurrent versions” of the object to Standard IA
+	-> Transition afterwards the “noncurrent versions” to Glacier Deep Archive
+	
+
+Amazon S3 Analytics – Storage Class Analysis
+• Help you decide when to transition objects to the right storage class
+• Recommendations for Standard and Standard IA
+	• Does NOT work for One-Zone IA or Glacier
+• Report is updated daily
+• 24 to 48 hours to start seeing data analysis
+• Good first step to put together Lifecycle Rules (or improve them)!
+
+
+S3 – Requester Pays
+• In general, bucket owners pay for all Amazon S3 storage and data transfer costs associated with their bucket
+• With Requester Pays buckets, the requester instead of the bucket owner pays the cost of the request and the data download from the bucket
+• Helpful when you want to share large datasets with other accounts
+• The requester must be authenticated in AWS (cannot be anonymous)
+
+
+S3 Event Notifications
+• S3:ObjectCreated, S3:ObjectRemoved, S3:ObjectRestore, S3:Replication…
+• Object name filtering possible (*.jpg)
+• Use case: generate thumbnails of images uploaded to S3
+• Can create as many “S3 events” as desired
+• S3 event notifications typically deliver events in seconds but can sometimes take a minute or longer
+
+
+S3 Event Notifications
+• Advanced filtering options with JSON rules (metadata, object size, name...)
+• Multiple Destinations – ex Step Functions, Kinesis Streams / Firehose…
+• EventBridge Capabilities – Archive, Replay Events, Reliable delivery
+
+
+S3 – Baseline Performance
+• Amazon S3 automatically scales to high request rates, latency 100-200 ms
+• Your application can achieve at least 3,500 PUT/COPY/POST/DELETE or 5,500 GET/HEAD requests per second per prefix in a bucket.
+• There are no limits to the number of prefixes in a bucket.
+• Example (object path => prefix):
+	• bucket/folder1/sub1/file => /folder1/sub1/
+	• bucket/folder1/sub2/file => /folder1/sub2/
+	• bucket/1/file => /1/
+	• bucket/2/file => /2/
+• If you spread reads across all four prefixes evenly, you can achieve 22,000 requests per second for GET and HEAD
+
+
+S3 Performance
+• Multi-Part upload:
+	• recommended for files > 100MB, must use for files > 5GB
+	• Can help parallelize uploads (speed up transfers)
+	
+S3 Transfer Acceleration 
+- Tính năng của Amazon S3 cho phép tăng tốc độ truyền tải dữ liệu đến và từ các bucket S3 thông qua mạng phân tán toàn cầu của AWS CloudFront. 
+- Điều này đặc biệt hữu ích khi bạn cần tải lên hoặc tải xuống các tệp lớn từ các khu vực địa lý khác nhau trên thế giới, giảm độ trễ và tăng hiệu suất.
+• Compatible with multi-part upload
+- Cách thức hoạt động:
+	- Khi S3 Transfer Acceleration được kích hoạt cho một bucket, dữ liệu được chuyển từ người dùng đến điểm biên mạng lưới (Edge Location) gần nhất của Amazon CloudFront. 
+	- Sau đó, dữ liệu được truyền tải qua mạng nội bộ của AWS, giúp giảm thiểu độ trễ và tăng tốc độ so với việc sử dụng kết nối internet công cộng.
+
+
+S3 Batch Operations
+• Perform bulk operations on existing S3 objects with a single request, example:
+	• Modify object metadata & properties
+	• Copy objects between S3 buckets
+	• Encrypt un-encrypted objects
+	• Modify ACLs, tags
+	• Restore objects from S3 Glacier
+	• Invoke Lambda function to perform custom action on each object
+• A job consists of a list of objects, the action to perform, and optional parameters
+• S3 Batch Operations manages retries, tracks progress, sends completion notifications, generate reports …
+• You can use S3 Inventory to get object list and use S3 Select to filter your objects
+
+
+S3 – Storage Lens
+• Understand, analyze, and optimize storage across entire AWS Organization
+• Discover anomalies, identify cost efficiencies, and apply data protection best practices across entire AWS Organization (30 days usage & activity metrics)
+• Aggregate data for Organization, specific accounts, regions, buckets, or prefixes
+• Default dashboard or create your own dashboards
+• Can be configured to export metrics daily to an S3 bucket (CSV, Parquet)
+• Default Dashboard
+	• Visualize summarized insights and trends for both free and advanced metrics
+	• Default dashboard shows Multi-Region and Multi-Account data
+	• Preconfigured by Amazon S3
+	• Can’t be deleted, but can be disabled
+	
+	
+Storage Lens – Metrics
+• Summary Metrics
+	• General insights about your S3 storage
+	• StorageBytes, ObjectCount…
+	• Use cases: identify the fastest-growing (or not used) buckets and prefixes
+• Cost-Optimization Metrics
+	• Provide insights to manage and optimize your storage costs
+	• NonCurrentVersionStorageBytes, IncompleteMultipartUploadStorageBytes…
+	• Use cases: identify buckets with incomplete multipart uploaded older than 7 days, Identify which objects could be transitioned to lower-cost storage class
+• Data-Protection Metrics
+	• Provide insights for data protection features
+	• VersioningEnabledBucketCount, MFADeleteEnabledBucketCount, SSEKMSEnabledBucketCount, CrossRegionReplicationRuleCount…
+	• Use cases: identify buckets that aren’t following data-protection best practices
+• Access-management Metrics
+	• Provide insights for S3 Object Ownership
+	• ObjectOwnershipBucketOwnerEnforcedBucketCount…
+	• Use cases: identify which Object Ownership settings your buckets use
+• Event Metrics
+	• Provide insights for S3 Event Notifications
+	• EventNotificationEnabledBucketCount (identify which buckets have S3 Event Notifications configured)
+• Performance Metrics
+	• Provide insights for S3 Transfer Acceleration
+	• TransferAccelerationEnabledBucketCount (identify which buckets have S3 Transfer Acceleration enabled)
+• Activity Metrics
+	• Provide insights about how your storage is requested
+	• AllRequests, GetRequests, PutRequests, ListRequests, BytesDownloaded…
+• Detailed Status Code Metrics
+	• Provide insights for HTTP status codes
+	• 200OKStatusCount, 403ForbiddenErrorCount, 404NotFoundErrorCount…
+• Free Metrics
+	• Automatically available for all customers
+	• Contains around 28 usage metrics
+	• Data is available for queries for 14 days
+• Advanced Metrics and Recommendations
+	• Additional paid metrics and features
+	• Advanced Metrics – Activity, Advanced Cost Optimization, Advanced Data Protection, Status Code
+	• CloudWatch Publishing – Access metrics in CloudWatch without additional charges
+	• Prefix Aggregation – Collect metrics at the prefix level
+	• Data is available for queries for 15 months
+	
+
+III. Amazon S3 – Security
+------------------------------------------------------------------------------------
+Amazon S3 – Object Encryption
+• You can encrypt objects in S3 buckets using one of 4 methods
+• Server-Side Encryption (SSE)
+	• Server-Side Encryption with Amazon S3-Managed Keys (SSE-S3) – Enabled by Default
+		• Encrypts S3 objects using keys handled, managed, and owned by AWS
+	• Server-Side Encryption with KMS Keys stored in AWS KMS (SSE-KMS)
+		• Leverage AWS Key Management Service (AWS KMS) to manage encryption keys
+	• Server-Side Encryption with Customer-Provided Keys (SSE-C)
+		• When you want to manage your own encryption keys
+• Client-Side Encryption
+• It’s important to understand which ones are for which situation for the exam
+
+
+Amazon S3 Encryption – SSE-S3
+• Encryption using keys handled, managed, and owned by AWS
+• Object is encrypted server-side
+• Encryption type is AES-256
+• Must set header "x-amz-server-side-encryption": "AES256"
+• Enabled by default for new buckets & new objects
+
+
+Amazon S3 Encryption – SSE-KMS
+• Encryption using keys handled and managed by AWS KMS (Key Management Service)
+• KMS advantages: user control + audit key usage using CloudTrail
+• Object is encrypted server side
+• Must set header "x-amz-server-side-encryption": "aws:kms"
+
+
+SSE-KMS Limitation
+• If you use SSE-KMS, you may be impacted by the KMS limits
+• When you upload, it calls the GenerateDataKey KMS API
+• When you download, it calls the Decrypt KMS API
+• Count towards the KMS quota per second (5500, 10000, 30000 req/s based on region)
+• You can request a quota increase using the Service Quotas Console
+
+
+Amazon S3 Encryption – SSE-C
+• Server-Side Encryption using keys fully managed by the customer outside of AWS
+• Amazon S3 does NOT store the encryption key you provide
+• HTTPS must be used
+• Encryption key must provided in HTTP headers, for every HTTP request made
+
+
+Amazon S3 Encryption – Client-Side Encryption
+• Use client libraries such as Amazon S3 Client-Side Encryption Library
+• Clients must encrypt data themselves before sending to Amazon S3
+• Clients must decrypt data themselves when retrieving from Amazon S3
+• Customer fully manages the keys and encryption cycle
+
+
+Amazon S3 – Encryption in transit (SSL/TLS)
+• Encryption in flight is also called SSL/TLS
+• Amazon S3 exposes two endpoints:
+	• HTTP Endpoint – non encrypted
+	• HTTPS Endpoint – encryption in flight
+• HTTPS is recommended
+• HTTPS is mandatory for SSE-C
+• Most clients would use the HTTPS endpoint by default
+
+
+Amazon S3 – CORS
+• Cross-Origin Resource Sharing (CORS)
+• Origin = scheme (protocol) + host (domain) + port
+	• example: https://www.example.com (implied port is 443 for HTTPS, 80 for HTTP)
+• Web Browser based mechanism to allow requests to other origins while visiting the main origin
+• Same origin: http://example.com/app1 & http://example.com/app2
+• Different origins: http://www.example.com & http://other.example.com
+• The requests won’t be fulfilled unless the other origin allows for the requests, using CORS Headers (example: Access-Control-Allow-Origin)
+• If a client makes a cross-origin request on our S3 bucket, we need to enable the correct CORS headers
+• It’s a popular exam question
+• You can allow for a specific origin or for * (all origins)
+
+
+S3 Access Logs
+• For audit purpose, you may want to log all access to S3 buckets
+• Any request made to S3, from any account, authorized or denied, will be logged into another S3 bucket
+• That data can be analyzed using data analysis tools…
+• The target logging bucket must be in the same AWS region
+• The log format is at: https://docs.aws.amazon.com/AmazonS3/latest/dev/LogFormat.html
+• Warning
+	• Do not set your logging bucket to be the monitored bucket
+	• It will create a logging loop, and your bucket will grow exponentially
+
+
+Amazon S3 – Pre-Signed URLs
+• Generate pre-signed URLs using the S3 Console, AWS CLI or SDK
+• URL Expiration
+	• S3 Console – 1 min up to 720 mins (12 hours)
+	• AWS CLI – configure expiration with --expires-in parameter in seconds (default 3600 secs, max. 604800 secs ~ 168 hours)
+• Users given a pre-signed URL inherit the permissions of the user that generated the URL for GET / PUT
+• Examples:
+	• Allow only logged-in users to download a premium video from your S3 bucket
+	• Allow an ever-changing list of users to download files by generating URLs dynamically
+	• Allow temporarily a user to upload a file to a precise location in your S3 bucket
+	
+S3 Glacier Vault Lock
+• Adopt a WORM (Write Once Read Many) model
+• Create a Vault Lock Policy
+• Lock the policy for future edits (can no longer be changed or deleted)
+• Helpful for compliance and data retention
+
+
+S3 Object Lock (versioning must be enabled)
+• Adopt a WORM (Write Once Read Many) model
+• Block an object version deletion for a specified amount of time
+• Retention mode - Compliance:
+	• Object versions can't be overwritten or deleted by any user, including the root user
+	• Objects retention modes can't be changed, and retention periods can't be shortened
+• Retention mode - Governance:
+	• Most users can't overwrite or delete an object version or alter its lock settings
+	• Some users have special permissions to change the retention or delete the object
+• Retention Period: protect the object for a fixed period, it can be extended
+• Legal Hold:
+	• protect the object indefinitely, independent from retention period
+	• can be freely placed and removed using the s3:PutObjectLegalHold IAM permission
+
+
+S3 – Access Points
+• Access Points simplify security management for S3 Buckets
+• Each Access Point has:
+	• its own DNS name (Internet Origin or VPC Origin)
+	• an access point policy (similar to bucket policy) – manage security at scale
+• VPC Origin
+	• We can define the access point to be accessible only from within the VPC
+	• You must create a VPC Endpoint to access the Access Point (Gateway or Interface Endpoint)
+	• The VPC Endpoint Policy must allow access to the target bucket and Access Point
+	
+S3 Object Lambda
+• Use AWS Lambda Functions to change the object before it is retrieved by the caller application
+• Only one S3 bucket is needed, on top of which we create S3 Access Point and S3 Object Lambda Access Points.
+• Use Cases:
+	• Redacting personally identifiable information for analytics or nonproduction environments.
+	• Converting across data formats, such as converting XML to JSON.
+	• Resizing and watermarking images on the fly using caller-specific details, such 
+	as the user who requested the object.
+	
+	
+
+IV. Amazon FSx 
+------------------------------------------------------------------------------------
+Amazon FSx là một dịch vụ quản lý lưu trữ file (file storage) trên đám mây do AWS cung cấp, cho phép người dùng triển khai và quản lý hệ thống file storage với hiệu suất cao và khả năng mở rộng linh hoạt. Dịch vụ này được thiết kế để đáp ứng nhu cầu lưu trữ file cho các ứng dụng yêu cầu tốc độ truy xuất cao và hỗ trợ nhiều giao thức truy cập.
+
+Các tính năng chính của Amazon FSx:
+Nhiều loại hệ thống file:
+
+Amazon FSx for Windows File Server: Cung cấp một hệ thống file tương thích với Windows, hỗ trợ các ứng dụng sử dụng giao thức SMB (Server Message Block). Điều này cho phép các tổ chức dễ dàng tích hợp FSx vào môi trường Windows hiện có của họ.
+Amazon FSx for Lustre: Một hệ thống file hiệu suất cao, tối ưu hóa cho các khối lượng công việc tính toán và xử lý dữ liệu lớn, như máy học (machine learning) và phân tích dữ liệu. FSx for Lustre tích hợp chặt chẽ với Amazon S3, cho phép bạn truy cập dữ liệu từ S3 như một file system.
+Quản lý hoàn toàn:
+
+Amazon FSx là dịch vụ quản lý hoàn toàn, có nghĩa là AWS sẽ tự động xử lý các tác vụ quản lý như phần cứng, sao lưu, cập nhật phần mềm, và bảo mật. Người dùng không cần phải lo lắng về việc triển khai và duy trì cơ sở hạ tầng lưu trữ.
+Hiệu suất cao:
+
+FSx cung cấp hiệu suất cao với khả năng mở rộng linh hoạt, giúp đáp ứng nhu cầu của các ứng dụng có yêu cầu cao về tốc độ và dung lượng lưu trữ.
+Bảo mật:
+
+FSx cung cấp các tính năng bảo mật mạnh mẽ như mã hóa dữ liệu khi lưu trữ và khi truyền tải, cùng với các tích hợp với AWS Identity and Access Management (IAM) để kiểm soát quyền truy cập.
+Tính khả dụng và độ bền cao:
+
+Amazon FSx được xây dựng trên hạ tầng AWS với tính năng tự động sao lưu và khả năng phục hồi sau sự cố, giúp đảm bảo dữ liệu của bạn luôn an toàn và có sẵn.
+Ứng dụng của Amazon FSx:
+Chạy ứng dụng doanh nghiệp: FSx for Windows File Server phù hợp cho các ứng dụng doanh nghiệp sử dụng file shares, như các ứng dụng văn phòng và ERP (Enterprise Resource Planning).
+Phân tích dữ liệu lớn: FSx for Lustre lý tưởng cho các khối lượng công việc như mô hình hóa và phân tích dữ liệu lớn, nhất là trong các lĩnh vực như khoa học dữ liệu và machine learning.
+Di chuyển dữ liệu đến AWS: FSx giúp các tổ chức dễ dàng chuyển đổi từ môi trường lưu trữ truyền thống sang môi trường đám mây mà không cần thay đổi nhiều vào cách mà họ sử dụng các file và ứng dụng hiện có.
+Kết luận:
+Amazon FSx là một dịch vụ lưu trữ file mạnh mẽ và linh hoạt, giúp các tổ chức tận dụng được các lợi ích của đám mây trong việc lưu trữ và quản lý dữ liệu. Với khả năng tích hợp dễ dàng vào môi trường hiện tại và hiệu suất cao, Amazon FSx là lựa chọn lý tưởng cho nhiều loại ứng dụng và khối lượng công việc khác nhau.

@@ -1,0 +1,636 @@
+I. Amazon EC2 Section – Summary
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+II. Amazon EC2 Basic
+-------------------------------------------------------------------------------------------------------------------
+Amazon EC2
+• EC2 is one of the most popular of AWS’ offering
+• EC2 = Elastic Compute Cloud = Infrastructure as a Service
+• It mainly consists in the capability of :
+	• Renting virtual machines (EC2)
+	• Storing data on virtual drives (EBS)
+	• Distributing load across machines (ELB)
+	• Scaling the services using an auto-scaling group (ASG)
+
+
+EC2 sizing & configuration options
+• Operating System (OS): Linux, Windows or Mac OS
+• How much compute power & cores (CPU)
+• How much random-access memory (RAM)
+• How much storage space:
+	• Network-attached (EBS & EFS)
+	• hardware (EC2 Instance Store)
+• Network card: speed of the card, Public IP address
+• Firewall rules: security group
+• Bootstrap script (configure at first launch): EC2 User Data
+
+
+EC2 User Data
+• It is possible to bootstrap our instances using an EC2 User data script.
+• bootstrapping means launching commands when a machine starts
+• That script is only run once at the instance first start
+• EC2 user data is used to automate boot tasks such as:
+	• Installing updates
+	• Installing software
+	• Downloading common files from the internet
+	• Anything you can think of
+• The EC2 User Data Script runs with the root user
+
+
+EC2 Instance Types - Overview
+• AWS has the following naming convention: m5.2xlarge
+	• m: instance class
+	• 5: generation (AWS improves them over time)
+	• 2xlarge: size within the instance class
+	
+• EC2 Instance Types – General Purpose: Great for a diversity of workloads such as web servers or code repositories
+	• Balance between: Compute • Memory • Networking
+	
+• EC2 Instance Types – Compute Optimized: Great for compute-intensive tasks that require high performance processors:
+	• Batch processing workloads
+	• Media transcoding
+	• High performance web servers
+	• High performance computing (HPC)
+	• Scientific modeling & machine learning
+	• Dedicated gaming servers
+	
+• EC2 Instance Types – Memory Optimized: Fast performance for workloads that process large data sets in memory. Use cases:
+	• High performance, relational/non-relational databases
+	• Distributed web scale cache stores
+	• In-memory databases optimized for BI (business intelligence)
+	• Applications performing real-time processing of big unstructured data
+
+• EC2 Instance Types – Storage Optimized: Great for storage-intensive tasks that require high, sequential read and write access to large data sets on local storage. Use cases:
+	• High frequency online transaction processing (OLTP) systems
+	• Relational & NoSQL databases
+	• Cache for in-memory databases (for example, Redis)
+	• Data warehousing applications
+	• Distributed file systems
+
+EC2 Instances Purchasing Options
+• On-Demand Instances – short workload, predictable pricing, pay by second
+	• Reserved (1 & 3 years)
+	• Reserved Instances – long workloads
+• Convertible Reserved Instances – long workloads with flexible instances
+• Savings Plans (1 & 3 years) –commitment to an amount of usage, long workload
+• Spot Instances – short workloads, cheap, can lose instances (less reliable)
+• Dedicated Hosts – book an entire physical server, control instance placement
+• Dedicated Instances – no other customers will share your hardware
+• Capacity Reservations – reserve capacity in a specific AZ for any duration
+
+Which purchasing option is right for me?
+• On demand: coming and staying in resort whenever we like, we pay the full price
+• Reserved: like planning ahead and if we plan to stay for a long time, we may get a good discount.
+• Savings Plans: pay a certain amount per hour for certain period and stay in any room type (e.g.,King, Suite, Sea View, …)
+• Spot instances: the hotel allows people to bid forthe empty rooms and the highest bidder keeps the rooms. You can get kicked out at any time
+• Dedicated Hosts: We book an entire building of the resort
+• Capacity Reservations: you book a room for a period with full price even you don’t stay in it
+
+
+Elastic IPs: 
+• When you stop and then start an EC2 instance, it can change its public IP.
+• If you need to have a fixed public IP for your instance, you need an Elastic IP
+• An Elastic IP is a public IPv4 IP you own as long as you don’t delete it
+• You can attach it to one instance at a time
+• With an Elastic IP address, you can mask the failure of an instance or software by rapidly remapping the address to another instance in your account.
+• You can only have 5 Elastic IP in your account (you can ask AWS to increase that).
+	• Overall, try to avoid using Elastic IP:
+	• They often reflect poor architectural decisions
+	• Instead, use a random public IP and register a DNS name to it
+	• Or, as we’ll see later, use a Load Balancer and don’t use a public IP
+	
+By default, your EC2 machine comes with:
+• A private IP for the internal AWS Network
+• A public IP, for the WWW. (If your machine is stopped and then started, the public IP can change)
+
+
+3. Placement Groups 
+-------------------------------------------------------------------------------------------------------------------
+Tính năng cho phép kiểm soát cách các máy ảo (instances) được đặt trong hạ tầng vật lý của nhà cung cấp đám mây. 
+
+Ưu Điểm Của Việc Sử Dụng Placement Groups
+• Tối Ưu Hóa Hiệu Suất Mạng: Đặc biệt với Cluster Placement Groups, các instance được đặt gần nhau về mặt vật lý giúp giảm độ trễ và tăng băng thông.
+• Tăng Tính Khả Dụng: Với Spread Placement Groups, việc phân tán các instance trên nhiều máy chủ vật lý giúp giảm nguy cơ bị gián đoạn dịch vụ do sự cố phần cứng.
+• Quản Lý Tài Nguyên Hiệu Quả: Partition Placement Groups cung cấp sự cân bằng giữa hiệu suất và khả năng chịu lỗi, phù hợp với nhiều loại ứng dụng khác nhau.
+
+Lưu Ý Khi Sử Dụng Placement Groups
+• Khu Vực Giới Hạn: Một số loại Placement Groups, như Cluster Placement Groups, có thể giới hạn số lượng instance bạn có thể triển khai trong một nhóm duy nhất.
+• Không Thể Di Chuyển Sau Khi Tạo: Sau khi tạo một Placement Group, bạn không thể thay đổi loại của nó. Nếu nhu cầu thay đổi, bạn cần tạo một nhóm mới và di chuyển các instance.
+• Phụ Thuộc Vào Nhà Cung Cấp Đám Mây: Các tính năng và hạn chế cụ thể có thể khác nhau tùy thuộc vào nhà cung cấp dịch vụ đám mây bạn sử dụng.
+
+Cách Tạo Placement Groups trên AWS
+• Sử dụng AWS Management Console:
+	• Đăng nhập vào AWS Management Console.
+	• Chọn EC2 từ bảng điều khiển.
+	• Trong phần Network & Security, chọn Placement Groups.
+	• Nhấn Create placement group, đặt tên và chọn loại Placement Group mong muốn (Cluster, Spread, hoặc Partition).
+• Sử dụng AWS CLI:
+	• aws ec2 create-placement-group --group-name MyPlacementGroup --strategy cluster
+• Sử dụng SDKs:
+
+a. Cluster Placement Group (High performance)
+-------------------------------------------------------------------------------------------
+Mục đích: 
+• Tập trung các instance trong một khu vực hạ tầng vật lý nhỏ để tối ưu hóa hiệu suất mạng, đặc biệt là băng thông và độ trễ thấp.
+
+Ưu điểm:
+• Tăng cường hiệu suất mạng giữa các instance.
+• Thích hợp cho các ứng dụng yêu cầu giao tiếp nhanh như cơ sở dữ liệu phân tán, phân tích dữ liệu lớn, và ứng dụng HPC (High-Performance Computing).
+• Great network (10 Gbps bandwidth between instances with Enhanced Networking enabled - recommended)
+
+Nhược điểm:
+• Giới hạn về khả năng mở rộng vì các instance được đặt gần nhau.
+• Tăng nguy cơ bị ảnh hưởng bởi sự cố phần cứng hoặc hạ tầng trong cùng một khu vực vật lý.
+• If the AZ fails, all instances fails at the same time
+
+Use case:
+• Big Data job that needs to complete fast
+• Application that needs extremely low latency and high network throughput
+
+
+b. Placement Group Spread (High avaibility)
+-------------------------------------------------------------------------------------------
+Mục đích: 
+• Đảm bảo rằng các instance được phân tán trên nhiều máy chủ vật lý khác nhau để tăng tính khả dụng và giảm rủi ro bị ảnh hưởng bởi sự cố phần cứng.
+
+Ưu điểm:
+• Tăng tính khả dụng cao hơn do các instance không bị đặt trên cùng một máy chủ vật lý.
+• Phù hợp với các ứng dụng yêu cầu tính liên tục cao và chịu lỗi tốt.
+• Can span across Availability Zones (AZ)
+• Reduced risk is simultaneous failure
+• EC2 Instances are on different physical hardware
+
+Nhược điểm:
+• Hiệu suất mạng giữa các instance có thể không cao bằng Cluster Placement Group.
+• Limited to 7 instances per AZ per placement group
+
+Use case:
+• Application that needs to maximize high availability
+• Critical Applications where each instance must be isolated from failure from each other
+
+
+c. Placement Group Partition (Nhóm Đặt Phân Mảnh)
+-------------------------------------------------------------------------------------------
+Mục đích: 
+• Chia các instance thành các phân vùng (partitions) riêng biệt, trong mỗi phân vùng có các máy chủ vật lý độc lập.
+
+Ưu điểm:
+• Cân bằng giữa hiệu suất mạng và tính khả dụng.
+• Giảm rủi ro bị ảnh hưởng bởi sự cố phần cứng trong cùng một phân vùng.
+• Thích hợp cho các ứng dụng cần một mức độ cân bằng giữa hiệu suất và khả năng chịu lỗi.
+
+Nhược điểm:
+• Quản lý phức tạp hơn so với các loại Placement Groups khác.
+
+Ưu Điểm Của Việc Sử Dụng Placement Groups
+Tối Ưu Hóa Hiệu Suất Mạng: Đặc biệt với Cluster Placement Groups, các instance được đặt gần nhau về mặt vật lý giúp giảm độ trễ và tăng băng thông.
+Tăng Tính Khả Dụng: Với Spread Placement Groups, việc phân tán các instance trên nhiều máy chủ vật lý giúp giảm nguy cơ bị gián đoạn dịch vụ do sự cố phần cứng.
+Quản Lý Tài Nguyên Hiệu Quả: Partition Placement Groups cung cấp sự cân bằng giữa hiệu suất và khả năng chịu lỗi, phù hợp với nhiều loại ứng dụng khác nhau.
+Lưu Ý Khi Sử Dụng Placement Groups
+Khu Vực Giới Hạn: Một số loại Placement Groups, như Cluster Placement Groups, có thể giới hạn số lượng instance bạn có thể triển khai trong một nhóm duy nhất.
+Không Thể Di Chuyển Sau Khi Tạo: Sau khi tạo một Placement Group, bạn không thể thay đổi loại của nó. Nếu nhu cầu thay đổi, bạn cần tạo một nhóm mới và di chuyển các instance.
+Phụ Thuộc Vào Nhà Cung Cấp Đám Mây: Các tính năng và hạn chế cụ thể có thể khác nhau tùy thuộc vào nhà cung cấp dịch vụ đám mây bạn sử dụng.
+
+d. Cách Tạo Placement Groups trên AWS
+-------------------------------------------------------------------------------------------
+Sử dụng AWS Management Console:
+
+Đăng nhập vào AWS Management Console.
+Chọn EC2 từ bảng điều khiển.
+Trong phần Network & Security, chọn Placement Groups.
+Nhấn Create placement group, đặt tên và chọn loại Placement Group mong muốn (Cluster, Spread, hoặc Partition).
+Sử dụng AWS CLI:
+
+bash
+Copy code
+aws ec2 create-placement-group --group-name MyPlacementGroup --strategy cluster
+Sử dụng SDKs: Bạn có thể sử dụng các SDK của AWS như boto3 (Python) để tạo Placement Groups thông qua mã lập trình.
+
+
+Elastic Network Interfaces (ENI) 
+• Concept:
+	• Card mạng ảo có thể fail over giữa các ec2 instance
+	• Logical component in a VPC that represents a virtual network card
+• The ENI can have the following attributes:
+	• Primary private IPv4, one or more secondary IPv4
+	• One Elastic IP (IPv4) per private IPv4
+	• One Public IPv4
+	• One or more security groups
+	• A MAC address
+• You can create ENI independently and attach them on the fly (move them) on EC2 instances for failover
+• Bound to a specific availability zone (AZ)
+
+
+EC2 State
+• Stop – the data on disk (EBS) is kept intact in the next start
+• Terminate – any EBS volumes (root) also set-up to be destroyed is lost
+• Hibernate: 
+	• The in-memory (RAM) state is preserved
+	• The instance boot is much faster! (the OS is not stopped / restarted)
+	• Under the hood: the RAM state is written to a file in the root EBS volume
+	• The root EBS volume must be encrypted
+	• An instance can NOT be hibernated more than 60 days
+	
+EC2 Hibernate Use cases:
+• Long-running processing
+• Saving the RAM state
+• Services that take time to initialize
+
+
+
+III. Amazon EC2 - Instance Storage
+-------------------------------------------------------------------------------------------------------------------
+EBS Volume
+• It’s a network drive (i.e. not a physical drive)
+	• It uses the network to communicate the instance, which means there might be a bit of latency
+	• Sử dụng giao thức iSCSI (Internet Small Computer Systems Interface) để kết nối các volumes với các EC2 instances. iSCSI là một giao thức truyền tải SCSI qua mạng IP, cho phép truy cập từ xa vào các thiết bị lưu trữ thông qua mạng TCP/IP. iSCSI giúp EC2 instances có thể truy cập vào các EBS volumes giống như việc truy cập vào ổ đĩa cục bộ, mặc dù dữ liệu thực sự được lưu trữ trong hệ thống lưu trữ phân tán và bền vững của AWS.
+	• It can be attach to your instances while they run but only be mounted to one instance at a time (at the CCP level)
+	• It can be detached from an EC2 instance and attached to another one quickly
+	• It allows your instances to persist data, even after their termination
+• It’s locked to an Availability Zone (AZ)
+	• An EBS Volume in us-east-1a cannot be attached to us-east-1b
+	• To move a volume across, you first need to snapshot it
+• Have a provisioned capacity (size in GBs, and IOPS)
+	• You get billed for all the provisioned capacity
+	• You can increase the capacity of the drive over time
+
+
+EBS – Delete on Termination attribute
+• Controls the EBS behaviour when an EC2 instance terminates
+	• By default, the root EBS volume is deleted (attribute enabled)
+	• By default, any other attached EBS volume is not deleted (attribute disabled)
+• This can be controlled by the AWS console / AWS CLI
+• Use case: preserve root volume when instance is terminated
+
+
+EBS Snapshots Features
+• Make a backup (snapshot) of your EBS volume at a point in time
+• Not necessary to detach volume to do snapshot, but recommended
+• Can copy snapshots across AZ or Region
+• EBS Snapshot Archive
+	• Move a Snapshot to an ”archive tier” that is 75% cheaper
+	• Takes within 24 to 72 hours for restoring the archive
+• Recycle Bin for EBS Snapshots
+	• Setup rules to retain deleted snapshots so you can recover them after an accidental deletion
+	• Specify retention (from 1 day to 1 year)
+• Fast Snapshot Restore (FSR)
+	• Force full initialization of snapshot to have no latency on the first use ($$$)
+	
+
+EC2 Instance Store
+• EBS volumes are network drives with good but “limited” performance
+• If you need a high-performance hardware disk, use EC2 Instance Store
+• Better I/O performance
+• EC2 Instance Store lose their storage if they’re stopped (ephemeral)
+• Good for buffer / cache / scratch data / temporary content
+• Risk of data loss if hardware fails
+• Backups and Replication are your responsibility
+
+
+EBS Volume Types
+• EBS Volumes come in 6 types
+	• gp2 / gp3 (SSD): General purpose SSD volume that balances price and performance for a wide variety of workloads
+	• io1 / io2 Block Express (SSD): Highest-performance SSD volume for mission-critical low-latency or high-throughput workloads
+	• st1 (HDD): Low cost HDD volume designed for frequently accessed, throughputintensive workloads
+	• sc1 (HDD): Lowest cost HDD volume designed for less frequently accessed workloads
+• EBS Volumes are characterized in Size | Throughput | IOPS (I/O Ops Per Sec)
+• When in doubt always consult the AWS documentation – it’s good!
+• Only gp2/gp3 and io1/io2 Block Express can be used as boot volumes
+
+
+EBS Multi-Attach – io1/io2 family
+• Attach the same EBS volume to multiple EC2 instances in the same AZ
+• Each instance has full read & write permissions to the high-performance volume
+• Use case:
+	• Achieve higher application availability in clustered Linux applications (ex: Teradata)
+	• Applications must manage concurrent write operations
+• Up to 16 EC2 Instances at a time
+• Must use a file system that’s cluster-aware (not XFS, EXT4, etc…)
+
+
+EBS Encryption
+• When you create an encrypted EBS volume, you get the following:
+	• Data at rest is encrypted inside the volume
+	• All the data in flight moving between the instance and the volume is encrypted
+	• All snapshots are encrypted
+	• All volumes created from the snapshot
+• Encryption and decryption are handled transparently (you have nothing to do)
+• Encryption has a minimal impact on latency
+• EBS Encryption leverages keys from KMS (AES-256)
+• Copying an unencrypted snapshot allows encryption
+• Snapshots of encrypted volumes are encrypted
+
+
+Encryption: How to encrypt an unencrypted EBS volume
+• Create an EBS snapshot of the volume
+• Encrypt the EBS snapshot ( using copy )
+• Create new ebs volume from the snapshot ( the volume will also be encrypted )
+• Now you can attach the encrypted volume to the original instance
+
+	
+AMI Overview
+• AMI = Amazon Machine Image
+• AMI are a customization of an EC2 instance
+	• You add your own software, configuration, operating system, monitoring…
+	• Faster boot / configuration time because all your software is pre-packaged
+• AMI are built for a specific region (and can be copied across regions)
+• You can launch EC2 instances from:
+	• A Public AMI: AWS provided
+	• Your own AMI: you make and maintain them yourself
+	• An AWS Marketplace AMI: an AMI someone else made (and potentially sells)	
+	
+
+AMI Process (from an EC2 instance)
+• Start an EC2 instance and customize it
+• Stop the instance (for data integrity)
+• Build an AMI – this will also create EBS snapshots
+• Launch another instances from created AMIs
+
+
+Amazon EFS – Elastic File System
+• Uses NFSv4.1 protocol
+• Managed NFS (network file system) that can be mounted on many EC2
+• EFS works with EC2 instances in multi-AZ
+• Highly available, scalable, expensive (3x gp2), pay per use
+• Use cases: content management, web serving, data sharing,Wordpress
+• Uses security group to control access to EFS
+• Compatible with Linux based AMI (not Windows)
+• Encryption at rest using KMS
+• POSIX file system (~Linux) that has a standard file API
+• File system scales automatically, pay-per-use, no capacity planning!
+
+
+EFS – Performance & Storage Classes
+• EFS Scale
+	• 1000s of concurrent NFS clients, 10 GB• /s throughput
+	• Grow to Petabyte-scale network file system, automatically
+• Performance Mode (set at EFS creation time)
+	• General Purpose (default) – latency-sensitive use cases (web server, CMS, etc…)
+	• Max I/O – higher latency, throughput, highly parallel (big data, media processing)
+• Throughput Mode
+	• Bursting – 1 TB = 50MiB/s • burst of up to 100MiB/s
+	• Provisioned – set your throughput regardless of storage size, ex: 1 GiB/s for 1 TB storage
+	• Elastic – automatically scales throughput up or down based on your workloads
+		• Up to 3GiB/s for reads and 1GiB/s for writes
+		• Used for unpredictable workloads
+
+
+EFS – Storage Classes
+• Storage Tiers (lifecycle management feature – move file after N days)
+	• Standard: for frequently accessed files
+	• Infrequent access (EFS-IA): cost to retrieve files, lower price to store.
+	• Archive: rarely accessed data (few times each year), 50% cheaper
+	• Implement lifecycle policies to move files between storage tiers
+• Availability and durability
+	• Standard: Multi-AZ, great for prod
+	• One Zone: One AZ, great for dev, backup enabled by default, compatible with IA (EFS One Zone-IA)
+• Over 90% in cost savings
+
+
+5. Elastic Load Balancer
+-------------------------------------------------------------------------------------------------------------------
+User 
+-> HTTP/HTTPS from any where		-> Load Balancer 
+-> HTTP Restricted to Load Balancer -> EC2
+
+
+High Availability & Scalability For EC2
+• Vertical Scaling: Increase instance size (= scale up / down)
+	• From: t2.nano - 0.5G of RAM, 1 vCPU
+	• To: u-12tb1.metal – 12.3 TB of RAM, 448 vCPUs
+• Horizontal Scaling: Increase number of instances (= scale out / in)
+	• Auto Scaling Group
+	• Load Balancer
+• High Availability: Run instances for the same application across multi AZ
+	• Auto Scaling Group multi AZ
+	• Load Balancer multi AZ
+
+
+What is load balancing?
+• Load Balances are servers that forward traffic to multiple servers (e.g., EC2 instances) downstream
+
+
+Why use a load balancer?
+• Spread load across multiple downstream instances
+• Expose a single point of access (DNS) to your application
+• Seamlessly handle failures of downstream instances
+• Do regular health checks to your instances
+• Provide SSL termination (HTTPS) for your websites
+• Enforce stickiness with cookies
+• High availability across zones
+• Separate public traffic from private traffic
+
+
+Why use an Elastic Load Balancer?
+• An Elastic Load Balancer is a managed load balancer
+	• AWS guarantees that it will be working
+	• AWS takes care of upgrades, maintenance, high availability
+	• AWS provides only a few configuration knobs
+• It costs less to setup your own load balancer but it will be a lot more effort on your end
+• It is integrated with many AWS offerings / services
+	• EC2, EC2 Auto Scaling Groups, Amazon ECS
+	• AWS Certificate Manager (ACM), CloudWatch
+	• Route 53, AWS WAF, AWS Global Accelerator
+
+
+Health Checks
+• Health Checks are crucial for Load Balancers
+• They enable the load balancer to know if instances it forwards traffic to are available to reply to requests
+• The health check is done on a port and a route (/health is common)
+• If the response is not 200 (OK), then the instance is unhealthy
+
+
+a. Gateway Load Balancer (GWLB)
+-------------------------------------------------------------------------
+Types of load balancer on AWS: 4 kinds of managed Load Balancers
+• Classic Load Balancer (v1 - old generation) – 2009 – CLB
+	• HTTP, HTTPS, TCP, SSL (secure TCP)
+	• Support only one SSL certificate
+	• Must use multiple CLB for multiple hostname with multiple SSL certificates
+• Application Load Balancer (v2 - new generation) – 2016 – ALB
+	• HTTP, HTTPS, WebSocket
+	• Supports multiple listeners with multiple SSL certificates
+	• Uses Server Name Indication (SNI) to make it work
+• Network Load Balancer (v2 - new generation) – 2017 – NLB
+	• TCP, TLS (secure TCP), UDP
+	• Supports multiple listeners with multiple SSL certificates
+	• Uses Server Name Indication (SNI) to make it work
+• Gateway Load Balancer – 2020 – GWLB
+	• Operates at layer 3 (Network layer) – IP Protocol
+• Overall, it is recommended to use the newer generation load balancers as they provide more features
+• Some load balancers can be setup as internal (private) or external (public) ELBs
+
+
+Mục đích chính:
+- Load Balancer được sử dụng để phân phối lưu lượng ứng dụng đến nhiều backend servers, đảm bảo sự cân bằng tải giữa các server.
+- AWS cung cấp hai loại chính:
+	+ Application Load Balancer (ALB): dành cho ứng dụng web HTTP/HTTPS, phân phối lưu lượng dựa trên nội dung (Layer 7).
+	+ Network Load Balancer (NLB): phân phối lưu lượng TCP/UDP với độ trễ cực thấp (Layer 4).
+
+Lớp mạng (OSI Layer):
+- ALB hoạt động ở Layer 7 (Application Layer), phân phối lưu lượng dựa trên nội dung và các quy tắc định tuyến HTTP/HTTPS.
+- NLB hoạt động ở Layer 4 (Transport Layer), phân phối lưu lượng TCP/UDP với tốc độ cao và độ trễ thấp.
+
+Trường hợp sử dụng:
+- ALB: phù hợp cho các ứng dụng web cần xử lý yêu cầu HTTP/HTTPS hoặc phân phối lưu lượng đến các microservices.
+- NLB: thích hợp cho các ứng dụng yêu cầu độ trễ thấp, như các dịch vụ real-time hoặc hệ thống xử lý dữ liệu lớn.
+
+Khả năng mở rộng và cân bằng tải:
+- Cả ALB và NLB đều có khả năng mở rộng tự động, giúp phân phối lưu lượng hiệu quả đến nhiều EC2 instances, containers, hoặc các dịch vụ khác.
+
+Khả năng kiểm tra trạng thái (Health Check):
+- ALB thực hiện kiểm tra trạng thái dựa trên HTTP/HTTPS.
+- NLB kiểm tra trạng thái dựa trên TCP/UDP, giúp đảm bảo các backend instances hoạt động tốt.
+
+Chi phí:
+- Load Balancer có chi phí dựa trên lưu lượng yêu cầu và số lượng kết nối, với NLB thường có chi phí cao hơn khi xử lý lưu lượng lớn với độ trễ thấp.
+
+
+b. Gateway Load Balancer (GWLB)
+-------------------------------------------------------------------------
+Mục đích chính:
+- Gateway Load Balancer được thiết kế để chuyển tiếp và phân phối lưu lượng mạng ở Layer 3 (network layer) và Layer 4 (transport layer).
+- Nó thường được sử dụng để tích hợp các dịch vụ mạng của bên thứ ba như tường lửa, IDS/IPS (hệ thống phát hiện và ngăn chặn xâm nhập), hoặc các công cụ giám sát lưu lượng.
+- Mục đích chính là tạo điều kiện cho việc kiểm tra, bảo mật, và giám sát lưu lượng mạng mà không cần thay đổi nhiều cấu trúc hạ tầng hiện tại.
+
+Lớp mạng (OSI Layer):
+- Gateway Load Balancer hoạt động ở Layer 3 và Layer 4, giúp định tuyến và chuyển tiếp gói dữ liệu IP, TCP, UDP.
+
+Trường hợp sử dụng:
+- Dùng khi cần phân phối lưu lượng qua các thiết bị bảo mật như tường lửa ảo hoặc các thiết bị mạng khác.
+Sử dụng cho việc kiểm tra hoặc xử lý lưu lượng mạng trước khi nó đến backend servers.
+
+Khả năng mở rộng và cân bằng tải:
+- GWLB có khả năng mở rộng tự động và cân bằng lưu lượng đến nhiều thiết bị mạng trung gian mà không làm giảm hiệu suất.
+
+Khả năng kiểm tra trạng thái (Health Check):
+- GWLB thực hiện kiểm tra tình trạng các thiết bị bảo mật mạng, đảm bảo rằng chỉ có những thiết bị hoạt động tốt mới nhận lưu lượng.
+
+Chi phí:
+- GWLB có thể có chi phí cao hơn do phải xử lý lưu lượng mạng và tích hợp các giải pháp bảo mật.
+
+
+
+c. Sticky Sessions (Session Affinity) 
+-------------------------------------------------------------------------
+Một tính năng của các loại Load Balancer (CLB, ALB, NLB) trong AWS giúp giữ kết nối của một client với cùng một instance phía sau Load Balancer trong suốt thời gian phiên làm việc.
+
+Giải thích chi tiết:
+- Sticky Sessions cho phép gắn phiên (session affinity), tức là khi một client (người dùng) kết nối tới một instance đằng sau Load Balancer lần đầu tiên, Load Balancer sẽ đảm bảo rằng tất cả các yêu cầu tiếp theo từ client đó sẽ được gửi đến cùng một instance.
+- Áp dụng cho các loại Load Balancer: Sticky Sessions có thể được áp dụng cho cả Classic Load Balancer (CLB), Application Load Balancer (ALB), và Network Load Balancer (NLB).
+- Cơ chế hoạt động: Với CLB và ALB, Sticky Sessions hoạt động bằng cách sử dụng cookie để theo dõi client. Cookie này có thời gian hết hạn, và người dùng có thể kiểm soát thời gian hết hạn đó
+- Lợi ích: Sticky Sessions rất hữu ích trong các tình huống khi người dùng cần giữ phiên làm việc liên tục mà không mất dữ liệu (ví dụ: khi người dùng đang tương tác với giỏ hàng trong một trang thương mại điện tử, chúng ta cần đảm bảo rằng tất cả yêu cầu của họ đến cùng một instance để không mất dữ liệu trong giỏ hàng).
+- Nhược điểm: Tuy nhiên, việc kích hoạt Sticky Sessions có thể gây mất cân bằng tải giữa các instance. Điều này có nghĩa là một số instance có thể nhận nhiều yêu cầu hơn những instance khác, làm ảnh hưởng đến hiệu suất nếu không được quản lý cẩn thận.
+
+
+d. Cross-Zone Load Balancing
+-------------------------------------------------------------------------
+- With Cross Zone Load Balancing: each load balancer instance distributes evenly across all registered instances in all AZ
+- Without Cross Zone Load Balancing: Requests are distributed in the instances of the node of the Elastic Load Balancer
+
+• Application Load Balancer
+	• Enabled by default (can be disabled at the Target Group level)
+	• No charges for inter AZ data
+• Network Load Balancer & Gateway Load Balancer
+	• Disabled by default
+	• You pay charges ($) for inter AZ data if enabled
+• Classic Load Balancer
+	• Disabled by default
+	• No charges for inter AZ data if enabled
+
+
+e. Load Balancer - SSL Certificates
+-------------------------------------------------------------------------
+• The load balancer uses an X.509 certificate (SSL/TLS server certificate)
+• You can manage certificates using ACM (AWS Certificate Manager)
+• You can create upload your own certificates alternatively
+• HTTPS listener:
+	• You must specify a default certificate
+	• You can add an optional list of certs to support multiple domains
+	• Clients can use SNI (Server Name Indication) to specify the hostname they reach
+	• Ability to specify a security policy to support older versions of SSL / TLS (legacy clients)
+
+
+SSL – Server Name Indication (SNI)
+• SNI solves the problem of loading multiple SSL certificates onto one web server (to serve multiple websites)
+• It’s a “newer” protocol, and requires the client to indicate the hostname of the target server in the initial SSL handshake
+• The server will then find the correct certificate, or return the default one
+
+
+f. Connection Draining 
+-------------------------------------------------------------------------
+Tính năng Connection Draining (tên gọi cho Classic Load Balancer - CLB) và Deregistration Delay (tên gọi cho Application Load Balancer - ALB và Network Load Balancer - NLB). 
+Tính năng này giúp quản lý các yêu cầu đang xử lý (in-flight requests) khi một instance EC2 đang được gỡ đăng ký (de-registering) hoặc trở nên không khỏe mạnh (unhealthy).
+
+Connection Draining (CLB) và Deregistration Delay (ALB/NLB) giúp EC2 instance xử lý nốt các yêu cầu đang được gửi đến (in-flight requests) trước khi nó chính thức bị gỡ đăng ký hoặc khi instance gặp vấn đề sức khỏe.
+- Khi một EC2 instance đang bị gỡ đăng ký (de-registering) hoặc bị đánh dấu là không khỏe mạnh, tính năng này sẽ ngừng gửi yêu cầu mới đến instance đó, nhưng các yêu cầu hiện tại vẫn được hoàn thành trong khoảng thời gian cho phép.
+- Thời gian mặc định là 300 giây (5 phút), và người dùng có thể cấu hình khoảng thời gian từ 1 giây đến 3600 giây (1 giờ).
+- Nếu các yêu cầu của ứng dụng thường là ngắn (ví dụ, chỉ mất vài giây), bạn có thể giảm thời gian này để instance nhanh chóng được gỡ đăng ký.
+- Tính năng này có thể được tắt bằng cách đặt giá trị là 0, đồng nghĩa với việc instance sẽ dừng ngay lập tức và không có yêu cầu nào được hoàn thành.
+
+Use Case:
+- Khi một instance cần được bảo trì hoặc tắt: Connection Draining/Deregistration Delay cho phép các yêu cầu hiện tại được xử lý hoàn chỉnh, tránh bị gián đoạn đột ngột cho người dùng.
+- Nếu thời gian xử lý yêu cầu ngắn: Có thể cấu hình thời gian thoát ngắn hơn để tăng tốc quá trình gỡ instance.
+
+
+
+IV. Amazon EC2 - Auto Scaling Group
+-------------------------------------------------------------------------------------------------------------------
+Auto Scaling Group concept
+• In real-life, the load on your websites and application can change
+• In the cloud, you can create and get rid of servers very quickly
+• The goal of an Auto Scaling Group (ASG) is to:
+	• Scale out (add EC2 instances) to match an increased load
+	• Scale in (remove EC2 instances) to match a decreased load
+	• Ensure we have a minimum and a maximum number of EC2 instances running
+	• Automatically register new instances to a load balancer
+	• Re-create an EC2 instance in case a previous one is terminated (ex: if unhealthy)
+• ASG are free (you only pay for the underlying EC2 instances)
+
+
+Auto Scaling Group Attributes
+• A Launch Template 
+	• AMI + Instance Type
+	• EC2 User Data
+	• EBS Volumes
+	• Security Groups
+	• SSH Key Pair
+	• IAM Roles for your EC2 Instances
+	• Network + Subnets Information
+	• Load Balancer Information
+• Min Size / Max Size / Initial Capacity
+• Scaling Policies
+
+
+Auto Scaling - CloudWatch Alarms & Scaling
+• It is possible to scale an ASG based on CloudWatch alarms
+• An alarm monitors a metric (such as Average CPU, or a custom metric)
+• Metrics such as Average CPU are computed for the overall ASG instances
+• Based on the alarm:
+• We can create scale-out policies (increase the number of instances)
+• We can create scale-in policies (decrease the number of instances)
+
+Auto Scaling Groups – Scaling Policies
+• Dynamic Scaling
+	• Target Tracking Scaling
+		• Simple to set-up
+		• Example: I want the average ASG CPU to stay at around 40%
+	• Simple / Step Scaling
+		• When a CloudWatch alarm is triggered (example CPU > 70%), then add 2 units
+		• When a CloudWatch alarm is triggered (example CPU < 30%), then remove 1
+• Scheduled Scaling
+	• Anticipate a scaling based on known usage patterns
+	• Example: increase the min capacity to 10 at 5 pm on Fridays
+• Predictive scaling: continuously forecast load and schedule scaling ahead
+• Good metrics to scale on
+	• CPU Utilization: Average CPU utilization across your instances
+	• RequestCountPerTarget: to make sure the number of requests per EC2 instances is stable
+	• Average Network In / Out (if you’re application is network bound)
+	• Any custom metric (that you push using CloudWatch)
+	
+Auto Scaling Groups -  Scaling Cooldowns
+• After a scaling activity happens, you are in the cooldown period (default 300 seconds)
+• During the cooldown period, the ASG will not launch or terminate additional instances (to allow for metrics to stabilize)
+• Advice: Use a ready-to-use AMI to reduce configuration time in order to be serving request fasters and reduce the cooldown period

@@ -1,0 +1,69 @@
+Simple Notification Service(SNS)
+SNS cho phép bạn gửi emails và các tin nhắn điện thoại từ các ứng dụng của bạn
+✓ Gửi emails và các tin nhắn điện thoại
+✓ Publish thông điệp (messages) đến một chủ đề (topic)
+✓ Người đăng ký (subscribers) nhận thông điệp thông báo (messages)
+
+
+Sử dụng SNS trong thực tế
+Gửi một Email, khi tình trạng sử dụng CPU (CPU utilization) của một máy chủ EC2 instance lên đến 80%
+SNS làm việc với CloudWatch khi mà một báo động đạt đến một ngưỡng nhất định, nó sẽ gửi một email thông báo đến người quản trị hệ thống administratior
+
+
+
+
+Sử dụng SES trong thực tế
+Gửi một Email Marketing và theo dõi tỉ lệ mở hoặc click vào email
+SES cho phép bạn gửi hàng loạt HTML Emails được định dạng phong phú, và có được những thông tin chi tiết có giá trị về hiệu quả của chiến dịch của bạn.
+
+
+CloudWatch
+CloudWatch là một bộ sưu tập các ứng dụng, nó giúp bạn giám sát và theo dõi các tài nguyên trong AWS cloud
+✓ Thu thập các số liệu(metrics), logs, và các sự kiện (events)
+✓ Phát hiện sự bất thường trong môi trường hệ thống của bạn
+Thiết đặt các báo động
+✓ Hiển thị nhật ký (logs)
+CloudWatch
+
+
+
+Các thành phần của CloudWatch
+Thiết đặt các cảnh báo
+1
+CloudWatch Alarms
+2
+Giám sát logs ứng dụng
+CloudWatch Logs
+Hiện thị biểu đồ thu thập thông tin từ các số liệu, về tình trạng hoạt động cũng như hiệu suất của cơ sở hạ tầng AWS cloud, theo thời gian thực. trong bảng thông tin CloudWatch
+3
+CloudWatch Metrics
+4
+Kích hoạt một sự kiện dựa trên một điều kiện
+CloudWatch Events
+
+
+Sử dụng CloudWatch trong thực tế
+A) Trường hợp 1
+Cung cấp sự theo dõi các hoạt động của EC2 Instances theo thời gian thực
+CloudWatch Alarrms có thể thông báo đến bạn nếu một EC2 Instance bị dừng hoạt động (Stopped state) hoặc tình trạng hoạt động của máy chủ ảo đang bị quá tải
+
+
+
+Sử dụng CloudWatch trong thực tế
+B) Trường hợp 2
+Bạn sẽ nhận một email thông báo, bất cứ khi nào mà tài khoản root của bạn có sự hoạt động
+CloudWatch event rule thông báo gửi email đến bạn bất cứ khi nào tài khoản root user API được phát hiện ra là đang có sự hoạt động trong tài khoản
+
+
+
+CloudTrail
+Cloudtrail theo dõi các hoạt động của người dùng và API calls trong tài khoản AWS của bạn
+✓ Thu thập logs và lưu giữ các hoạt động của các tài khoản người dùng
+✓ Theo dõi các hoạt động của tài khoản người dùng thông qua console, SDKs, và
+CLI
+✓ Nhận diện tài khoản nào đã thực hiện các việc thay đổi
+✓ Phát hiện ra các hoạt động bất thường trong tài khoản của bạn
+
+Sử dụng CloudTrail trong thực tế
+Theo dõi một thời gian, một sự kiện cụ thể đã xảy ra trong tài khoản của bạn
+Bạn có thể theo dõi thời gian một sự kiện cụ thể đã xảy ra trong tài khoản của bạn. Vì vậy, điều này cho phép bạn xử lý sự cố dựa trên sự kiện trong 90 ngày qua bằng cách sử dụng nhật ký lịch sử sự kiện của CloudTrail (CloudTrail event history log). Và bạn có thể thu hẹp thời gian cụ thể một sự kiện đã xảy ra trên cơ sở trong mỗi khu vực (Region).

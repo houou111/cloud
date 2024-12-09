@@ -1,0 +1,1611 @@
+0. Một số kiến trúc phổ biến
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+1. Kiến trúc Microservices
+------------------------------------------------------------------------------
+Đặc điểm: Sử dụng kiến trúc microservices để chia nhỏ ứng dụng thành các dịch vụ nhỏ, độc lập.
+Dịch vụ AWS phổ biến: 
+- Amazon ECS/EKS (Chạy container), 
+- AWS Lambda (Serverless), 
+- Amazon API Gateway (Quản lý API), 
+- Amazon SQS (Hàng đợi tin nhắn).
+
+Lợi ích: Tăng khả năng mở rộng và cho phép các nhóm phát triển hoạt động độc lập trên các dịch vụ khác nhau.
+
+2. Kiến trúc Serverless
+------------------------------------------------------------------------------
+Đặc điểm: Loại bỏ hoàn toàn việc quản lý server, tự động mở rộng và trả phí dựa trên mức sử dụng thực tế.
+Dịch vụ AWS phổ biến: 
+- AWS Lambda
+- Amazon API Gateway
+- Amazon DynamoDB
+- Amazon S3
+- AWS Step Functions.
+Lợi ích: Giảm chi phí vận hành, tối ưu hóa quy trình phát triển và triển khai.
+
+
+3. Kiến trúc Data Lake và Big Data
+------------------------------------------------------------------------------
+Đặc điểm: Tạo ra kho dữ liệu lớn để lưu trữ, phân tích và xử lý dữ liệu lớn.
+Dịch vụ AWS phổ biến: 
+- Amazon S3 (Kho lưu trữ dữ liệu), 
+- AWS Glue (ETL), 
+- Amazon Redshift (Kho dữ liệu), 
+- Amazon Athena (Truy vấn dữ liệu), 
+- Amazon EMR (Xử lý dữ liệu lớn).
+Lợi ích: Cho phép phân tích dữ liệu nhanh chóng và hiệu quả từ nhiều nguồn khác nhau.
+
+
+4. Kiến trúc Web Application Hosting
+------------------------------------------------------------------------------
+Đặc điểm: Triển khai và quản lý các ứng dụng web với tính năng mở rộng, dự phòng cao.
+Dịch vụ AWS phổ biến: 
+- AWS Elastic Load Balancing (Phân tải), 
+- Amazon EC2 + Auto Scaling/ Lambda
+- Amazon RDS (Cơ sở dữ liệu), 
+- Amazon CloudFront (CDN), 
+- Amazon Route 53 (DNS).
+- S3 lưu trữ dữ liệu 
+Lợi ích: Đảm bảo hiệu suất cao, bảo mật và khả năng mở rộng khi lưu trữ ứng dụng web.
+
+
+5. Kiến trúc Disaster Recovery (Phục hồi sau thảm hoạ)
+------------------------------------------------------------------------------
+Đặc điểm: Tạo khả năng phục hồi và khôi phục dữ liệu nhanh chóng trong các tình huống khẩn cấp.
+Dịch vụ AWS phổ biến: 
+- Amazon S3 và S3 Glacier (Sao lưu dữ liệu), 
+- AWS Backup, 
+- Amazon RDS (Sao lưu dữ liệu), 
+- Amazon Route 53 (Chuyển đổi DNS).
+Lợi ích: Đảm bảo dữ liệu không bị mất mát và có thể phục hồi nhanh chóng sau các sự cố.
+
+
+6. Kiến trúc IoT
+------------------------------------------------------------------------------
+Đặc điểm: Quản lý và xử lý dữ liệu từ các thiết bị IoT trong thời gian thực.
+Dịch vụ AWS phổ biến: 
+- AWS IoT Core, 
+- Amazon Kinesis (Xử lý dữ liệu thời gian thực), 
+- AWS Lambda, 
+- Amazon S3.
+Lợi ích: Tối ưu hóa quá trình giám sát và phân tích dữ liệu từ các thiết bị IoT.
+
+
+7. Kiến trúc Machine Learning và AI
+------------------------------------------------------------------------------
+Đặc điểm: Triển khai các mô hình machine learning và AI để phân tích, dự đoán dữ liệu.
+Dịch vụ AWS phổ biến: 
+- Amazon SageMaker (Xây dựng và triển khai mô hình), 
+- AWS Lambda (Serverless),
+- Amazon S3 (Lưu trữ dữ liệu).
+Lợi ích: Cho phép xây dựng, huấn luyện và triển khai các mô hình ML với chi phí và thời gian tối ưu.
+Mỗi kiến trúc sẽ phù hợp với các nhu cầu khác nhau tùy vào yêu cầu và quy mô của dự án.
+
+
+8. Kết nối với database RDS
+------------------------------------------------------------------------------
+Dùng kết hợp RDS Proxy và SQS là một giải pháp khả thi và có thể đem lại hiệu quả cao, đặc biệt trong môi trường có lưu lượng biến động hoặc có thể gặp vấn đề với các kết nối đồng thời đến cơ sở dữ liệu.
+Cách kết hợp RDS Proxy và SQS:
+- RDS Proxy giúp quản lý kết nối cơ sở dữ liệu hiệu quả hơn bằng cách duy trì các kết nối tồn tại và tái sử dụng chúng, thay vì phải mở một kết nối mới cho mỗi yêu cầu từ Lambda. Điều này giúp giảm tải cho cơ sở dữ liệu, tránh tình trạng lỗi timeout khi quá nhiều Lambda function cố gắng kết nối cùng một lúc.
+- SQS có thể giúp kiểm soát tốc độ gửi yêu cầu từ Lambda đến cơ sở dữ liệu. Thay vì Lambda function gửi yêu cầu trực tiếp vào cơ sở dữ liệu, yêu cầu sẽ được đẩy vào hàng đợi (queue) SQS. Một hoặc nhiều Lambda functions sau đó sẽ xử lý các tin nhắn từ SQS theo từng đợt (batch), giúp giảm tải lên cơ sở dữ liệu và tránh quá tải kết nối vào một thời điểm.
+
+
+
+I. Admin Service 
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+1. Phân quyền 
+------------------------------------------------------------------------------
+Phân cấp bậc tài khoản trong AWS
+Organization (Root)
+  ├── Organizational Units (OUs)
+  │       ├── Member Account 1
+  │       ├── Member Account 2
+  │       └── Member Account 3
+  │
+  └── Member Account 4
+           ├── IAM Groups (Admins, Developers)
+           │       ├── IAM User 1
+           │       └── IAM User 2
+           │
+           ├── IAM Role (Cross-account, EC2 Role)
+           └── Resources (EC2, S3, RDS)
+
+1 tổ chức có nhiều account
+1 account có nhiều user,group,role, resource
+
+
+IAM(Identity and Access Management)
+- Dịch vụ chính cho phép quản lý tk trên aws và phân quyền
+- Users: 
+	- Đại diện cho người dùng với thông tin đăng nhập cụ thể.
+	- User: A, B C
+- Groups: 
+	- Tập hợp các Users có cùng quyền.
+	- Ví dụ: group dev, prod ...
+- Policies: Định nghĩa các quyền truy cập cụ thể bằng các JSON document
+	- Ttập hợp các quy tắc xác định quyền cho phép hoặc từ chối hành động trên các tài nguyên AWS. 
+	- Chính sách có thể được áp dụng cho người dùng (IAM users), nhóm (groups), hoặc vai trò (roles) để kiểm soát những gì họ có thể làm trong tài khoản AWS.
+- Roles: Các quyền tạm thời cho phép các thực thể hoặc dịch vụ giả danh để truy cập tài nguyên mà không cần thông tin đăng nhập.
+	- Thực thể IAM được tạo ra để gán các quyền thông qua policies. 
+	- Role tương tự như người dùng IAM, nhưng thay vì gán cho một cá nhân hoặc nhóm người dùng, role được gán cho các thực thể AWS khác 
+	- Ví dụ:(như EC2 instance, Lambda function) hoặc cho phép người dùng/ứng dụng bên ngoài (có quyền tạm thời) sử dụng.
+- Security: MFA + Password Policy
+- Audit: IAM Credential Reports & IAM Access Advisor
+
+
+AWS IAM Identity Center:
+- Dịch vụ giúp quản lý truy cập và danh tính người dùng, tạo SSO tiện lợi cho người dùng truy cập vào nhiều tài khoản AWS và ứng dụng.
+- Multi-Account Permissions
+	- Manage access across AWS accounts in your AWS Organization
+	- Permission Sets – a collection of one or more IAM Policies assigned to users and groups to define AWS access
+- Application Assignments
+	- SSO access to many SAML 2.0 business applications (Salesforce, Box, Microsoft 365, …)
+	- Provide required URLs, certificates, and metadata
+- Attribute-Based Access Control (ABAC)
+	- Fine-grained permissions based on users’ attributes stored in IAM Identity Center Identity Store
+	- Example: cost center, title, locale, …
+	- Use case: Define permissions once, then modify AWS access by changing the attributes
+
+
+AWS Organizations:
+- Dịch vụ nền tảng cho việc quản lý nhiều tài khoản AWS
+- Khi khởi tạo sẽ cần một tài khoản đóng 2 vài trò chính:
+	- Management account: tài khoản quản trị, có quyền trên tất cả các tk khác
+	- Payer account: tài khoản thanh toán
+- Cho phép bạn tổ chức các tài khoản vào các nhóm và áp dụng chính sách quản trị cho từng nhóm thông qua Service Control Policies (SCPs)
+- Tính năng chính của AWS Organizations:
+	- Quản lý đa tài khoản: Tạo, quản lý và tập hợp các tài khoản AWS dưới một tổ chức duy nhất.
+	- Service Control Policies (SCPs): Chính sách kiểm soát dịch vụ cho phép bạn áp dụng các quy tắc và giới hạn quyền truy cập đối với các dịch vụ AWS trên nhiều tài khoản.
+	- Tạo tài khoản AWS: Bạn có thể tự tạo tài khoản mới trong tổ chức và quản lý quyền truy cập giữa các tài khoản.
+	- Consolidated Billing: Tập hợp hoá đơn của tất cả các tài khoản trong một tổ chức, giúp dễ dàng quản lý chi phí.
+- Use case:
+	- Create a service control policy (SCP) to prevent tag modi¬cation except by authorized principals
+
+
+AWS Control Tower
+- Dịch vụ cao cấp hơn, được xây dựng dựa trên AWS Organizations để giúp người dùng dễ dàng thiết lập và quản lý môi trường AWS đa tài khoản với các chuẩn mực về bảo mật và quản trị. 
+- Control Tower tự động hoá nhiều quy trình thiết lập và quản lý,  phù hợp với những doanh nghiệp muốn một môi trường được quản lý và bảo vệ theo các best practices ngay từ đầu 
+- Tính năng chính của AWS Control Tower:
+	- Landing Zone: Tự động tạo và quản lý một môi trường AWS đa tài khoản với cấu hình sẵn cho bảo mật và quản trị.
+	- Guardrails: Các chính sách bảo vệ được thiết lập sẵn (preventive và detective guardrails) giúp kiểm soát việc tuân thủ các quy định bảo mật và quản trị.
+	- Account Factory: Tự động hóa việc tạo tài khoản AWS mới theo các cấu hình bảo mật và quản trị đã thiết lập sẵn.
+	- Tự động hóa và tích hợp: Control Tower tích hợp các dịch vụ như AWS Organizations, AWS SSO, và CloudTrail để cung cấp một giải pháp quản lý tài khoản toàn diện.
+	- Quản lý tập trung: Control Tower cung cấp giao diện quản lý đơn giản để theo dõi trạng thái tuân thủ của tất cả các tài khoản.
+
+
+AWS Resource Access Manager (AWS RAM) 
+- Dịch vụ cho phép chia sẻ tài nguyên AWS một cách an toàn giữa các tài khoản và đơn vị tổ chức trong AWS Organizations. 
+- Dịch vụ này giúp đơn giản hóa việc quản lý tài nguyên trong môi trường đa tài khoản, giúp giảm bớt công việc quản lý và tăng hiệu quả khi sử dụng tài nguyên.
+- Các tính năng chính của AWS RAM:
+	- Chia sẻ tài nguyên giữa các tài khoản
+	- Quản lý tài nguyên tập trung:
+	- Quyền truy cập và bảo mật
+- Use case:
+	- Chia sẻ VPC:
+	- Prefix Lists:
+	- Tài nguyên tập trung:
+
+
+AWS Directory Services
+- AWS Managed Microsoft AD
+	- Create your own AD in AWS, manage users locally, supports MFA
+	- Establish "trust" connections with your onpremises AD
+- AD Connector
+	- Directory Gateway (proxy) to redirect to onpremises AD, supports MFA
+	- Users are managed on the on-premises AD
+- Simple AD
+	- AD-compatible managed directory on AWS
+	- Cannot be joined with on-premises AD
+- Use case:
+	- Sử dụng Active Directory cho các ứng dụng cần xác thực, chẳng hạn như Microsoft SharePoint, AWS WorkSpaces, hoặc Amazon RDS for SQL Server.
+	- Tích hợp Active Directory tại on-premises với môi trường AWS.
+	- KHÔNG sử dụng được kèm vs AWS Organizations
+	
+
+AWS Resource Groups Tag Editor 
+- Công cụ trong AWS Management Console cho phép người dùng gắn thẻ (tag) và quản lý các tài nguyên AWS của họ một cách dễ dàng. 
+- Các tính năng chính:
+	- Gắn Thẻ Tài Nguyên: 
+	- Tìm và Lọc Tài Nguyên:
+	- Quản Lý và Theo Dõi Chi Phí: kết hợp với AWS Cost Explorer.
+	- Tự Động Hóa và Tuân Thủ Chính Sách: kết hợp với  AWS Lambda, AWS Config, và AWS Identity and Access Management (IAM)
+	
+
+*** Các dịch vụ sử dụng để tag resource:
+- AWS Resource Groups Tag Editor 
+- AWS CloudFormation
+- AWS CloudTrail + Amazon EventBridge + AWS Lambda 
+
+
+2. Quản lý chi phí
+------------------------------------------------------------------------------
+AWS Cost Explorer
+- Tập trung vào phân tích và hình dung chi phí, giúp tối ưu hóa chi tiêu.
+- Visualize, understand, and manage your AWS costs and usage over time
+- Create custom reports that analyze cost and usage data.
+- Analyze your data at a high level: total costs and usage across all accounts
+- Or Monthly, hourly, resource level granularity
+- Choose an optimal Savings Plan (to lower prices on your bill)
+- Forecast usage up to 12 months based on previous usage
+- Use Cases:
+	- Visualizing past costs and usage patterns.
+	- Identifying cost allocation trends and usage spikes.
+	- Making decisions based on historical data to optimize your AWS spend.
+
+
+
+AWS budget
+- Mục đích chính: Giúp theo dõi và thiết lập cảnh báo chi phí hoặc sử dụng dịch vụ theo ngân sách.
+- Chức năng:
+	- Cho phép đặt ngân sách chi phí hoặc mức sử dụng dựa trên dự đoán hoặc ngân sách cố định.
+	- Tạo cảnh báo qua email hoặc SNS khi chi phí/ mức sử dụng đạt đến các ngưỡng đặt trước (ví dụ: 50%, 80%, 100% của ngân sách).
+	- Có thể áp dụng ngân sách theo từng dịch vụ, tài khoản, khu vực, hoặc theo các tiêu chí khác như thẻ.
+- Use cases:
+	- Monitoring and controlling spending by setting limits.
+	- Receiving notifications when spending exceeds set limits.
+	- Proactively managing and preventing overspending.
+
+
+AWS Cost Anomaly Detection:
+- Công cụ trong AWS Billing and Cost Management được thiết kế để phát hiện và cảnh báo về các chi phí bất thường.
+- Cách hoạt động:
+	- Tạo Monitor: Giám sát một nhóm tài nguyên hoặc dịch vụ AWS cụ thể để theo dõi chi phí.
+	- Tạo Anomaly Detection Subscriptions: Gửi thông báo cho các bên liên quan qua Amazon SNS khi phát hiện các mẫu chi phí bất thường.
+	- Phân tích sự bất thường: Giúp bạn hiểu nguyên nhân chi phí gia tăng bất thường, từ đó hành động nhanh chóng để kiểm soát chi phí.
+
+
+II. System
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+1. Server (EC2)
+------------------------------------------------------------------------------
+Server trong AWS được chia làm 2 loại:
+- Amazon EC2 Instance:
+	- EC2 Instance là một phiên bản ảo của máy chủ trên AWS. 
+	- Đây là một đơn vị tài nguyên tính toán độc lập chạy trên cơ sở hạ tầng ảo của AWS, nơi mà bạn có thể chạy ứng dụng, cài đặt phần mềm, và thực hiện các tác vụ tính toán.
+	- Sử dụng vCPU ( tương đương thread của máy chủ vật lý)
+	- Không liên quan tới license của các phần mềm đang chạy
+- Amazon EC2 Dedicated Host:
+	- Máy chủ vật lý thực sự, dành riêng cho doanh nghiệp
+	- Trên các host có thể chạy các EC2 instances.
+	- Có thể sử dụng để chạy các phền mềm có license tính theo core hoặc socket
+
+
+EC2(Elastic Compute Cloud): server ảo hóa của AWS 
+- Bao gồm:
+	- Tài nguyên xử lý; CPU, Memory
+	- Tài nguyên lưu trữ: disk (thường sử dụng EBS) chứa dữ liệu ( application, DB ...)
+- AMI (Amazon Machine Image) are a customization of an EC2 instance, 
+	- Được sử dụng để tạo ra các server EC2 mới một cách nhanh chóng
+	- Cách tạo ta AMI:
+		- Từ một Instance Đang Chạy ()
+		- Từ các bản snapshot( backup) của máy chủ EC2
+		- Sử dụng Amazon Data Lifecycle Manager (DLM)
+		- Từ các bản snapshot của disk (EBS), restore và gắn snapshot vào EC2 để chạy
+		- Sử dụng AWS Marketplace hoặc Chọn AMI Sẵn có
+	- Note:
+		- Permissions: AMI có thể được chia sẻ giữa các tài khoản AWS, hoặc có thể giới hạn chỉ cho phép truy cập bởi chủ sở hữu.
+		- Region: AMI chỉ được tạo và sử dụng trong một vùng (region) cụ thể. Nếu muôn sử dụng ở Region khác thì cần copy AMI giữa các vùng.
+- Data Lifecycle Manager
+	- Dịch vụ tự động hóa quá trình quản lý vòng đời của snapshot EBS và Amazon Machine Images (AMIs)
+	- Quản lý Snapshot tự động:
+	- Chính sách lưu trữ
+	- Use case:
+		- Sao lưu tự động: Bạn có thể sử dụng DLM để tạo snapshot tự động cho các ổ EBS đang được sử dụng bởi các instance EC2 để bảo vệ dữ liệu và phục hồi dễ dàng trong trường hợp gặp sự cố.
+		- Tuân thủ và báo cáo: DLM giúp đảm bảo rằng các snapshot cũ sẽ bị xóa tự động theo các chính sách tuân thủ mà bạn đặt ra, đồng thời giúp dễ dàng báo cáo về việc sao lưu dữ liệu.
+		- Quản lý chi phí lưu trữ: Bằng cách tự động xóa các snapshot không cần thiết, DLM giúp giảm chi phí lưu trữ dài hạn của bạn.
+	
+	
+EC2 Instances Purchasing Options
+
+- Reserved Instances – long workloads (1 & 3 years)
+	- Cam kết sử dụng một instance cụ thể trong một availability zone trong 1 hoặc 3 năm.
+- Convertible Reserved Instances – long workloads with flexible instances
+- Phân loại instance theo cấu hình:
+	- General Purpose: M5, T3 phù hợp cho hầu hết các ứng dụng.
+	- Compute Optimized: C5 cho các ứng dụng yêu cầu CPU mạnh.
+	- Memory Optimized: R5, X1e cho các ứng dụng yêu cầu bộ nhớ lớn.
+	- Storage Optimized: I3, D2 cho các ứng dụng lưu trữ dữ liệu lớn.
+	- GPU: P3, G4dn cho các ứng dụng AI, đồ họa.
+	- HPC: HPC6id cho các tính toán khoa học và HPC.
+	- Burstable Performance Instances (Hiệu suất burstable)
+- Phân loại instance theo nhu câu:
+	- On-Demand Instances 
+		- Cung cấp máy chủ theo yêu cầu, trả theo thời gian sử dụng
+		– short workload, predictable pricing, pay by second -> trả theo thời gian sử dụng (khá đắt)
+	- Reserved Instances: 
+		- Đặt trước instance từ 1-3 năm để giảm 30-70% chi phí
+		- Capacity Reservations – reserve capacity in a specific AZ for any duration
+	- Spot Instances 
+		- Loại Instance rẻ nhất nhưng có thể bị terminate bất cứ lúc nào
+		– Instance phù hợp với workload tạm thời, chỉ phù hợp cho application
+	- Savings Plans (1 & 3 years) –commitment to an amount of usage, long workload 	-> rẻ, phù hợp khi có kế hoạch dài hạn
+		- Compute Savings Plan:
+			- Linh hoạt nhất trong tất cả các loại Savings Plan.
+			- Áp dụng cho tất cả các loại dịch vụ tính toán AWS, bao gồm EC2, Lambda và Fargate.
+			- Bạn có thể thay đổi giữa các loại instance, khu vực, và thậm chí hệ điều hành mà không làm mất đi phần chiết khấu đã cam kết.
+			- Lợi ích: Tiết kiệm chi phí cao nhất và linh hoạt nhất trong việc thay đổi cấu hình dịch vụ.
+			- Có thể chia sẻ giữa các account trong cùng một tổ chức account.
+		- EC2 Instance Savings Plan:
+			- Được thiết kế đặc biệt cho các Amazon EC2 instances.
+			- Cam kết sử dụng một loại instance cụ thể (ví dụ: c5.large, t3.medium) trong một khu vực nhất định trong 1 hoặc 3 năm.
+			- Linh hoạt: Cho phép thay đổi kích thước hoặc loại instance trong cùng một family và khu vực
+			- Hạn chế: Phải cam kết sử dụng một loại instance cụ thể, không thể thay đổi giữa các loại EC2 instance families (ví dụ, từ t3 sang m5).
+		- EC2 Instance Savings Plan (Convertible):
+			- Một loại của EC2 Instance Savings Plan nhưng với khả năng chuyển đổi giữa các loại instance families trong cùng một khu vực.
+			- Có thể chuyển đổi giữa các loại instance khác nhau, nhưng vẫn phải cam kết với một khu vực và cấu hình tương tự 
+			- Linh hoạt hơn so với loại EC2 Instance Savings Plan cố định, nhưng vẫn hạn chế hơn so với Compute Savings Plan.
+- Optional:
+	- Nếu EC2 quá bé thì có thể copy code qua lambda function
+- Monitor:
+	- Monitor sâu: Deploy the Amazon CloudWatch agent on the EC2 
+	- Monitor đơn gian: Use Amazon CloudWatch built-in EC2 memory metrics to track the application performance for future capacity planning
+	
+	
+ASG (Auto Scaling Group):
+- Scale out (add EC2 instances) to match an increased load
+- Scale in (remove EC2 instances) to match a decreased load
+- Ensure we have a minimum and a maximum number of EC2 instances running
+- Automatically register new instances to a load balancer
+- Re-create an EC2 instance in case a previous one is terminated (ex: if unhealthy)
+- Optional:
+	-  EC2 Auto Scaling lifecycle hooks cho phép thực hiện các hành động tùy chỉnh trong quá trình khởi chạy và hủy bỏ của các phiên bản.
+	-  Cấu hình ứng dụng sử dụng Multi-AZ EC2 Auto Scaling and create an Application Load Balancer
+- Rule:
+	- Simple Scaling Policy (Chính sách mở rộng đơn giản):
+	- Target Tracking Scaling Policy (Chính sách theo dõi mục tiêu): -> Nên chọn
+	- Scheduled Scaling Policy (Chính sách mở rộng theo lịch trình):
+	- Step Scaling Policy (Chính sách mở rộng từng bước):
+	- Predictive Scaling (Chính sách mở rộng dự đoán): ( xài AI)
+- Use case:
+	- Sử dụng với Target Tracking Scaling Policy (Chính sách theo dõi mục tiêu)
+	- Kết hợp Application Load Balancer
+	- Kết hợp với SQS: 
+		- Auto Scaling group to scale based on the depth of the SQS queue.
+		- Auto Scaling group to scale based on the backlog per instance -> chuẩn hơn, ưu tiên chọn
+	
+	
+EC2 Placement Strategies
+- Chiến lược cho việc khởi động các instance EC2
+- Bao gồm 3 chiến lược chính:
+	- Cluster: Tất cả các instance trong cùng một placement group được triển khai trên cùng một Availability Zone và trên cùng một hoặc một số ít máy chủ vật lý.
+		- Ưu điểm: Tối ưu hóa băng thông mạng giữa các instance do chúng nằm gần nhau Giảm độ trễ khi giao tiếp giữa các instance.
+		- Nhược điểm: Nếu máy chủ vật lý gặp sự cố, tất cả các instance trong nhóm cluster sẽ bị ảnh hưởng, gây ra thời gian ngừng hoạt động cho toàn bộ ứng dụng.
+		- Sử dụng: Phù hợp cho các ứng dụng cần băng thông mạng cao và không cần tính sẵn có cao.
+	- Spread: Các instance được triển khai trên các máy chủ vật lý khác nhau, giúp phân tán rủi ro. Mỗi instance sẽ được triển khai trên một máy chủ vật lý duy nhất.
+		- Ưu điểm: 
+			- Tăng tính khả dụng cho ứng dụng vì một sự cố ở một máy chủ vật lý không ảnh hưởng đến các instance khác.
+			- Giảm thiểu rủi ro từ lỗi phần cứng vì các instance không nằm trên cùng một máy chủ.
+		- Nhược điểm: Có thể không tối ưu về mặt băng thông giữa các instance do chúng có thể nằm xa nhau về mặt vật lý.
+	- Partition: Mô tả: Các instance được phân phối thành các partitions. Mỗi partition sẽ chứa một số instance, và các instance trong một partition sẽ nằm trên các máy chủ vật lý khác nhau.
+		- Ưu điểm:
+			- Cung cấp khả năng sẵn có cao hơn so với cluster strategy vì ngay cả khi một partition bị ảnh hưởng, các partition khác vẫn hoạt động bình thường.
+			- Tối ưu hóa hiệu suất mạng giữa các instance trong cùng một partition, đồng thời giữ tính khả dụng khi có lỗi xảy ra.
+		- Nhược điểm:
+			- Phức tạp hơn trong việc quản lý so với cluster và spread.
+
+
+2. Storage
+------------------------------------------------------------------------------
+Storage concept:
+- Storage là nơi lưu trữ dữ liệu
+- Hiệu năng của storage có thể được đo bởi:
+	- IOPS (Input/Output Operations Per Second)
+		- Số lượng các thao tác nhập/xuất dữ liệu (input/output operations) mà một thiết bị lưu trữ có thể thực hiện trong một giây.
+	- MBps (Megabytes per second)là tốc độ truyền dữ liệu tính bằng số megabyte mỗi giây. 
+		- Đây là thông số đo tốc độ mà dữ liệu có thể được đọc từ hoặc ghi vào một thiết bị lưu trữ trong một giây.
+
+
+### Block Storage (Lưu trữ khối)
+Concept: 
+- Block Storage là lớp lưu trữ cơ bản và linh hoạt nhất. 
+- Nó chia dữ liệu thành các khối (blocks) riêng lẻ, mỗi khối có một địa chỉ duy nhất. 
+- Các khối này được lưu trữ và quản lý độc lập, và hệ thống lưu trữ không biết về cấu trúc của dữ liệu trong từng khối. 
+- Điều này giúp block storage có hiệu suất cao, nhưng để sử dụng dữ liệu, cần một hệ thống quản lý tập tin (file system) để tổ chức và gắn kết các khối dữ liệu này.
+- Trong AWS Block Storage bao gồm:
+	- EBS: (Elastic Block Store Volume) 
+	- EC2 Instance Store
+
+
+EBS: (Elastic Block Store Volume) 
+- Lưu trữ khối, phù hợp cho hệ thống cần truy xuất nhanh, hiệu suất cao
+- Thường dùng để cài hệ điều hành, cơ sở dữ liệu.
+- Optional: 
+	- Enable EBS encryption by default in the AWS Region where the EKS cluster will be created. Select the customer managed key as the default key.
+	- Create the EBS volumes as encrypted volumes. Attach the EBS volumes to the EC2 instances.
+	- Lock the EBS snapshots to prevent deletion.
+- Phân loại:
+	- General Purpose SSD - gp3 - 16,000 - 1,000 MB/giây	Workload phổ biến (có thể điều chỉnh độc lập với dung lượng).
+	- General Purpose SSD - gp2 - 16,000 - 250 MB/giây		Hệ điều hành, DB nhỏ
+	- Provisioned IOPS SSD - io2 - 64,000-256,000 -	4,000 MB/giây	Workload cần IOPS cao và ổn định
+		- Cho phép Multi-Attach.
+	- Provisioned IOPS SSD - io1 - 64,000 -	1,000 MB/giây	DB quan trọng, yêu cầu độ trễ thấp
+		- Cho phép Multi-Attach.
+	- Throughput Optimized HDD	st1	500	500 MB/giây	Ứng dụng phân tích, xử lý dữ liệu lớn
+	- Cold HDD	sc1	250	250 MB/giây	Lưu trữ dữ liệu ít truy cập
+
+
+EC2 Instance Store
+- Lưu trữ Tạm Thời: Dữ liệu được lưu trữ sẽ mất khi máy chủ EC2 bị dừng, khởi động lại hoặc gặp sự cố. 
+- Hiệu năng Cao: rất phù hợp cho các ứng dụng yêu cầu tốc độ truy cập nhanh như xử lý video, cơ sở dữ liệu tạm thời, hoặc các tác vụ tính toán nặng.
+- Khả Năng Mở Rộng: 
+	- Số lượng và kích thước của instance store phụ thuộc vào loại phiên bản của máy chủ EC2 
+	- Một số loại phiên bản máy chủ EC2 cung cấp nhiều dung lượng instance store hơn những loại khác.
+- Chi Phí: Chi phí sử dụng thường thấp hơn so với các dịch vụ lưu trữ khác, nhưng cần xem xét rằng dữ liệu không được bảo toàn khi máy chủ bị dừng hoặc gặp sự cố.
+- Use case:
+	- Tác vụ Tạm Thời: Khi bạn cần lưu trữ dữ liệu tạm thời trong quá trình xử lý mà không cần phải giữ lại lâu dài.
+	- Ứng dụng Yêu cầu Hiệu suất Cao: Như cơ sở dữ liệu hoặc ứng dụng xử lý lớn cần truy cập dữ liệu với tốc độ cao.
+	- Chi phí Thấp: Khi bạn muốn giảm chi phí lưu trữ cho các tác vụ tạm thời.
+	
+	
+### File Storage (Lưu trữ tệp)
+Concept: 
+- File Storage là tầng trên của block storage 
+- Sử dụng một hệ thống tập tin (file system) để sắp xếp và quản lý các khối dữ liệu thành các thư mục và tập tin mà người dùng hoặc ứng dụng có thể dễ dàng truy cập.
+- File storage giúp quản lý dữ liệu theo dạng tệp (files) và cho phép truy cập thông qua các giao thức phổ biến như NFS hoặc SMB.
+- Trong AWS, File Storage bao gồm:
+	- EFS: (Elastic File System)
+	- FSx
+
+
+EFS: (Elastic File System)
+- Lưu trữ file tập trung, cho phép nhiều máy chủ EC2 truy cập cùng lúc
+- Thích hợp cho các ứng dụng cần chia sẻ tệp giữa nhiều máy.
+- Chỉ sử dụng với các server linux
+
+
+FSx: 
+- Dịch vụ lưu trữ đám mây được quản lý hoàn toàn, cung cấp các hệ thống file systems cho các ứng dụng yêu cầu lưu trữ tệp phân tán và hiệu suất cao. 
+- Amazon FSx cung cấp các loại file system khác nhau, giúp hỗ trợ các ứng dụng yêu cầu lưu trữ tệp với các tính năng đặc thù.
+- Bao gồm
+	- FSx for Windows File Server 
+		- Giải pháp sharefile giữa các Window server
+		- Giao thức SMB
+		- Có thể join to AD on premises to restrict access
+		- Không phù hợp vs container
+	- FSx for Lustre
+		- Giải pháp sharefile giữa các máy chủ > for HPC (High Performance Computing)
+		- Phù hợp vs container
+	- FSx for NetApp ONTAP
+		- Dịch vụ lưu trữ tệp được quản lý hoàn toàn (fully managed) trên AWS, dựa trên công nghệ ONTAP của NetApp
+		- Hỗ trợ giao thức đa dạng:
+			- NFS (Network File System): Dành cho Linux và ứng dụng containerized.
+			- SMB (Server Message Block): Phù hợp với ứng dụng Windows.
+			- iSCSI: Dùng cho workloads dạng block storage.
+		- HA:
+			- Create an FSx for ONTAP instance in the secondary Region. Use NetApp SnapMirror to replicate data from the primary Region to the
+secondary Region.
+	- FSx for OpenZFS
+		- Dịch vụ lưu trữ tệp được quản lý hoàn toàn (fully managed) dựa trên OpenZFS
+		- Hiệu năng cao
+		- Use case:
+			- Phân tích dữ liệu và Machine Learning:
+            - Ứng dụng containerized:
+            - Hệ thống phát triển phần mềm:
+            - Xử lý media:
+
+	
+### Object Storage (Lưu trữ đối tượng)
+Concept: 
+- Object storage lưu trữ dữ liệu dưới dạng các đối tượng (objects). 
+- Object Storage là tầng trên của block storage 
+- Object Storage gồm nhiều bucket, trong môi bucket là một không gian phẳng (flat structure)
+- Mỗi đối tượng bao gồm 
+	- Dữ liệu (content)
+	- Metadata (thông tin mô tả dữ liệu)
+	- Object key: tên định danh duy nhất của đối tượng trong bucket. Ví dụ: object key với tên đầy đủ images/2023/photo.jpg.
+	- Version ID (optional): các phiên bản của đối tượng ( khi bật tính năng versioning) 
+- Trong AWS, File Storage bao gồm:
+	- S3
+
+
+S3: 
+- Lưu trữ đối tượng, phù hợp cho lưu trữ dữ liệu lớn, không cần xử lý trực tiếp trên hệ điều hành (như hình ảnh, video, backup). 
+- Chia thành nhiều bucket, mỗi bucket là một không gian phẳng chứa các đối tượng 
+- Mối đối tượng có thể được gán các loại lưu trữ khác nhau, lựa chọn loại lưu trữ trong S3 cho từng mục đích sử dụng,
+- Có thể setup S3 Lifecycle Policies để để tự động di chuyển các đối tượng giữa các loại lưu trữ khác nhau trong cùng bucket
+- Phân loại:
+	- S3 Standard
+		- Đặc điểm: Dành cho các dữ liệu truy cập thường xuyên.
+		- Chi phí: Cao hơn các lớp khác vì tốc độ truy cập nhanh và khả năng chịu lỗi cao.
+		- Sử dụng phù hợp cho: Dữ liệu quan trọng, cần truy cập nhanh và thường xuyên như nội dung trang web, tệp ứng dụng.
+	- S3 Intelligent-Tiering
+		- Đặc điểm: Tự động chuyển đổi giữa các cấp lưu trữ dựa trên tần suất truy cập.
+		- Chi phí: Phí quản lý nhỏ cho tính năng tự động chuyển cấp, nhưng tối ưu chi phí khi dữ liệu không được truy cập thường xuyên.
+		- Sử dụng phù hợp cho: Dữ liệu có mẫu truy cập không đều đặn hoặc khó dự đoán.
+	- S3 Standard-IA (Infrequent Access)
+		- Đặc điểm: Lưu trữ cho dữ liệu ít truy cập nhưng cần có sẵn khi cần.
+		- Chi phí: Thấp hơn S3 Standard, nhưng có phí truy xuất (retrieval fee) khi tải dữ liệu.
+		- Sử dụng phù hợp cho: Dữ liệu cần giữ lâu dài nhưng ít truy cập như bản sao lưu, dữ liệu bảo trì.
+	- S3 One Zone-IA
+		- Đặc điểm: Lưu trữ cho dữ liệu ít truy cập nhưng chỉ trong một khu vực (availability zone).
+		- Chi phí: Rẻ hơn Standard-IA vì không có khả năng chịu lỗi khu vực.
+		- Sử dụng phù hợp cho: Dữ liệu sao lưu ít quan trọng, dễ thay thế hoặc dữ liệu không đòi hỏi khả năng chịu lỗi cao.
+	- S3 Glacier
+		- Đặc điểm: Lưu trữ lâu dài cho dữ liệu không truy cập thường xuyên, thời gian truy xuất từ vài phút đến vài giờ.
+		- Chi phí: Rất thấp, phù hợp cho lưu trữ dữ liệu dài hạn.
+		- Sử dụng phù hợp cho: Lưu trữ dữ liệu lưu trữ dài hạn, lưu trữ hồ sơ, tài liệu pháp lý.
+		- Khả năng lấy dữ liệu:
+			- Sử dụng Expedited nếu cần truy xuất nhanh (1-5 phút).
+			- Sử dụng Standard cho nhu cầu khôi phục thông thường. (3-5 giờ)
+			- Sử dụng Bulk khi cần khôi phục dữ liệu lớn với chi phí thấp nhất (5-12 giờ)
+	- S3 Glacier Deep Archive
+		- Đặc điểm: Lưu trữ lâu dài cho dữ liệu rất ít khi truy cập, thời gian truy xuất từ 12 đến 48 giờ.
+		- Chi phí: Thấp nhất trong các loại S3.
+		- Sử dụng phù hợp cho: Lưu trữ dữ liệu lưu trữ dài hạn không yêu cầu truy cập thường xuyên, phù hợp cho tuân thủ và lưu trữ hồ sơ.
+	- S3 Outposts
+		- Đặc điểm: Cung cấp lưu trữ S3 tại chỗ trong các trung tâm dữ liệu tại cơ sở của doanh nghiệp (on-premises).
+		- Chi phí: Được tính riêng cho Outposts.
+		- Sử dụng phù hợp cho: Dữ liệu cần lưu trữ tại cơ sở vì lý do quy định, độ trễ thấp hoặc không thể đưa lên đám mây.
+- How to connect (recommend): 
+	- Create a gateway VPC endpoint for Amazon S3 (in same VPC)
+	- Create a interface VPC endpoint for Amazon S3 (in another location)
+- Optional
+	- Mã hóa: SSE-S3: mã hóa đơn giản, chi phí rẻ, nhưng ko có các tính năng cao cấp như xoay vòng khóa ...
+	- Requester Pays : người gọi dữ liệu tự trả tiền (ng sở hữu ko mất tiền)
+	- Object Lock trên Amazon S3 cung cấp các chế độ khóa giúp bảo vệ dữ liệu chống lại việc xóa hoặc thay đổi ngẫu nhiên
+		- S3 Object Lock ở chế độ compliance -> chế độ nghiêm ngặt nhất, không thể thay đổi
+		- S3 Object Lock ở chế độ governance -> chế độ nghiêm ngặt với user thường, admin vẫn có thể thay đổi
+	- Có thể sử dụng Signed URLs để bảo mật và kiểm soát truy cập
+	- Phân quyền cho ứng dụng: Create dedicated S3 access points and access point policies for each application
+	- S3 Block Public Access là một tính năng của Amazon S3 giúp bảo vệ dữ liệu trong các bucket và object bằng cách ngăn chặn các quyền truy cập công khai ngoài ý muốn:
+		- Cấp tài khoản (account level)
+		- Cấp bucket (bucket level)
+	- Share data: Cross-account access là cách tiếp cận tối ưu để chia sẻ dữ liệu giữa các tài khoản AWS.
+	- Increate upload and download performance:
+		- Upload: Use S3 multipart uploads.
+		- Download: Fetch multiple byte-ranges of an object in parallel
+- Use case: 
+	- Lưu trữ dữ liệu dài hạn với chi phí rẻ
+	- Xây dựng website tĩnh: 
+		- Sử dụng kèm Cloud Front: Host web tĩnh (chứa HTML, CSS, JavaScript và hình ảnh)
+		- Create an origin access identity (OAI). 
+		- Assign the OAI to the CloudFront distribution. 
+		- Con¬gure the S3 bucket permissions so that only the OAI has read permission.
+	- Sử dụng kèm Athena và AWS Glue: Select data from S3
+		- AWS Glue crawler tự động phát hiện schema (cấu trúc dữ liệu) của dữ liệu trong S3 và tạo metadata lưu trữ trong AWS Glue Data Catalog.
+	- Sử dụng kèm Lambda function: S3 Event Noti¬cations to invoke an AWS Lambda function:
+- S3 Storage Lens
+	- Dịch vụ trong S3  giúp người dùng phân tích và tối ưu hóa việc sử dụng lưu trữ trong các bucket S3	
+	- Chức năng:
+		- Phân tích chi tiết
+		- Bảng điều khiển trực quan
+		- Dữ liệu phân tích theo thời gian
+		- Báo cáo tự động
+
+		
+### Hybrid Storage: 
+- Kết hợp giữa lưu trữ đám mây và on-premises
+- Dịch vụ trên AWS: Storage Gateway
+- Bridge giữa dữ liệu on-premises và dữ liệu đám mây
+- Cho phép doanh nghiệp sử dụng AWS như một giải pháp lưu trữ có thể mở rộng mà không cần thay đổi ứng dụng hoặc quy trình làm việc hiện tại
+- Bao gồm 3 loại chính:
+	- File Gateway:
+		- Cho phép người dùng lưu trữ và truy cập dữ liệu tệp trên Amazon S3 dưới dạng objects thông qua giao thức SMB (Server Message Block) và NFS (Network File System).
+		- Có thể gắn với: Amazon S3
+	- Volume Gateway:
+		- Cached Volumes: Dữ liệu chính được lưu trữ trong Amazon S3, chỉ một phần dữ liệu thường xuyên truy cập được lưu cục bộ để giảm độ trễ.
+		- Stored Volumes: Dữ liệu chính được lưu trữ tại chỗ và đồng bộ hóa bản sao với Amazon S3 để có khả năng khôi phục.
+		- Có thể gắn với: Amazon S3 (với khả năng tạo snapshot để phục hồi qua EBS)
+	- Tape Gateway: 
+		- Cho phép các ứng dụng sao lưu sử dụng băng từ ảo để lưu trữ dữ liệu trên Amazon S3 và Amazon S3 Glacier (Glacier hoặc Glacier Deep Archive).
+		- Có thể gắn với: Amazon S3, S3 Glacier
+	- FSx File Gateway: 
+		- Cung cấp khả năng truy cập từ on-premises đến Amazon FSx for Windows File Server thông qua SMB.	
+		
+
+III. Network
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Region ( more than 25 region): (vùng địa lý)
+	-> 3 (or more) Availability zone ( A B C ...) : 
+		-> 3 or  (more ) Data center
+			-> n edge location : các đơn vị trung gian để tăng tốc trong việc xử lý thông tin AWS
+
+Local zone: zone địa phương, nằm ngoài Region chính, nhưng vẫn liên kết chặt chẽ với mạng AWS
+Wavelength Zones: zone dùng cho mạng 5G
+
+
+
+VPC: (Virtual Private Cloud) 
+- Dịch vụ cho phép tạo ra một mảng riêng với các thông số tùy chỉnh, bao gồm địa chỉ IP, subnet, và cổng kết nối Internet.
+- 1 VPC có thể nằm trên nhiều AZ nhưng bắt buộc phải trong 1 region
+- Trong 1 VPC thì tạo ra các subnet (VLAN) để allocate tài nguyên
+- Giữa các VPC thì sử dụng VPC connection để kết nối với nhau
+- Route table:
+	- Dùng để xác định cách các gói tin được định tuyến (chuyển tiếp) giữa các tài nguyên trong VPC và ra/vào internet hoặc các mạng bên ngoài
+	- Mỗi VPC có một bảng định tuyến chính mặc định, tự động gán cho tất cả các subnet mới nếu không có bảng định tuyến tùy chỉnh nào được chỉ định.
+	- Bao gồm : Destination và Target
+- Subnet :
+	- Phân loại: (Do cấu hình route table)
+		- Private: ko ra internet (hoặc phải NAT mới được ra internet)
+		- Public: có thể ra internet trực tiếp
+	- IP service:
+		- Cấu trúc CIDR : định dạng <địa chỉ IP>/<số bit mạng>. Ví dụ: 192.168.1.0/24.
+		- Public IP		: means the machine can be identified on the internet (WWW)
+		- Private IP	: means the machine can only be identified on a private network only
+		- Elastic IP 	: fixed public IP for instance, can be attached to one instance at a time	
+	- Network Access Control Lists (ACLs): Là một danh sách các quy tắc bảo mật được áp dụng cho cả một subnet.
+	- Security Groups: Là một tường lửa ảo cho các instance trong VPC, Điều chỉnh và kiểm soát lưu lượng truy cập vào và ra từ các instance EC2.
+	- Use case:
+		- ACL -> Security Groups -> EC2
+
+
+- Traffic Mirroring – copy network traffic from ENIs for further analysis
+- Route Tables – must be edited to add routes from subnets to the IGW, VPC Peering Connections, VPC Endpoints, …
+- VPC Flow Logs 
+	- VPC Flow Logs cho phép theo dõi lưu lượng mạng trong VPC, bao gồm các kết nối như RDP (cổng 3389) và SSH (cổng 22)
+	– can be setup at the VPC / Subnet / ENI Level, for ACCEPT and REJECT traffic, helps identifying attacks, analyze using Athena or CloudWatch Logs Insights
+
+
+Connection Insight VPC
+- VPC Endpoints : cho phép kết nối từ các dịch vụ aws tới các service mà không cần ra/vào internet
+	- Gateway VPC Endpoint: 
+		- Sử dụng cho các service lưu trữ cần cần hiệu năng cao
+		- Aws service: Amazon S3 và DynamoDB.
+		- Không hỗ trợ trực tiếp từ on-premises
+	- Interface VPC Endpoint: 
+		- Sử dụng cho các service khác
+		- Aws service: AWS Lambda, Amazon RDS, AWS Secrets Manager, v.v.
+		- Hỗ trợ trực tiếp từ on-premises
+- ClassicLink 
+	– connect EC2-Classic EC2 instances privately to your VPC
+
+
+Connection to other VPC:
+	- VPC Peering: kết nối thủ công giữa 2 VPC vs nhau ( hỗ trợ multiple Region)
+	- Transit Gateway: 
+		- Transit Gateway cung cấp khả năng kết nối tập trung giữa các VPC trong cùng một Region.
+		- Transit Gateway Peering cho phép kết nối giữa các Transit Gateway ở các Region khác nhau,
+	- AWS PrivateLink
+		- Sử dụng khi kết nối 2 service giữa 2 VPC
+		- Cho phép các dịch vụ (như ứng dụng hoặc API) trong một VPC có thể được truy cập từ các VPC khác thông qua endpoint riêng.
+	- VPN/Direct Connect
+		- Thường được sử dụng để tạo kết nối giữa on-premises vs AWS
+		- Phức tạp khi sử dụng
+			- Direct Connect gateway: Sử dụng cho các service lưu trữ cần cần hiệu năng cao
+			- Direct Connect Interface: sử dụng cho các service khác
+	- Virtual gateway/interface
+		- Kết nối on-premises và AWS
+		
+		
+Connection to Internet:
+- Internet Gateway 
+	- Cung cấp giải pháp kết nối Internet 2 chiều
+	- Bao gồm cả IPv4 và IPv6
+- Bastion Host
+	– Máy Jump, sử dụng để ngoài internet kết nối vào, sau đó mới kết nới tới các private subnet 
+	- public EC2 instance to SSH into, that has SSH connectivity to EC2 instances in private subnets
+- NAT Instances 
+	– Cho phép một máy chủ ở private subnet có thể kết nối ra internet
+	- Phải quản lý thủ công, nhưng tích kiệm chi phí nếu dùng ít
+	- Chỉ sử dụng cho IPv4
+- NAT Gateway
+	- Cung cấp giải pháp biến đổi (NAT) IP private thành 1 IP public để kết nối ra internet
+	- Chỉ sử dụng cho IPv4
+- Egress-only internet gateway 
+	- For IPv6 targets
+	- Giải pháp được thiết kế đặc biệt cho IPv6 để các EC2 instances trong private subnet có thể gửi lưu lượng ra ngoài internet 
+	- Nhưng không bị kết nối ngược lại từ internet vào EC2 instances.
+
+
+
+### Định tuyến
+AWS Global Accelerator: 
+- Dịch vụ giúp tăng hiệu suất và độ tin cậy cho các ứng dụng toàn cầu bằng cách định tuyến lưu lượng thông qua mạng AWS với độ trễ thấp và độ tin cậy cao.
+- Works with Elastic IP, EC2 instances, ALB, NLB, public or private
+- Use case:
+	- Sử dụng cho ứng dụng cần hiệu năng cao, độ trễ thấp
+		- Game trực tuyến (Online Gaming) -> gaming ưu tiên dùng Accelerator hơn là cloudfront
+		- Ứng dụng IoT (Internet of Things)
+		- Điện toán biên (Edge Computing)
+		- Ứng dụng VoIP và Chat trực tiếp (Real-Time Communication)
+		- Ứng dụng điều khiển từ xa (Remote Control Systems)
+		- Ứng dụng bảo mật mạng (Network Security Applications)
+	- Ưu tiên sử dụng hơn Route 53 (DNS)
+
+
+Route 53 (DNS)
+- Quản lý và định tuyến lưu lượng mạng đến các ứng dụng đang chạy trên AWS,
+- Cung cấp một số tính năng bổ trợ để tăng cường khả năng hoạt động và tính sẵn sàng của các ứng dụng.
+- Các tính năng chính
+	- DNS Management (Quản lý DNS)
+	- Domain Registration (Đăng ký tên miền)
+	- Health Checks and Monitoring (Kiểm tra sức khỏe và giám sát)
+	- Traffic Flow and Routing Policies (Quy trình lưu lượng và chính sách định tuyến)
+		- Simple routing: Chỉ định tuyến lưu lượng đến một tài nguyên.
+		- Weighted routing: Phân phối lưu lượng đến các endpoint theo tỷ lệ (trọng số) xác định.
+		- Latency routing: Chuyển hướng lưu lượng đến endpoint có độ trễ thấp nhất. -> high-performing 
+		- Failover routing: Sử dụng endpoint dự phòng nếu endpoint chính không khả dụng.
+		- Geolocation routing: Định tuyến dựa trên vị trí địa lý của người dùng.
+			- Geoproximity routing policy: Phiên bản nâng cấp tốt hơn 
+		- Multivalue answer routing: Trả về một danh sách các IP ngẫu nhiên để phân phối lưu lượng giữa các endpoint.
+	- Scalability and High Availability (Khả năng mở rộng và tính sẵn sàng cao)
+	- Cost-Effective (Hiệu quả về chi phí)
+- Use case:
+	- Sử dụng cho các ứng dụng thông thường, không cần hiệu năng quá cao:
+		- Website Hosting: Định tuyến lưu lượng truy cập đến các ứng dụng web và trang web.
+		- Hybrid Cloud Architectures: Kết nối các hệ thống trong đám mây và tại chỗ bằng cách định tuyến truy cập đến các endpoint trên AWS hoặc tại chỗ.
+		- Disaster Recovery: Route 53 giúp định tuyến lưu lượng đến các endpoint dự phòng trong trường hợp xảy ra sự cố.
+	- AWS <-> On-premises = Route 53 Resolver
+		- Outbound Resolver = From your VPC (AWS) to On-premises or another VPC
+		- Inbound Resolver = From on-premises network or another VPC TO your VPC.
+
+
+AWS Network Firewall
+- Protect your entire Amazon VPC
+- From Layer 3 to Layer 7 protection
+- Any direction, you can inspect
+	- VPC to VPC traffic
+	- Outbound to internet
+	- Inbound from internet
+	- To / from Direct Connect & Site-to-Site VPN
+- Internally, the AWS Network Firewall uses the AWS Gateway Load Balancer
+- Rules can be centrally managed crossaccount by AWS Firewall Manager to apply to many VPCs
+
+
+IV. Application
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Amazon Lambda
+- Dịch vụ ứng dụng serverless (Run on-demand, Limited by time + Scaling is automated!)
+- Lambda thích hợp với các ứng dụng nhỏ, cần xử lý nhanh, event-driven, và workload không liên tục (tối đa 15 phút)
+- Phân loại/Use case:
+	- Lambda@Edge: Cho phép bạn chạy các hàm Lambda ở các vị trí biên của Amazon CloudFront
+	- AWS Lambda ExtensionsL: Hỗ trợ mở rộng khả năng của Lambda bằng cách tích hợp với các dịch vụ bên thứ ba hoặc các dịch vụ giám sát và quản lý.
+	- Amazon S3: Xử lý sự kiện khi có thay đổi tệp, như tải lên, xóa tệp trong bucket S3.
+	- Amazon DynamoDB: Xử lý các thay đổi trong bảng DynamoDB thông qua DynamoDB Streams.
+	- Amazon Kinesis và Amazon SQS: Xử lý dữ liệu luồng hoặc hàng đợi tin nhắn.
+	- Amazon CloudWatch Events / EventBridge: Kích hoạt khi có thay đổi hoặc sự kiện từ các dịch vụ AWS.
+	- Amazon API Gateway: Kích hoạt hàm Lambda để xử lý yêu cầu API RESTful và và Enable IAM authentication
+	- Không tự động retry from begining
+	- Tích hợp với bên thứ 3:
+		- AWS hỗ trợ Function URL cho Lambda, đây là endpoint HTTPS trực tiếp, giúp bạn kích hoạt Lambda mà không cần thiết lập API Gateway hoặc Load Balancer.
+- Optional:
+	- Provisioned Concurrency: cho phép duy trì một số lượng nhất định các phiên bản hàm Lambda đã sẵn sàng, giúp loại bỏ độ trễ khởi tạo khi hàm Lambda nhận yêu cầu.
+	- Reserved Concurrency: cho phép đảm bảo tài nguyên cho hàm Lambda nhưng không quan trọng đến việc giảm cold start, tài nguyên luôn có sẵn khi cần.
+	- Con¬gure Lambda SnapStart: giảm cold start cho java 11/17
+	- AWS hỗ trợ Function URL cho Lambda, đây là endpoint HTTPS trực tiếp, giúp bạn kích hoạt Lambda mà không cần thiết lập API Gateway hoặc Load Balancer.
+	- Kết hợp với EventBridge để để tag resource 
+
+
+AWS API Gateway:  
+- Serverless service support to create, maintain, monitoring and security APIs with any size
+- API Gateway hoạt động như một lớp trung gian giữa các máy khách (client) và backend, cho phép phát triển và triển khai các API RESTful và WebSocket.
+- Optional:
+	- Sử dụng kèm với Private VPC Link kết hợp với Network Load Balancer để connect tới service trong private subnet
+- Use case:
+	- Create a canary release deployment stage for API Gateway. Deploy the latest API version. Point an appropriate percentage of tra®c to the canary stage. After API veri¬cation, promote the canary stage to the production stage.
+	- Kết hợp tốt vs Lambda
+	
+
+Elastic Load Balancer:
+- Dịch vụ cân bằng tải cho ứng dụng
+- Phù hợp với các ứng dụng có lưu lượng tải đều theo thời gian
+- Phân loại:
+	- Classic Load Balancer (v1 - old generation) – 2009 – CLB
+	- Application Load Balancer (v2 - new generation) – 2016 – ALB
+		- Chỉ support TCP (tối ưu cho HTTP và HTTPS), nhưng hiệu suất không bằng NLB
+		- Create a listener rule on the ALB to redirect HTTP tra®c to HTTPS.
+		- Enable HTTP health checks by supplying the URL of the company's application. Con¬gure an Auto Scaling action to replace unhealthy instances.
+		- Sticky sessions là giải pháp hữu ích khi ứng dụng yêu cầu người dùng phải duy trì trạng thái trên cùng một instance để giữ session state của họ.
+			- Tuy nhiên có thể gây mất cân bằng tải, nếu muốn cân lại tải thì phải Disable session a®nity (sticky sessions) on the ALB :
+		- Optional:
+			- Provision an internet-facing Application Load Balancer (ALB) in a public subnet. Add the EC2 instance to the target group that is associated with the ALB
+	- Network Load Balancer (v2 - new generation) – 2017 – NLB
+		- Support TCP và UDP với hiệu suất cao
+		- Có thể bật TLS để encryp in flight
+	- Gateway Load Balancer – 2020 – GWLB
+
+
+Elastic Beanstalk
+- Dịch vụ cho phép deploy các ứng dụng tập trung mà không cần quan tâm tới tài nguyên 
+- Nhanh, hiệu quả, phù hợp với các ứng dụng ko quá phức tạp
+
+
+Amazon Message Queue
+- Amazon SNS (Simple Notification Service): Mô hình: Pub/sub model (mô hình phát/đăng ký).
+	- Là nguồn phát tán thông điệp, gửi chúng đến các mục tiêu đã đăng ký, như hàng đợi SQS, AWS Lambda, hoặc HTTP endpoints.
+	- Cho phép các ứng dụng gửi thông điệp đến nhiều người nhận (subscribers) cùng một lúc,
+	- Mỗi message gửi ít nhất 1 lần
+	- KHÔNG đảm bảo thứ tự gửi message, trừ khi sử dụng FIFO topics
+	- Lưu trữ ngắn hạn
+- Amazon SQS (Simple Queue Service): Queue model (mô hình hàng đợi).
+	- Hàng đợi cho phép lưu trữ và xử lý thông điệp
+	- Mỗi message gửi ít nhất 1 lần
+	- KHÔNG đảm bảo thứ tự gửi message, trừ khi sử dụng FIFO queue
+	- Lưu trữ dài hạn ( tối đa 14 ngày)
+	- Phù hợp và được sử dụng trong mô hình phân tán bất đối xứng (asynchronously)
+	- Optional:
+		- limit: 256KB meessage -> Use the Amazon SQS Extended Client Library for Java to host messages that are larger than 256 KB in Amazon S3
+- Amazon SNS + SQS:
+	- Kết hợp giữa SNS và SQS để có thể gửi tới nhiều target với thứ tự đúng : SNS + SQS + Application
+	- Sử dụng SNS Dead Letter Queue (DLQ) với SQS: tin nhắn của SNS lỗi thì chuyển sang SQS để xử lý lại (ít thay đổi code)
+- Amazon MQ
+	- Is a managed message broker service for RabbitMQ (or ActiveMQ)
+
+
+Docker Containers Management on AWS
+- Amazon ECS (Amazon Elastic Container Service)
+	- Dịch vụ Container do AWS phát triển
+- Amazon EKS (Amazon Elastic Kubernetes Service): Amazon’s managed Kubernetes (open source)
+	- Use the Kubernetes Metrics Server to activate horizontal pod autoscaling.
+	- Use the Kubernetes Cluster Autoscaler to manage the number of nodes in the cluster.
+	- Use Amazon EKS Connector to register and connect all Kubernetes clusters.
+	- Enable secrets encryption in the EKS cluster by using AWS Key Management Service (AWS KMS).
+- AWS Fargate: Amazon’s own Serverless container platform (Works with ECS and with EKS) 
+	- Dịch vụ Container Service serverless (tương tự tanzu của VMWare)
+	- AWS just runs ECS Tasks for you based on the CPU / RAM you need
+	- Use AWS Application Auto Scaling with target tracking policies to scale when ECS metric breaches trigger an Amazon CloudWatch alarm.
+- Amazon ECR (Amazon Elastic Container Registry): 
+	- Dịch vụ lưu trữ image của AWS
+	- Nơi lưu trữ: S3
+- Connection: 
+	- Use the AWS Load Balancer Controller to provision an Application Load Balancer
+	- Private VPC Link là giải pháp được chọn khi muốn kết nối API Gateway với ECS trong private subnets.
+- Use case:
+	- Containers service thích hợp cho ứng dụng phức tạp, workload chạy lâu hoặc cần nhiều tài nguyên.
+- Monitor:
+	- Sử dụng Amazon CloudWatch Container Insights để monitor sâu vào cluster
+	- Sử dụng Amazon CloudWatch agent để monitor các thông tin cơ bản của cluster
+
+
+AWS App Runner
+- Fully managed service that makes it easy to deploy web applications and APIs at scale
+
+
+Amazon Cognito 
+- Dịch vụ cho phép thêm tính năng xác thực, ủy quyền và quản lý người dùng vào các ứng dụng web hoặc di động. 
+- Cho phép người dùng có thể kiểm soát việc đăng nhập và truy cập tài nguyên cho người dùng mà không cần phải xây dựng và duy trì hệ thống quản lý danh tính từ đầu.
+- Bao gồm:
+	- User Pools: Danh sách người dùng mà được quản lý, cung cấp xác thực người dùng và tính năng đăng ký.
+	- Identity Pools: 
+		- Cung cấp cho người dùng quyền truy cập vào các dịch vụ AWS, cho phép họ nhận IAM roles tạm thời.
+		- Update the Amazon Cognito identity pool to assume the proper IAM role for access to the protected content.
+
+
+CloudFront: 
+- Dịch vụ Content Delivery Network (CDN), giúp phân phối nội dung web (như HTML, CSS, JavaScript, hình ảnh, video, API) đến người dùng một cách nhanh chóng và an toàn 
+- Tăng hiệu năng đọc dữ liệu bằng cách sử dụng cache tại các điểm biên (edge locations) phân phối trên toàn cầu.
+- Phù hợp với các dữ liệu tĩnh (kể cả dữ liệu động nếu cần thiết)
+- Cache tại edge, point về origin source
+- Bảo vệ hệ thống khỏi DDOS ( các yêu cầu sẽ đi qua CDN trước khi tới máy chủ EC2, giúp giảm tải trực tiếp trên máy chủ )
+- Chỉ support TCP, không hỗ trợ UDP 
+- Optional: 
+	- Con¬gure a CloudFront ¬eld-level encryption pro¬le.
+	- Có thể sử dụng Signed URLs để bảo mật và kiểm soát truy cập
+	- Kiểm soát quyền truy cập vào nội dung dựa trên vị trí địa lý của người dùng: Add geographic restrictions to the content in CloudFront by using an allow list
+- Use case: Các dịch vụ cần cache 
+	- Web site ( tĩnh + động)
+	- Streaming Video, to secure video using: 
+		- Signed cookies
+		- Signed URLs
+	- Can cache multiple versions of the content + Lambda@Edge function to send speci¬c objects to users based on the User-Agent header.
+
+
+AWS Amplify 
+- Dịch vụ toàn diện để xây dựng, triển khai, và quản lý ứng dụng frontend và full-stack trên AWS. 
+- Tích hợp với nhiều dịch vụ AWS khác như Cognito, AppSync, và Lambda để cung cấp giải pháp đồng bộ cho ứng dụng.
+- Use case:
+	 - Frontend web content with HTML, CSS, and JS
+
+
+Amazon EventBridge: 
+- Dịch vụ cho phép các ứng dụng tương tác với nhau bằng cách gửi và nhận các sự kiện từ nhiều nguồn khác nhau. 
+- Phù hợp với các sự kiện đơn giản và độc lập
+- Hoạt động dựa trên trigger từ 1 sự kiến nào đó để đẩy yêu cầu sang 1 dịch vụ khác
+- Sự kiện ở dịch vụ nguồn(call API, upload file ...) -> Rule xử lý -> Dịch vụ đích (Lambda, SQS SNS)
+- Các tính năng chính:
+	- Quản lý sự kiện: cho phép tạo các quy tắc (rules) để bắt các sự kiện từ nguồn sự kiện (event source) và định tuyến chúng đến các đích sự kiện (target). 
+	- Liên kết nhiều hệ thống mà không cần sự tích hợp trực tiếp.
+	- Tích hợp nguồn bên ngoài (SaaS):  hỗ trợ tích hợp với các nhà cung cấp SaaS phổ biến như Zendesk, Datadog, và Shopify, giúp các sự kiện từ các ứng dụng SaaS này được gửi đến EventBridge.
+	- Serverless: User chỉ cần định cấu hình các quy tắc và mục tiêu cho các sự kiện của mình.
+	- Quy mô lớn: có khả năng xử lý hàng triệu sự kiện mỗi giây, thích hợp cho các ứng dụng có khối lượng lớn sự kiện.
+- Lợi ích:
+	- Phản ứng sự kiện theo thời gian thực: Cho phép bạn phản ứng với các thay đổi hoặc sự kiện ngay lập tức.
+	- Tích hợp linh hoạt: Hỗ trợ nhiều dịch vụ AWS và nguồn dữ liệu SaaS, giúp hệ thống dễ dàng mở rộng.
+	- EventBridge đặc biệt hữu ích cho các kiến trúc microservices, nơi cần có sự tương tác giữa các dịch vụ hoặc các hệ thống phân tán.
+- Use case: 
+	- Khi có một tệp được tải lên Amazon S3, bạn có thể dùng EventBridge để tự động kích hoạt một AWS Lambda function để xử lý tệp đó.
+	- API XXXX call -> EventBridge -> SNS, SQS xử lý
+
+
+Amazon Simple Email Service (Amazon SES)
+- Fully managed service to send emails securely, globally and at scale
+- Allows inbound/outbound emails
+- Reputation dashboard, performance insights, anti-spam feedback
+- Provides statistics such as email deliveries, bounces, feedback loop results, email open
+
+
+Amazon Pinpoint
+- Scalable 2-way (outbound/inbound) marketing communications service
+- Supports email, SMS, push, voice, and in-app messaging
+- Ability to segment and personalize messages with the right content to customers
+
+
+AWS Service Catalog 
+- Dịch vụ cho phép các tổ chức tạo, quản lý và phân phối các bộ công cụ AWS (AWS resources) dưới dạng các sản phẩm (products) đã được chuẩn hóa và định nghĩa sẵn
+- Kiểm soát quyền truy cập:
+- Tuân thủ và chuẩn hóa:
+- Phân phối sản phẩm:
+- Quản lý vòng đời sản phẩm:
+
+
+4. Work flow, pipeline service
+-----------------------------------------------------------------------------
+Tóm tắt chung:
+- Step Functions phù hợp để điều phối workflow phức tạp, không yêu cầu thời gian thực.
+- AWS Batch phù hợp cho công việc xử lý hàng loạt hoặc tính toán nặng.
+- AppSync Pipeline Resolvers tập trung vào việc xử lý logic trong API GraphQL.
+
+
+AWS Step Functions  (airflow serverless) 
+- Hỗ trợ xây dựng kiến trúc hướng sự kiện (event-driven architecture) 
+- Cho phép bạn điều phối các dịch vụ AWS thành các quy trình xử lý dữ liệu hoặc các luồng công việc (workflows) thông qua các bước liên tiếp
+- Sử dụng các biểu đồ trạng thái (state machine) để định nghĩa trình tự thực hiện của các bước, giúp theo dõi, kiểm soát và quản lý các tác vụ phân tán một cách trực quan.
+- Phù hợp với cả kiến trúc đơn giản và/hoặc phức tạp
+- Serverless: Không cần quản lý hạ tầng
+- Thường kết hợp sử dụng vs lambda, phù hợp chạy theo kiểu on-demand
+- Các mode:
+	- Inline mode: phù hợp để xử lý khối lượng công việc nhỏ và nhanh chóng.
+	- Distributed mode: được tối ưu hóa để xử lý khối lượng lớn dữ liệu song song.
+	
+
+Managed Workflows for Apache Airflow (MWAA) (cài airflow lên aws)
+- Server: complex
+- A managed service for running Apache Airflow in AWS, providing orchestration for workflows. 
+- It is well-suited for complex workflows that require scheduling, retries, and task dependencies, especially in data processing pipelines.
+
+
+AWS Batch
+- Fully managed batch processing at any scale
+- Efficiently run 100,000s of computing batch jobs on AWS
+- A "batch" job is a job with a start and an end (opposed to continuous)
+- Batch will dynamically launch EC2 instances or Spot Instances
+- AWS Batch provisions the right amount of compute / memory
+- You submit or schedule batch jobs and AWS Batch does the rest!
+- Batch jobs are defined as Docker images and run on ECS
+- Helpful for cost optimizations and focusing less on the infrastructure
+
+
+AWS AppSync Pipeline Resolvers
+- Dịch vụ sử dụng trong GraphQL APIs để xử lý các truy vấn phức tạp bằng cách chia thành nhiều bước và kết hợp dữ liệu từ nhiều nguồn.
+- Tích hợp trực tiếp với các dịch vụ AWS như DynamoDB và Lambda.
+- Hỗ trợ tích hợp nguồn dữ liệu phức tạp mà không cần viết mã tùy chỉnh.
+- Được tối ưu hóa cho ứng dụng thời gian thực.
+
+
+V. Database
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+1. RDS: AWS DB for RDBMS database  
+-----------------------------------------------------------------------------
+AWS RDS:
+- AWS service to mantain RDBMS Database
+- Type:
+	- AWS RDS for MySQL
+	- AWS RDS for PostgreSQL
+	- AWS RDS for MariaDB
+	- AWS RDS for Oracle
+	- AWS RDS for SQL Server
+	- AWS RDS custom for Oracle (or MSSQL Server, IBM DB2) : allow to remote to server
+- Mô hình HA:
+	- Multi-AZ Cluster: vừa HA, vừa cho phép có read replica để đọc
+	- Multi-AZ Instance: vừa HA, nhưng không cho phép có read replica để đọc
+	- Read replica: cấu hình và failover thủ công
+- Inscres size
+	- Enable storage autoscaling in RDS
+- Test:
+	- Use Amazon RDS Blue/Green Deployments to deploy and test production changes.
+	
+	
+Aurora Database (AWS Proprietary database)
+- Database do AWS tự phát triển, tương thích vs Mysql và PostgreSQL
+- Sử dụng Aurora Reader Endpoint để làm proxy để đơn giản và hiệu quả
+- HA:
+	- Aurora Multi-AZ với Automatic Failover: vừa HA, vừa cho phép có read replica để đọc
+	- Aurora Global Databases (Multi-AZ cho nhiều khu vực địa lý)
+	- Aurora Serverless (Tự động mở rộng và thu hẹp):
+- Optional:
+	- Warm standby for low latency
+	- Create from RDS: Create an Aurora read replica of the RDS for PostgreSQL DB instance. Promote the Aurora read replicate to a new Aurora PostgreSQL DB cluster.
+	
+
+Amazon RDS Proxy:
+- Dịch vụ quản lý kết nối đến DB để tối ưu hóa tài nguyên, khả năng mở rộng, độ tin cậy của ứng dụng.
+- Sử dụng cho cả RDS và aurora DB
+- Cho phép cấu hình để kiểm soát số lượng kết nối tối đa tới Database trong một thời điểm
+- Cho phép cấu hình tới nhiều DB để chuyển hưởng khi cần thiết( sự cố, down time ...)
+- Lợi ích đem lại:
+	- Ổn định hiệu năng của DB (giảm tải khi ứng dụng có bất thường hay đóng mở kết nối thường xuyên)
+	- Tăng tính khả dụng: phát hiện và chuyển hướng kết nối khi xảy ra sự cố với cơ sở dữ liệu
+	- Bảo mật: tích hợp với AWS Secrets Manager để lưu trữ và quản lý thông tin đăng nhập một cách an toàn
+
+
+2. NoSQL database – no joins, no SQL:
+-----------------------------------------------------------------------------
+Amazon ElastiCache
+- Giải pháp của AWS để thay thế cho Redis hoặc Memcached
+	- Amazon ElastiCache for Redis: lưu cache an toàn, có ghi xuống đĩa
+	- Amazon ElastiCache for Memcached: lưu cache tạm thời, không ghi xuống đĩa
+- Các chiến lược ghi cache:
+	- Lazy loading caching strategy: Chỉ tải dữ liệu vào cache khi dữ liệu được truy cập lần đầu tiên (cache miss).
+	- Implement the write-through caching strategy: Tự động ghi dữ liệu mới hoặc cập nhật dữ liệu đã có vào bộ nhớ đệm khi có thay đổi ở cơ sở dữ liệu.
+	- Adding TTL caching strategy: TTL (Time-to-Live) chỉ xác định thời gian dữ liệu tồn tại trong cache trước khi hết hạn
+- Use case:
+	- Lưu trữ bộ đêm cho ứng dụng
+	- Sử dụng phía sau app và phía trước DB :
+	- Quản lý dữ liệu phiên, tất cả các EC2 instances đều có thể truy cập vào cùng một dữ liệu phiên, giúp đảm bảo tính liên tục khi người dùng chuyển đổi giữa các phiên bản khác nhau.
+
+
+Amazon DynamoDB 
+- Serverless: Fully managed, highly available with replication across multiple AZs by AWS
+- NoSQL database - not a relational database - with transaction support
+- Scales to massive workloads, distributed database
+	- Mở rộng bằng cách chia partition data (giống như sharding) 	 
+	- Hỗ trợ Time to Live (TTL), cho phép tự động xóa các mục dựa trên thuộc tính thời gian
+- Phân loại:
+	- On-Demand Mode:
+		- Ứng dụng khởi chạy mới mà chưa rõ lưu lượng.
+		- Workload dao động thất thường hoặc theo mùa.
+	- Provisioned Mode:
+		- Ứng dụng lâu dài với lưu lượng ổn định.
+		- Muốn kiểm soát chi phí hiệu quả hơn.
+- Amazon DynamoDB Accelerator (DAX): Caching for DynamoDB 
+- Backup: Hỗ trợ export thẳng ra S3 mà ko ảnh hưởng tới DB
+	- Export the data directly from DynamoDB to Amazon S3 with continuous backups. Turn on point-in-time recovery for the table
+
+	
+DocumentDB (for MongoDB)
+
+
+Keyspaces (for Apache Cassandra)
+
+
+Neptune Database
+- Dịch vụ cơ sở dữ liệu đồ thị (graph database) được quản lý hoàn toàn bởi AWS, 
+- Được thiết kế để xử lý các mối quan hệ phức tạp và truy vấn đồ thị hiệu quả với khả năng mở rộng và hiệu năng cao:
+- Tính năng:
+	- Neptune Streams: Theo dõi các thay đổi trong cơ sở dữ liệu để xây dựng ứng dụng phản ứng nhanh với dữ liệu.
+	- Replication: Đảm bảo hiệu suất và tính sẵn sàng cao với bản sao dữ liệu trong cùng một vùng hoặc đa vùng (multi-AZ).
+	- Tích hợp với các dịch vụ AWS khác như AWS Lambda, Amazon SageMaker (học máy), và Amazon Kinesis.
+- Use Cases:
+	- Mạng xã hội: Lưu trữ và phân tích mối quan hệ giữa người dùng.
+	- Gợi ý sản phẩm: Tìm mối liên kết giữa người dùng và sản phẩm.
+	- Phát hiện gian lận: Phân tích các mối quan hệ bất thường trong giao dịch.
+
+
+Amazon Quantum Ledger Database (Amazon QLDB)
+- Dịch vụ cơ sở dữ liệu sổ cái (ledger database) được quản lý hoàn toàn bởi AWS. 
+- Được thiết kế để theo dõi và ghi lại mọi thay đổi dữ liệu một cách minh bạch, không thể sửa đổi.
+- Tính năng:
+	- Tính toàn vẹn của dữ liệu
+	- Được AWS quản lý hoàn toàn
+	- Ngôn ngữ truy vấn: Sử dụng ngôn ngữ PartiQL, hỗ trợ truy vấn dữ liệu dạng bảng SQL và các thay đổi lịch sử.
+	- Tích hợp mật mã (cryptographic verification):sử dụng SHA-256 để phát hiện bất kỳ thay đổi trái phép nào.
+- Use Cases:
+	- Theo dõi giao dịch tài chính: Ghi lại và theo dõi các giao dịch kế toán.
+	- Quản lý chuỗi cung ứng: Theo dõi hành trình của sản phẩm từ sản xuất đến tiêu dùng.
+	- Hệ thống hồ sơ: Ghi lại lịch sử thay đổi và đảm bảo tính minh bạch cho các ứng dụng như tài sản, quyền sở hữu.
+
+
+3. Data Warehouse - Big data
+-----------------------------------------------------------------------------
+Redshift (OLAP)
+- Redshift is based on PostgreSQL, but it’s not used for OLTP
+- It’s OLAP – online analytical processing (analytics and data warehousing)
+- 10x better performance than other data warehouses, scale to PBs of data
+- Columnar storage of data (instead of row based) & parallel query engine
+
+
+Amazon QuickSight
+- Serverless machine learning-powered business intelligence service to create interactive dashboards
+- Fast, automatically scalable, embeddable, with per-session pricing
+- Kết nối nhiều nguồn dữ liệu: cho phép kết nối trực tiếp đến các nguồn dữ liệu khác nhau, bao gồm S3 và RDS for PostgreSQL, giúp bạn tích hợp tất cả dữ liệu trong data lake.
+- Tạo datasets và phân tích: tạo các datasets từ những nguồn dữ liệu này, và bạn có thể tạo các phân tích (analysis) và bảng điều khiển (dashboard) cho báo cáo và trực quan hóa.
+- Phân quyền chi tiết: QuickSight hỗ trợ chia sẻ các dashboard với những người dùng hoặc nhóm cụ thể. Điều này phù hợp với yêu cầu rằng ban quản lý cần có toàn quyền truy cập vào mọi bảng điều khiển, trong khi các thành viên khác chỉ có quyền truy cập giới hạn. Bạn có thể dễ dàng sử dụng các nhóm người dùng (groups) và người dùng (users) để quản lý quyền truy cập.
+
+
+AWS Lake Formation
+- Dịch vụ của AWS cho phép tạo và Quản lý Data Lake 
+- Kết hợp với các dịch vụ khác của AWS để hoạt động:
+	- Store data: S3, Redshift, RDS, DynamoDB, Redshift
+	- Quản lý quyền truy cập: AWS IAM và Lake Formation Permissions
+	- ETL, Catalog: Glue, 
+	- Truy vấn, phân tích: Athena, và AWS AI
+	- Giám sát và ghi log: AWS CloudTrail
+- Phân quyền:
+	- Use Lake Formation to enforce column-level access control for the QuickSight users.
+	- Use Lake Formation tag-based access control to authorize and grant cross-account permissions for the required data to the engineering team accounts.
+	- Support Security high level: create data filters to implement row-level security and cell-level security.
+	
+	
+4. Other: 
+-----------------------------------------------------------------------------
+- Amazon OpenSearch 
+	- A successor to Amazon ElasticSearch
+	- Can search any field, even partially matches
+
+	
+Graphs: Amazon Neptune – displays relationships between data
+
+
+Ledger: Amazon Quantum Ledger Database
+
+
+Time series: Amazon Timestream
+
+
+VI. Data Service
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+1. Database Migration Service
+-----------------------------------------------------------------------------
+AWS DMS:
+- Migrate data từ cơ sở dữ liệu nguồn sang cơ sở dữ liệu đích. 
+- DMS thực hiện sao chép dữ liệu giữa các cơ sở dữ liệu đang chạy trên các nền tảng khác nhau mà không làm gián đoạn ứng dụng nguồn.
+- Quickly and securely migrate databases to AWS, resilient, self healing
+- The source database remains available during the migration
+- Create an ongoing replication task.
+
+
+AWS SCT:
+- Chuyển đổi Metadata từ cơ sở dữ liệu nguồn sang cơ sở dữ liệu đích. 
+- SCT giúp bạn chuyển đổi cấu trúc cơ sở dữ liệu (tables, indexes, triggers, stored procedures) từ hệ thống hiện tại sang hệ thống trên AWS.
+- Convert your Database’s Schema from one engine to another
+- Example OLTP: (SQL Server or Oracle) to MySQL, PostgreSQL, Aurora
+- Example OLAP: (Teradata or Oracle) to Amazon Redshift
+- Prefer compute-intensive instances to optimize data conversions
+- You do not need to use SCT if you are migrating the same DB engine
+	- Ex: On-Premise PostgreSQL => RDS PostgreSQL
+	- The DB engine is still PostgreSQL (RDS is the platform) Source DB DMS + SCT Target DB (different engine)
+
+
+AWS Snow Family 
+- Là một tập hợp các dịch vụ và thiết bị lưu trữ và xử lý dữ liệu được thiết kế để giúp các tổ chức di chuyển, lưu trữ, và xử lý lượng dữ liệu lớn 
+- Sử dụng trong môi trường không có kết nối Internet ổn định hoặc trong các địa điểm xa xôi.
+- Chỉ tương thích trực tiếp với S3 hoặc phải qua EC2 làm trung gian
+- Phân loại: 
+	- AWS Snowcone device: ~8T
+	- AWS Snowball Edge Storage Optimized device: ~20T
+	- AWS Snowmobile vehicle : > 1000T
+	- AWS Snowball Edge Compute Optimized with GPU device: Cần tính toán nặng
+	
+
+Amazon AppFlow
+- Fully managed integration service that enables you to securely transfer data between Software-as-a-Service (SaaS) applications and AWS
+- Sources: Salesforce, SAP, Zendesk, Slack, and ServiceNow
+- Destinations: AWS services like Amazon S3, Amazon Redshift or nonAWS such as SnowFlake and Salesforce
+- Frequency: on a schedule, in response to events, or on demand
+- Data transformation capabilities like filtering and validation
+- Encrypted over the public internet or privately over AWS PrivateLink
+- Don’t spend time writing the integrations and leverage APIs immediately
+
+
+2. ETL Data
+-----------------------------------------------------------------------------
+AWS Transfer Family
+- Serverless service: A fully-managed service for file transfers into and out of Amazon S3 or Amazon EFS using the FTP protocol
+- Đa phần dành cho Khách hàng bên ngoài của công ty muốn tương tác vs hệ thống (ko phải KH của AWS)
+	- KH của AWS thì dùng data sync
+- Các chức năng chính:
+	- Hỗ Trợ Nhiều Giao Thức: SFTP (SSH File Transfer Protocol), FTPS (FTP over SSL), và FTP, giúp dễ dàng tích hợp với nhiều hệ thống và ứng dụng khác nhau.
+	- Tích Hợp Với Amazon S3: người dùng tải lên và tải xuống tệp trực tiếp từ Amazon S3, Điều này cho phép tổ chức sử dụng S3 như một hồ dữ liệu (data lake) để lưu trữ và quản lý tệp.
+	- Bảo Mật: AWS Transfer Family hỗ trợ mã hóa dữ liệu khi truyền tải và cho phép xác thực người dùng qua AWS Identity and Access Management (IAM) và AWS Directory Service.
+	- Quản Lý Người Dùng: Dịch vụ cho phép người quản trị dễ dàng quản lý người dùng và nhóm người dùng, định nghĩa quyền truy cập và các thông tin liên quan đến tài khoản.
+	- Hỗ trợ giao thức truyền tin AS2 : giao thức truyền tin bảo mật hơn HTTP và HTTPS
+
+
+AWS DataSync
+- Move LARGE amount of data to and from
+	- On-premises / other cloud to AWS (NFS, SMB, HDFS, S3 API…) – needs agent
+	- AWS to AWS (different storage services) – no agent needed
+- Tranfer mode:
+	- Transfer only data that has changed: sync những dữ liệu mới (new or changed) -> ưu tiên chọn
+	- Transfer mode to transfer all data: sync lại cả file thay đổi ( ko chỉ những dữ liệu mới ) -> ko ưu tiên
+
+
+AWS Glue
+- Managed extract, transform, and load (ETL) service
+- Useful to prepare and transform data for analytics
+- Fully serverless service
+- AWS Glue crawler tự động phát hiện schema (cấu trúc dữ liệu) của dữ liệu trong S3 và tạo metadata lưu trữ trong AWS Glue Data Catalog.
+- Use case: 
+	- Phù hợp với lượng dữ liệu vừa phải
+
+
+Amazon EMR
+- EMR stands for "Elastic MapReduce"
+- EMR helps creating Hadoop clusters (Big Data) to analyze and process vast amount of data
+- Use case: 
+	- Phù hợp với lượng dữ liệu lớn
+	- Use Amazon EMR with the Amazon Redshift data to enrich the S3 data
+
+
+AWS Kinesis 
+- Dịch vụ stream dữ liệu serverless cho phép xử lý và phân tích dữ liệu trong thời gian thực.  
+- Bao gồm 4 dịch vụ nhỏ hơn
+	- Amazon Kinesis Data Streams 
+		- Tương tự Kafka Server
+		- Thu thập và xử lý dữ liệu luồng trong thời gian thực từ nhiều nguồn như ứng dụng, cảm biến, hoặc thiết bị IoT.
+		- Dữ liệu được lưu trữ dưới dạng log trong thời gian ngắn (default 1 ngày, có thể tăng lên ~7 day) (giống kafka)
+	- Amazon Kinesis Data Analytics
+		- Phân tích dữ liệu luồng trong thời gian thực bằng cách sử dụng SQL.
+		- Có thể ETL nhưng chỉ phù hợp với data readtime và có volumn nhỏ (sử dụng chung vs các dịch vụ AWS Kinesis khác )
+	- Amazon Kinesis Data Firehose
+		- Tương tự kafka connect ( nhưng ko cần connector )
+		- Chuyển tiếp và lưu trữ dữ liệu luồng vào Amazon S3, Amazon Redshift, Amazon Elasticsearch Service, hoặc Splunk.
+		- Có thể kết hợp vs Lambda để transform
+	- Amazon Kinesis Video Streams
+		- Cho phép bạn dễ dàng lưu trữ và truyền tải và phân tích video trong thời gian thực.
+- Use case:
+	- Amazon Kinesis Data Streams -> Amazon Kinesis Data Analytics (+ ETL)-> Amazon Kinesis Data Firehose -> S3, Redshift, Elasticsearch
+	
+	
+Amazon Managed Streaming for Apache Kafka (Amazon MSK)
+- Alternative to Amazon Kinesis
+- Fully managed Apache Kafka on AWS
+
+
+Amazon AppFlow
+- Tích hợp để ETL data từ các nguồn SAAS khác đến AWS 
+- Sources: Salesforce, SAP, Zendesk, Slack, and ServiceNow
+- Destinations: AWS services like Amazon S3, Amazon Redshift or nonAWS such as SnowFlake and Salesforce
+- Frequency: on a schedule, in response to events, or on demand
+- Data transformation capabilities like filtering and validation
+- Encrypted over the public internet or privately over AWS PrivateLink
+
+
+Amazon Elastic Transcoder
+- Dịch vụ AWS cho phép chuyển Đổi Định Dạng Video: sang các định dạng phù hợp với các thiết bị khác nhau (như iOS, Android, hoặc trình duyệt web) để đảm bảo trải nghiệm phát video tốt nhất.
+- Tự Động Quản Lý Tài Nguyên: Dịch vụ này tự động xử lý việc phân bổ và quản lý tài nguyên, do đó bạn không phải lo lắng về việc duy trì hay mở rộng cơ sở hạ tầng.
+- Tích Hợp Chặt Chẽ với AWS: S3 (lưu trữ tệp video đầu vào và đầu ra), Amazon CloudFront (phân phối video), và Amazon SNS (thông báo về trạng thái công việc).
+- Hỗ Trợ Nhiều Định Dạng Video và Âm Thanh: Dịch vụ này hỗ trợ nhiều định dạng phương tiện phổ biến như H.264, AAC, MP4, WebM, và nhiều định dạng khác.
+- Quản Lý Bảng Giá Linh Hoạt: Chỉ phải trả tiền cho dung lượng video mà bạn xử lý và định dạng bạn chọn, không có phí thiết lập hoặc cam kết dài hạn.
+
+
+3. AI - Machine Learning
+-----------------------------------------------------------------------------
+Amazon Rekognition
+- Dịch vụ dùng để phân tích hình ảnh và video. 
+- Find objects, people, text, scenes in images and videos using ML
+- Facial analysis and facial search to do user verification, people counting
+
+
+Amazon Transcribe
+- Biến  dữ liệu từ âm thanh thành văn bản
+- Automatically convert speech to text
+- Uses a deep learning process called automatic speech recognition (ASR) to convert speech to text quickly and accurately
+- Automatically remove Personally Identifiable Information (PII) using Redaction
+- Supports Automatic Language Identification for multi-lingual audio
+
+
+Amazon Polly
+- Turn text into lifelike speech using deep learning
+- Allowing you to create applications that talk
+
+
+Amazon Translate
+- Dịch thuật ngôn ngữ
+- Natural and accurate language translation
+- Amazon Translate allows you to localize content - such as websites and applications - for international users, and to easily translate large volumes of text efficiently.
+
+
+Amazon Lex (same technology that powers Alexa)
+- Automatic Speech Recognition (ASR) to convert speech to text
+- Natural Language Understanding to recognize the intent of text, callers
+- Helps build chatbots, call center bots
+
+
+Amazon Connect:
+- Receive calls, create contact flows, cloud-based virtual contact center
+- Can integrate with other CRM systems or AWS
+- No upfront payments, 80% cheaper than traditional contact center solutions
+
+
+Amazon Textract
+- Sử dụng để extract text từ ảnh, pdf
+- Automatically extracts text, handwriting, and data from any scanned documents using AI and ML
+- Extract data from forms and tables
+- Read and process any type of document (PDFs, images, …)
+- Use case:
+	- Sử dụng cùng với Amazon Comprehend: Amazon Textract -> Amazon Comprehend
+
+
+Amazon Comprehend
+- Amazon Comprehend được sử dụng để phân tích văn bản 
+- For Natural Language Processing – NLP
+- Fully managed and serverless service
+- Uses machine learning to find insights and relationships in text
+- Use case:
+	- Sử dụng cùng với Amazon Textract: Amazon Textract -> Amazon Comprehend
+
+
+Amazon SageMaker
+- Dịch vụ huấn luyện AI/ML hoàn chỉnh
+- Yêu cầu người sử dụng đã có kiến thức về ML/AI
+
+
+Amazon Forecast
+- Dịch vụ huấn luyện AI/ML đơn giản
+- Không yêu cầu người sử dụng đã có kiến thức về ML/AI
+- Use case:
+	- Forcast for times series
+	
+
+Amazon Kendra
+- Fully managed document search service powered by Machine Learning
+- Extract answers from within a document (text, pdf, HTML, PowerPoint, MS Word, FAQs…)
+
+
+Amazon Personalize
+- Fully managed ML-service to build apps with real-time personalized recommendations
+
+
+AWS Macie
+- Amazon Macie is a fully managed data security and data privacy service that uses machine learning and pattern matching to discover and protect your sensitive data in AWS.
+- Macie helps identify and alert you to sensitive data
+- Use case
+	- Macie to scan the objects in the S3 bucket to detect personally identifiable information (PII)
+
+
+Athena: 
+- Serverless query service to analyze data
+	- stored in S3,  
+	- stored in CloudTrail logs (CSV)
+	- tích hợp với Glue Data Catalog
+- Uses standard SQL language to query the files (built on Presto)
+- Supports CSV, JSON, ORC, Avro, and Parquet
+
+
+VII. AWS Monitoring, Audit and Performance
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+AWS CloudWatch
+- Performance monitoring (metrics, CPU, network, etc…) & dashboards
+- Events & Alerting
+- Log Aggregation & Analysis
+- Can be Con¬gure a CloudWatch Logs subscription to stream the logs to Amazon OpenSearch Service
+- Can create composite alarms where possible
+- Use case:
+	- Theo dõi lưu lượng mạng
+
+
+AWS CloudTrail 
+- AWS Global Service giúp theo dõi và ghi lại hoạt động API của tài khoản AWS của bạn.
+- Truy vấn bằng Athena
+- Tính năng của AWS CloudTrail:
+	- Ghi lại sự kiện: Ghi lại tất cả các sự kiện API để bạn có thể xem lịch sử hoạt động trong tài khoản AWS, giúp phát hiện hành vi đáng ngờ hoặc điều tra sự cố bảo mật.
+	- Theo dõi thay đổi tài nguyên: CloudTrail giúp theo dõi và ghi lại những thay đổi đối với tài nguyên AWS để dễ dàng thực hiện kiểm tra hoặc phân tích sau này.
+	- Phân tích và giám sát: Kết hợp với các dịch vụ AWS khác như Amazon CloudWatch để tạo ra các cảnh báo hoặc phản hồi tự động khi có hoạt động bất thường.
+
+
+AWS Config
+- Dịch vụ cho phép theo dõi cấu hình:
+	- Lưu trạng thái cấu hình hiện tại
+	- Ghi lại log thay đổi config
+- Get timeline of changes and compliance
+- Use case:
+	- Evaluate resources against compliance rules
+	- Use AWS Config rules to define and detect resources that are not properly tagged.
+	- Tự động phát hiện các config chưa tuân thủ ( chưa được mã hóa ...)
+	
+
+VIII. AWS Security & Encryption
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+AWS KMS (Key Management Service)
+- Dịch vụ quản lý key của AWS, sử dụng để mã hóa và giải mã dữ liệu trên AWS KMS
+- Encryption keys is manage by AWS
+- KMS Keys Types: KMS Customer Master Key
+	- Symmetric (AES-256 keys)
+		- Single encryption key that is used to Encrypt and Decrypt
+		- AWS services that are integrated with KMS use Symmetric CMKs
+		- You never get access to the KMS Key unencrypted (must call KMS API to use)
+	- Asymmetric (RSA & ECC key pairs)
+		- Public (Encrypt) and Private Key (Decrypt) pair
+		- Used for Encrypt/Decrypt, or Sign/Verify operations
+		- The public key is downloadable, but you can’t access the Private Key unencrypted
+		- Use case: encryption outside of AWS by users who can’t call the KMS API
+- Optional:
+	- Use an AWS Key Management Service (AWS KMS) external key store backed by an external key manager
+	- Create a customer managed key. Use the key to encrypt the EBS volumes
+- Use case:
+	- Encrypting and decrypting large datasets like certificates in near real-time.
+	- Encryption outside of AWS by users who can’t call the KMS API
+	- Apply a key policy to restrict key usage to a set of authorized principals.
+	-  In each KMS key policy, deny decryption of data for all principals except an IAM role that the customer provides
+	
+	
+AWS Secrets Manager
+- Dịch vụ quản lý bí mật (secrets) được thiết kế để giúp bảo mật và quản lý các thông tin nhạy cảm như 
+	- DB User/Password
+	- Key API 
+	- Not Dataset
+- AWS Secrets Manager lưu trữ, truy cập, xoay vòng, và quản lý các thông tin bảo mật này an toàn, và tự động.
+
+
+AWS Certificate Manager (ACM)
+- Easily provision, manage, and deploy TLS Certificates
+- Provide in-flight encryption for websites (HTTPS)
+- Supports both public and private TLS certificates (Free of charge for public TLS certificates )
+- Automatic TLS certificate renewal
+- Integrations with (load TLS certificates on)
+	- Elastic Load Balancers (CLB, ALB, NLB) -> Create an Application Load Balancer with an HTTPS listener that uses the SSL certi¬cate from ACM
+	- CloudFront Distributions
+	- APIs on API Gateway
+- Cannot use ACM with EC2 (can’t be extracted)
+- ACM Không cho phép trực tiếp tạo chứng chỉ từ một CA bên ngoài. Nếu muốn dùng thì phải tạo ở máy local và import vào ACM.
+
+
+AWS WAF – Web Application Firewall
+- Cấu hình áp dụng cho từng vùng(Region)
+- Protects your web applications from common web exploits (Layer 7)
+	- Protect API from HTTP flood: Create a Regional AWS WAF web ACL with a rate-based rule
+- Layer 7 is HTTP (vs Layer 4 is TCP/UDP)
+- Deploy on
+	- Application Load Balancer
+	- API Gateway
+	- CloudFront
+	- AppSync GraphQL API
+	- Cognito User Pool
+
+
+AWS Shield: 
+- Protect from DDoS attack (Distributed Denial of Service – many requests at the same time)
+- AWS Shield Standard:
+	- Free service that is activated for every AWS customer
+	- Provides protection from attacks such as SYN/UDP Floods, Reflection attacks and other layer 3/layer 4 attacks
+- AWS Shield Advance:
+	- Cung cấp khả năng bảo vệ hệ thống trước các cuộc tấn công DDoS quy mô lớn. 
+	- Gán ELB cho AWS Shield Advanced giúp bảo vệ kiến trúc của hệ thống với các tính năng bổ sung như phát hiện tấn công và phục hồi nhanh chóng.
+
+
+AWS Firewall Manager
+- Cấu hình cho tất cả các vùng(Region)
+- Manage rules in all accounts of an AWS Organization
+- Security policy: common set of security rules
+	- WAF rules (Application Load Balancer, API Gateways, CloudFront)
+	- AWS Shield Advanced (ALB, CLB, NLB, Elastic IP, CloudFront)
+	- Security Groups for EC2, Application Load BAlancer and ENI resources in VPC
+	- AWS Network Firewall (VPC Level)
+	- Amazon Route 53 Resolver DNS Firewall
+	- Policies are created at the region level
+- Rules are applied to new resources as they are created (good for compliance) across all and future accounts in your Organization
+
+
+Amazon GuardDuty
+- Dịch vụ cung cấp cảnh báo các mối đe dọa và giám sát bảo mật của AWS
+- Intelligent Threat discovery threat to protect your AWS Account
+- Uses Machine Learning algorithms, anomaly detection, 3rd party data
+- One click to enable (30 days trial), no need to install software
+- Input data includes:
+	- CloudTrail Events Logs – unusual API calls, unauthorized deployments
+	- CloudTrail Management Events – create VPC subnet, create trail, …
+	- CloudTrail S3 Data Events – get object, list objects, delete object, …
+	- VPC Flow Logs – unusual internal traffic, unusual IP address
+	- DNS Logs – compromised EC2 instances sending encoded data within DNS queries
+	- Optional Features – EKS Audit Logs, RDS & Aurora, EBS, Lambda, S3 Data Events…
+- Can protect against CryptoCurrency attacks (has a dedicated "finding" for it)
+
+
+Amazon Inspector
+- Dịch vụ bảo mật được cung cấp bởi AWS, giúp đánh giá và cải thiện mức độ bảo mật của ứng dụng đang chạy trên AWS. 
+- Dịch vụ này tự động kiểm tra các tài nguyên AWS và cung cấp thông tin chi tiết về các lỗ hổng bảo mật, vấn đề cấu hình, và các yếu tố khác có thể ảnh hưởng đến bảo mật của ứng dụng.
+- Các tính năng chính của Amazon Inspector:
+	- Đánh giá lỗ hổng: Amazon Inspector quét các ứng dụng và máy chủ để phát hiện các lỗ hổng bảo mật và điểm yếu trong mã nguồn
+	- Phân tích cấu hình: kiểm tra cấu hình của các tài nguyên AWS (như EC2 instances, ECS clusters, và RDS databases) để xác định các vấn đề có thể gây rủi ro bảo mật.
+	- Báo cáo và đề xuất: Sau khi hoàn thành quét, Amazon Inspector cung cấp báo cáo chi tiết về các lỗ hổng và vấn đề bảo mật, cũng như các đề xuất cụ thể để khắc phục những vấn đề này.
+	- Tích hợp với CI/CD: có thể được tích hợp vào quy trình CI/CD, cho phép kiểm tra bảo mật tự động trong suốt vòng đời phát triển phần mềm.
+	- Dễ dàng sử dụng: giao diện đơn giản và dễ sử dụng, cho phép các nhà phát triển và đội ngũ bảo mật dễ dàng thiết lập và theo dõi các đánh giá bảo mật.
+- Reporting & integration with AWS Security Hub
+- Send findings to Amazon Event Bridge
+
+
+Signed URLs 
+- Dịch vụ bảo mật và kiểm soát truy cập đặc biệt liên quan đến:
+	- S3: Signed URLs được sử dụng để cấp quyền truy cập tạm thời đến các tệp lưu trữ trên S3 mà không cần làm chúng công khai.
+	- CloudFront: Signed URLs cũng được sử dụng trong CloudFront để kiểm soát quyền truy cập đến nội dung được phân phối qua mạng phân phối nội dung (CDN).
+	- Khi cần cung cấp quyền truy cập tạm thời tới tài nguyên nhạy cảm.
+	- Khi muốn tích hợp kiểm soát truy cập dễ dàng vào ứng dụng hoặc API.
+
+
+Systems Manager – SSM Session Manager
+- Allows you to start a secure shell on your EC2 and on-premises servers
+- No SSH access, bastion hosts, or SSH keys needed
+- No port 22 needed (better security)
+- Supports Linux, macOS, and Windows
+- Send session log data to S3 or CloudWatch Logs
+- Logging:
+	- Enable S3 logging in the Systems Manager console. Choose an S3 bucket to send the session data to.
+- Use case:
+	- Kết hợp với AWS Config để tự động các công việc admin  
+
+
+TLS (Transport Layer Security): chứng chỉ TLS thường được lưu trữ và quản lý tại các dịch vụ sau:
+- AWS Certificate Manager (ACM): 
+	- ACM là dịch vụ chuyên dụng để quản lý chứng chỉ SSL/TLS cho các ứng dụng AWS. -> ưu tiên sử dụng
+	- Use case:
+		- Elastic Load Balancer (ELB): Sử dụng chứng chỉ SSL/TLS để mã hóa lưu lượng giữa client và ELB.
+		- Amazon CloudFront: Cung cấp chứng chỉ cho phân phối nội dung với HTTPS.
+		- API Gateway: Bảo mật endpoint của API bằng HTTPS.
+- AWS Identity and Access Management (IAM)
+	- IAM cho phép quản lý chứng chỉ SSL/TLS cho các ứng dụng cần truy cập trực tiếp vào các phiên bản EC2. -> không ưu tiên do không có cơ chế rotation chứng chỉ
+	- Use case: Elastic Load Balancer (ELB) trong môi trường private
+- Elastic Load Balancer (ELB)
+	- Mục đích: ELB có khả năng quản lý và phân phối các chứng chỉ TLS cho các ứng dụng triển khai qua các instances EC2.
+	- Use case: Chứng chỉ TLS có thể được đính kèm trực tiếp vào ELB (bao gồm cả Application Load Balancer và Network Load Balancer) từ ACM hoặc IAM.
+	- Lợi ích: ELB xử lý mã hóa SSL/TLS ở lớp load balancer, giảm tải cho các instances EC2.
+- Amazon CloudFront
+	- Mục đích: CloudFront hỗ trợ đính kèm chứng chỉ TLS cho việc phân phối nội dung.
+	- Vị trí sử dụng: CloudFront phân phối nội dung HTTPS từ các nguồn gốc như S3, ELB, hoặc một server riêng.
+	- Tùy chọn chứng chỉ: Có thể chọn chứng chỉ từ ACM cho CloudFront, thường là chứng chỉ công khai (public).
+
+
+
+IX. Backup
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+AWS Backup:
+- Dịch vụ backup của AWS: (ưu tiện chọn khi xuất hiện)
+- Bắt buộc phải sử dụng khi sử dụng vs aurora database
+- Supports PITR for supported services
+- On-Demand and Scheduled backups
+- Tag-based backup policies
+- Backup policies (known as Backup Plans)
+	- Backup frequency (every 12 hours, daily, weekly, monthly, cron expression)
+	- Backup window
+	- Transition to Cold Storage (Never, Days, Weeks, Months, Years)
+	- Retention Period (Always, Days, Weeks, Months, Years)
+- Backup resource: (Các đối tượng cần backup) bao gồm
+	- Amazon EBS volumes: các dữ liệu nằm trong EBS
+	- Amazon EC2 instances: tất cả mọi thứ nằm trong EC2
+	- RDS databases
+
+
+AWS Application Discovery Service
+- Plan migration projects by gathering information about on-premises data centers
+- Server utilization data and dependency mapping are important for migrations
+- Agentless Discovery (AWS Agentless Discovery Connector)
+	- VM inventory, configuration, and performance history such as CPU, memory, and disk usage
+- Agent-based Discovery (AWS Application Discovery Agent)
+	- System configuration, system performance, running processes, and details of the network connections between systems
+- Resulting data can be viewed within AWS Migration Hub
+
+
+X. Working window
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+1. AWS console
+---------------------------------------------------------------------------------
+- Giao diện để thao tác với AWS
+
+
+
+
+2. AWS CloudFormation
+---------------------------------------------------------------------------------
+- Cung cấp dòng lệnh command line để tương tác với các dịch vụ AWS
+- CloudFormation is a declarative way of outlining your AWS Infrastructure, for any resources (most of them are supported).
+- Infrastructure as code
+	- No resources are manually created, which is excellent for control
+	- Changes to the infrastructure are reviewed through code
+	
+	
+3. API - SDK	
+---------------------------------------------------------------------------------
+Terraform
+
+
+
+
+
+Assible
+
+
+
+
+XI. AWS customer tool
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+AWS Workload Discovery
+- Tool (tổng hợp nhiều service) cho phép trực quan hóa kiến trúc hạ tầng AWS của họ thông qua các biểu đồ tự động được tạo ra từ dữ liệu thực tế trong tài khoản AWS
+- Trực quan hóa tự động (Auto-Discovery):
+- Hỗ trợ nhiều tài khoản và vùng (Multi-Account and Multi-Region):
+- Cập nhật thời gian thực:
+- Biểu đồ chi tiết (Detailed Diagrams):
+- Các thành phần kiến trúc:
+	- AWS Lambda
+	- AWS DynamoDB
+	- Amazon S3
+	- Amazon API Gateway
+	- AWS CloudFormation

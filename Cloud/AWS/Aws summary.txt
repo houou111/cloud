@@ -1,0 +1,113 @@
+1. Các dịch vụ chính trong AWS
+------------------------------------------------------------------------------------------------
+AWS has Global Services:
+- Identity and Access Management (IAM)
+- Route 53 (DNS service)
+- CloudFront (Content Delivery Network)
+- WAF (Web Application Firewall)
+
+Most AWS services are Region-scoped:
+- Amazon EC2 (Infrastructure as a Service)
+- Elastic Beanstalk (Platform as a Service)
+- Lambda (Function as a Service)
+- Rekognition (Software as a Service)
+
+
+Compute: EC2, Lambda, Elastic Beanstalk
+Storage: S3, EBS, EFS, FSx, Storage Gateway
+Databases: RDS, DynamoDB, Redshift
+Networking: VPCs, Direct Connect, Route 53, API Gateway, AWS Global Accelerator
+
+
+2. Sáu cột trụ của khung kiến trúc tối ưu AWS (Well-Architected Framework Pillars)
+------------------------------------------------------------------------------------------------
+Operational Excellence (Vận hành xuất sắc)
+- Vận hành và giám sát các hệ thống để mang lại giá trị kinh doanh và liên tục cải tiến các quy trình và thủ tục
+
+Security (Tính bảo mật)
+- Bảo mật thông tin và các hệ thống
+
+Reliability (Tính tin cậy)
+- Tập trung vào khối lượng công việc thực hiện đúng chức năng và cách hồi phục nhanh chóng sau sự cố để đáp ứng nhu cầu.
+
+Performance Efficiency (Hiệu quả hiệu suất)
+- Sử dụng IT và tài nguyên điện toán đầm mây một cách hiệu quả
+
+Cost Optimization (Tối ưu hóa chi phí)
+- Tránh các chi phí không cần thiết
+
+Sustainability (tính bền vững)
+- Giảm thiểu các tác động tới môi trường trong việc chạy các hệ thống tài nguyên trong đám mây
+
+
+3. AWS managment tool
+------------------------------------------------------------------------------------------------
+- AWS console: https://aws.amazon.com/console/
+	+ Root user
+	+ IAM User + Account ID  (tài khoản con giúp quản lý truy suất các tài nguyên của AWS)
+
+- Giao diện dòng lệnh AWS (AWS CLI) 
+	+ Là một công cụ mã nguồn mở cho phép bạn tương tác với các dịch vụ AWS bằng cách sử dụng các lệnh (command).
+	+ Direct access to the public APIs of AWS services
+	+ You can develop scripts to manage your resources
+	+ It’s open-source https://github.com/aws/aws-cli
+	+ Alternative to using AWS Management Console
+
+- AWS SDK đơn giản hóa việc sử dụng AWS services cho ứng dụng bằng cách cung cấp một bộ thư viện nhất quán và quen thuộc cho đội ngũ phát triển ứng dụng: 
+	+ AWS SDK cung cấp hỗ trợ cho những công việc quản lý vòng đời của API tới AWS services như: quản lý thông tin xác thực (manage credentials), thử lại (retry) , sắp xếp dữ liệu (data marshalling – chuẩn bị dữ liệu), tuần tự hóa (serialization chuyển object sang bytes stream), giải mã hóa (deserialization chuyển bytes stream về lại object)
+	+ AWS Software Development Kit (AWS SDK)
+	+ Language-specific APIs (set of libraries)
+	+ Enables you to access and manage AWS services programmatically
+	+ Embedded within your application
+	+ Supports: 
+		• SDKs (JavaScript, Python, PHP, .NET, Ruby, Java, Go, Node.js, C++)
+		• Mobile SDKs (Android, iOS, …)
+		• IoT Device SDKs (Embedded C, Arduino, …)
+
+
+
+4. Budget managment
+------------------------------------------------------------------------------------------------
+Chi phí được tính theo dịch vụ sử dụng
+- Dịch vụ Compute: Chi phí được tỉnh theo giờ từ khi tạo (launch) 1 Compute cho đến xóa bỏ nó(termination).
+- Dịch vụ hưu trữ (Storage): Dữ liệu bạn lưu trong đám mây
+- Dịch vụ database
+- Băng thông: Dữ liệu truyền ra bên ngoài AWS Cloud
+
+
+Công cụ quản lý chi phí: budget (trong billing)
+- Cost Budget hoạt động dựa trên chi phí ($$$$)
+- Usage Budget hoạt động dựa trên mức sử dụng. (Hours, GB ...)
+- Reservation Instance (RI) Budget: budget cho máy chủ thuê từ 1-3 năm
+- Saving plan budget: budget cho máy chủ 
+- Cam kết lâu dài: reserved instance, saving plan
+	+ Mượn tạm: spot ( chỉ dùng cho app)
+
+
+
+Công cụ tính chi phí
+- Total Cost of Ownership(TCO)?
+TCO là một ước tính tài chính giúp bạn hiểu về chi phí trực tiếp và chi phí gián tiếp, trong sử dụng các dịch vụ của AWS
+
+https://calculator.aws/#/
+- Cho phép tạo các estimate các dịch vụ thông dụng.
+- Có thể chia sẻ các estimate cho người khác.
+- Chi phí sẽ khác biệt theo từng Region.
+
+
+Tối ưu hóa chi phí tren AWS : 
+*** Nên nhìn rộng ra cả kiến trúc và từng service
+
+- Lựa chọn cấu hình tài nguyên tính toán và nơi lưu trữ dữ liệu phù hợp.
+- Tận dụng các phương thức thanh toán giảm giá như 
+	+ On demand: dùng bao nhiêu tính bấy nhiều
+	+ Cam kết lâu dài: reserved instance, saving plan
+	+ Mượn tạm: spot ( chỉ dùng cho app)
+- Xóa các tài nguyên không sử dụng, bật tắt tự động các tài nguyên không cần chạy 24/7.
+- Tận dụng các dịch vụ serverless.
+
+
+- Thiết kế kiến trúc tối ưu giải quyết yêu cầu đề ra.
+- Cài đặt và sử dụng AWS Budget.
+- Quản lý chi phí theo phòng ban / ứng dụng với cost allocation tag.
+- Liên tục theo dõi và tối ưu hóa chi phí.

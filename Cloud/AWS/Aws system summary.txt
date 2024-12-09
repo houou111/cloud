@@ -1,0 +1,209 @@
+I. Location
+--------------------------------------------------------------------------------------------------------------------------------------------
+Region ( more than 25 region): (vùng địa lý)
+	-> 3 (or more) Availability zone ( A B C ...) : 
+		-> 3 or  (more ) Data center
+			-> n edge location : các đơn vị trung gian để tăng tốc trong việc xử lý thông tin AWS
+
+
+1. Vùng miền, quốc gia (regions)
+----------------------------------------------------------------------
+Region là một khu vực địa lý trên thế giới, nó bao gồm các Azs (các trung tâm dữ liệu Data Centers)
+Một region là một tập hợp các Azs
+Bạn nên cài đặt các tài nguyên trong các AWS Regions gần nhất với Quốc Gia của bạn
+Hầu hết các tài nguyên được ràng buộc với một Region cụ thể
+
+Region: vùng địa lý
+-> Chọn region gần người dùng nhất ( để độ trẽ thấp)
+-> Giá của region càng đông thì càng rẻ ( của US rẻ hơn SING -> chạy test/dev)
+
+
+2) Khu vực cụm trung tâm dữ liệu(availability zone)
+----------------------------------------------------------------------
+Một AZ là một tập hợp của một hoặc nhiều trung tâm dữ liệu (Data Centers)
+Một AZ có nhiều máy chủ (Servers) mà bạn sẽ thuê để sử dụng, dùng để triển khai các ứng dụng của bạn
+Một AZ được gán với một Region độc lập
+
+Best practice: 2 AZ (~ DC - DR: on premis)
+- Đường truyền tốc độ cao
+
+
+3) Các địa điểm đặt thuê trung tâm dữ liệu (Edge Locations)
+----------------------------------------------------------------------
+Một Edge Location được sử dụng để làm bộ nhớ đệm (cache) chứa nội dung dữ liệu, cho tăng tốc độ phân phối trong truy cập thông tin
+Được sử dụng cho các ứng dụng Content Delivery network(CDN), và Amazon CloudFront
+Giảm tốc độ xử lý trong kết nối mạng internet (Reduced latency) dữ liệu
+
+Edge Location:
+- CDN ( CloudFront) : caching data
+- WAF ( Web Application firewall) : chông DDOS
+- Route 53: ( DNS Service)
+
+
+II. AWS server service
+--------------------------------------------------------------------------------------------------------------------------------------------
+0. Concept
+----------------------------------------------------------------------
+Service: các dịch vụ AWS cung cấp
+- At the end of 2023: ~12k service
+- Có trang quản trị riêng
+ 
+Feauture: Các tính năng của dịch vụ ( ở trên trang quản trị của từng service)
+
+
+
+1. EC2
+----------------------------------------------------------------------
+EC2 cho phép bạn thuê và quản trị các máy chủ ảo trong đám mây. 
+AWS virtual servers được gọi là Instances
+
+Các lựa chọn chi phí (Pricing Options)
+- On-demand
+- Spot
+- Revered Instances
+- Dedicated Hosts
+- Saving Plans
+
+Các tính năng trong sử dụng EC2 (Features)
+- Tự động phân phối các luồng truy cập (incoming application traffic) của người dùng từ bên ngoài, đến các ứng dụng chạy trên các máy ảo. Cho các máy ảo EC2 Intances
+- Tính năng tự động điều chỉnh quy mô (Auto Scaling):
+	+ Tính năng này sẽ tự động thêm vào hoặc thay thế EC2 Instances giữa các vùng Azs. 
+	+ Dựa trên sự cần thiết và sự thay đổi theo nhu cầu về quy mô sử dụng.
+
+Amazon EC2 (Elastic Compute Cloud) cung cấp nhiều tùy chọn lưu trữ khác nhau để đáp ứng các nhu cầu khác nhau của ứng dụng và khối lượng công việc. Dưới đây là các loại lưu trữ chính được sử dụng với EC2:
+- Amazon EBS (Elastic Block Store):
+	+ General Purpose SSD (gp2 và gp3): Được thiết kế cho khối lượng công việc phổ biến, cung cấp sự cân bằng giữa giá cả và hiệu suất.
+	+ Provisioned IOPS SSD (io1 và io2): Được thiết kế cho các ứng dụng đòi hỏi hiệu suất cao và độ trễ thấp, như cơ sở dữ liệu quan trọng.
+	+ Throughput Optimized HDD (st1): Được tối ưu hóa cho các khối lượng công việc yêu cầu thông lượng cao, chẳng hạn như xử lý dữ liệu lớn và log.
+	+ Cold HDD (sc1): Được thiết kế cho khối lượng công việc ít truy cập, chi phí thấp như lưu trữ dữ liệu lâu dài hoặc lưu trữ sao lưu.
+
+- Instance Store (Ephemeral Storage):
+	+ Đây là loại lưu trữ tạm thời được gắn trực tiếp vào phiên bản EC2. Dữ liệu trên Instance Store không được lưu giữ nếu phiên bản bị dừng hoặc khởi động lại. Instance Store phù hợp cho các dữ liệu tạm thời hoặc các khối lượng công việc yêu cầu hiệu suất I/O cao như bộ nhớ đệm, cache hoặc dữ liệu tạm thời trong quá trình xử lý.
+
+- Amazon S3 (Simple Storage Service):
+	+ Mặc dù không phải là một tùy chọn lưu trữ trực tiếp gắn vào EC2, S3 thường được sử dụng cùng với EC2 để lưu trữ và truy xuất dữ liệu không cấu trúc như hình ảnh, video, log và sao lưu. 
+	+ S3 cung cấp khả năng mở rộng, độ bền và tính sẵn sàng cao.
+
+- Amazon EFS (Elastic File System):
+	+ EFS là một dịch vụ lưu trữ tệp hoàn toàn quản lý, cho phép các phiên bản EC2 truy cập vào một hệ thống tệp chung, có thể mở rộng. EFS thích hợp cho các khối lượng công việc yêu cầu chia sẻ tệp, chẳng hạn như phân tích dữ liệu, quản lý nội dung và các ứng dụng doanh nghiệp.
+
+- Amazon FSx:
+	+ Amazon FSx cung cấp các hệ thống tệp được quản lý cho các ứng dụng yêu cầu hiệu suất cao hoặc các tính năng cụ thể của hệ thống tệp. Có hai loại chính:
+	+ Amazon FSx for Windows File Server: Được thiết kế cho các ứng dụng dựa trên Windows.
+	+ Amazon FSx for Lustre: Được thiết kế cho các khối lượng công việc đòi hỏi thông lượng cao, như các ứng dụng HPC (High-Performance Computing).
+
+
+2. Server Migration Service(SMS)
+-----------------------------------------------------------------
+SMS cho phép bạn di chuyển các máy chủ onpremis lên AWS
+✓ Di chuyển các máy chủ onpremis lên AWS
+✓ Server được lưu như là một Amazon Machine Image (AMI)
+✓ Sử dụng AMI để tạo các máy chủ như Là EC2 instances
+
+	
+3. Lamda
+----------------------------------------------------------------------
+AWS Lambda là một dịch vụ tính toán serverless (không máy chủ) do Amazon Web Services (AWS) cung cấp, cho phép bạn chạy mã mà không cần cung cấp hoặc quản lý máy chủ. Dưới đây là một số đặc điểm và lợi ích của AWS Lambda:
+- Serverless: Bạn không cần quản lý máy chủ vật lý hoặc ảo, AWS Lambda tự động quản lý cơ sở hạ tầng cho bạn.
+- Chạy mã theo sự kiện: Lambda cho phép bạn chạy mã để phản ứng với các sự kiện từ các dịch vụ khác của AWS, chẳng hạn như thay đổi dữ liệu trong S3, cập nhật cơ sở dữ liệu trong DynamoDB, hoặc yêu cầu HTTP qua API Gateway.
+- Thanh toán theo thời gian thực thi: Bạn chỉ trả tiền cho thời gian thực thi mã của mình, đo bằng số lần yêu cầu và thời gian chạy. Không có phí cố định cho việc duy trì máy chủ.
+- Khả năng mở rộng tự động: Lambda tự động mở rộng để xử lý số lượng lớn yêu cầu đồng thời, đảm bảo rằng ứng dụng của bạn có thể xử lý lượng tải cao mà không cần sự can thiệp của bạn.
+- Hỗ trợ nhiều ngôn ngữ lập trình: Lambda hỗ trợ nhiều ngôn ngữ lập trình phổ biến như Python, Node.js, Java, C#, Go, Ruby, và PowerShell.
+- Tích hợp sâu với các dịch vụ AWS khác: Lambda dễ dàng tích hợp với các dịch vụ AWS khác như S3, DynamoDB, Kinesis, SNS, SQS, CloudWatch, và API Gateway, giúp xây dựng các ứng dụng phức tạp và linh hoạt.
+- Triển khai dễ dàng: Bạn có thể triển khai và cập nhật mã của mình dễ dàng qua AWS Management Console, AWS CLI, hoặc thông qua các công cụ CI/CD.
+- AWS Lambda thường được sử dụng cho các mục đích như xử lý dữ liệu theo lô, xử lý sự kiện theo thời gian thực, xây dựng API, tự động hóa tác vụ, và nhiều ứng dụng serverless khác.
+
+Chi phí (Pricing):
+- Thời gian tính toán (Compute time)
+- Số lượng yêu cầu truy cập (Request count)
+- Luôn miễn phí (Always free)
+
+
+4. Các dịch vụ bổ sung khác
+----------------------------------------------------------------------
+- Fargate: Là một dịch vụ serverless compute engine cho container
+- Lightsail: Cho phép bạn nhanh chóng khởi tạo các tài nguyên bạn cân, cho các dự án nhỏ
+- Outposts: cho phép bạn chạy các dịch vụ cloud trong trung tâm dữ liệu của bạn
+- Batch: Cho phép bạn xử lý các tải trọng công việc lớn trong các thành phần nhỏ hơn
+
+
+5. S3
+----------------------------------------------------------------------
+S3 (Simple Storage Service) là một dịch vụ lưu trữ đối tượng được cung cấp bởi Amazon Web Services (AWS). Nó cho phép người dùng lưu trữ và truy xuất bất kỳ lượng dữ liệu nào, bất kỳ lúc nào, từ bất kỳ đâu trên web. Dưới đây là một số đặc điểm chính của S3:
+- Lưu trữ đối tượng: Dữ liệu được lưu trữ dưới dạng các đối tượng trong các "bucket". Mỗi đối tượng bao gồm dữ liệu, metadata và một ID duy nhất.
+- Khả năng mở rộng và độ bền cao: S3 được thiết kế để cung cấp khả năng mở rộng không giới hạn và đảm bảo độ bền dữ liệu cao, với tỷ lệ 99,999999999% (11 số 9).
+- Bảo mật: S3 cung cấp nhiều tính năng bảo mật, bao gồm mã hóa dữ liệu khi lưu trữ (at-rest) và trong quá trình truyền tải (in-transit), cùng với các cơ chế kiểm soát truy cập.
+- Quản lý phiên bản: S3 hỗ trợ quản lý phiên bản, cho phép người dùng theo dõi và phục hồi các phiên bản trước của đối tượng.
+- Chính sách vòng đời: Người dùng có thể định nghĩa các chính sách để tự động di chuyển dữ liệu giữa các lớp lưu trữ hoặc xóa dữ liệu sau một thời gian nhất định.
+- Tích hợp với các dịch vụ AWS khác: S3 tích hợp tốt với nhiều dịch vụ khác của AWS như EC2, RDS, CloudFront, và Lambda.
+- S3 thường được sử dụng cho các mục đích như lưu trữ và phân phối nội dung tĩnh (hình ảnh, video), sao lưu và khôi phục dữ liệu, lưu trữ dữ liệu phân tích, và nhiều ứng dụng khác.
+
+1) S3 Standard
+Mục đích nói chung là sử dụng để lưu trữ dữ liệu
+Dữ liệu được lưu trên nhiều vùng trung tâm dữ liệu đề đảm bảo sự sẵn sàng.
+Có độ trễ thấp (low latency) và thông lượng cao (throughpout).
+-> Tư vấn dùng cho trường hợp: Thường xuyên truy cập dữ liệu
+
+2) S3 Intelligent-Tiering
+Tự động giảm chi phí lưu trữ bằng cách chuyển dữ liệu của bạn sang bậc truy cập tiết kiệm chi phí nhất, dựa trên tần xuất truy cập mà không ảnh hưởng đến hiệu năng, chi phí truy xuất và vận hành.
+Tự động tiết kiệm chi phí
+Không tính phi truy xuất dữ liệu
+Dữ liệu được lưu trên nhiều vùng trung tâm dữ liệu để đảm bảo sự sẵn sàng.
+-> Tư vấn dùng cho trường hợp: Dữ liệu không xác định, hoặc thay đổi cách thức truy cập
+
+3) S3 Standard-Infrequent Access(IA)
+Dữ liệu ít truy cập thường xuyên, nhưng đòi hỏi tốc độ truy cập nhanh
+Dữ liệu được lưu trên nhiều vùng trung tâm dữ liệu để đảm bảo sự sẵn sàng.
+Chi phí sử dụng rẻ hơn S3 Standard
+-> Tư vấn dùng cho trường hợp: Lưu dữ liệu lâu dài, ít truy cập thường xuyên, truy cập dữ liệu tốc độ cao mức Millisecond khi cần
+
+4) S3 One Zone-Infrequent Access(IA)
+Giống như S3 Standard-Infrequent Access(IA), nhưng data chỉ được lưu trong một vùng trung tâm dữ liệu
+Chi phí sử dụng rẻ hơn 20% S3 Standard-Infrequent (IA)
+Dữ liệu được lưu trong lớp lưu trữ dữ liệu có thể bị mất
+-> Tư vấn dùng cho trường hợp: Có khả năng tạo lại dữ liệu, không cần truy cập thường xuyên với tốc độ truy cập dữ liệu theo milli giây, không quan trọng cần phải lưu dữ liệu với tỉnh sẵn sàn và tính bên vùng
+
+5) S3 Glacier
+Lưu trữ dữ liệu dài hạn và lưu trữ với giá thấp
+Khi truy xuất dữ liệu có dung lượng lớn thường phải mất một thời gian dài mới có thể truy xuất ( trong 5-12 giờ)
+Có 3 khoảng thời gian cho lựa chọn truy xuất dữ liệu: 1-5 phút, 3-5 giờ, hoặc 5 đến 12 giờ
+Dữ liệu được lưu trên nhiều vùng trung tâm dữ liệu đề đảm bảo sự sẵn sàng.
+-> Tư vấn dùng cho trường hợp: Sao lưu (Backup) dữ liệu trong một thời gian dài. Dùng cho trường hợp lưu trữ dữ liệu giá rẻ
+
+6) S3 Glacier Deep Archive
+Giống với S3 Glacier, nhưng mất thời gian truy cập lấy dữ liệu lâu hơn
+Có 2 khoảng thời gian cho lựa chọn truy xuất dữ liệu: 12 giờ hoặc 48 giờ
+Rẻ nhất trong các lựa chọn lưu trữ S3
+Dữ liệu được lưu trên nhiều vùng trung tâm dữ liệu để đảm bảo sự sẵn sàng.
+-> Tư vấn dùng cho trường hợp: Sao lưu (Backup) dữ liệu trong một thời gian dài hoặc hai năm một lần. Dùng cho lưu trữ có các yêu cầu tuân thủ nghiêm ngặt.
+
+7) S3 Outposts
+Cung cấp dịch vụ lưu trữ dữ liệu ngay tại chỗ
+$3 trên Outposts cung cấp một lớp lưu trữ S3 duy nhất
+Dữ liệu được hưu trữ trên nhiều thiết bị lưu trữ và các máy chủ
+-> Tư vấn dùng trong trường hợp: Dữ liệu của bạn phải được lưu trữ trong mạng nội bộ. Đòi hỏi tốc độ truy xuất dữ liệu và ứng dụng rất cao.
+
+
+6. Amazon CloudFront 
+----------------------------------------------------------------------
+Dịch vụ phân phối nội dung (CDN - Content Delivery Network) được cung cấp bởi Amazon Web Services (AWS). 
+Nó được thiết kế để tăng tốc phân phối nội dung web, như trang web tĩnh và động, ứng dụng web, API, video và các tệp đa phương tiện khác, đến người dùng trên toàn cầu với độ trễ thấp và tốc độ truyền tải cao. 
+Một số đặc điểm chính của Amazon CloudFront:
+- Phân phối nội dung toàn cầu: CloudFront có một mạng lưới rộng lớn các điểm hiện diện (Edge Locations) trên toàn thế giới. Khi người dùng yêu cầu nội dung, yêu cầu đó sẽ được định tuyến đến Edge Location gần nhất, giảm thiểu độ trễ và cải thiện trải nghiệm người dùng.
+- Tích hợp với các dịch vụ AWS: CloudFront tích hợp chặt chẽ với các dịch vụ AWS khác như Amazon S3, Amazon EC2, AWS Lambda, và Amazon Route 53, giúp dễ dàng thiết lập và quản lý phân phối nội dung.
+- Bảo mật:
+	+ Chứng chỉ SSL/TLS: CloudFront hỗ trợ mã hóa SSL/TLS để bảo mật dữ liệu truyền tải giữa người dùng và Edge Locations.
+AWS Shield và AWS WAF: Tích hợp với AWS Shield để bảo vệ chống lại các cuộc tấn công DDoS, và với AWS WAF (Web Application Firewall) để bảo vệ ứng dụng web khỏi các cuộc tấn công phổ biến.
+Tính năng bộ nhớ đệm (Caching): CloudFront lưu trữ nội dung tĩnh tại các Edge Locations, giảm tải cho máy chủ gốc và tăng tốc độ phân phối nội dung cho người dùng cuối.
+
+Điều chỉnh và tối ưu hóa: Bạn có thể tùy chỉnh các thuộc tính của bộ nhớ đệm và cài đặt phân phối nội dung để phù hợp với yêu cầu cụ thể của ứng dụng. CloudFront cũng hỗ trợ nén nội dung để tối ưu hóa việc truyền tải dữ liệu.
+
+Phân phối nội dung động: Bên cạnh nội dung tĩnh, CloudFront cũng hỗ trợ phân phối nội dung động, giúp cải thiện hiệu suất cho các ứng dụng web và API.
+
+Phân tích và báo cáo: CloudFront cung cấp các công cụ giám sát và phân tích để theo dõi hiệu suất và sử dụng dịch vụ, bao gồm các báo cáo về số lượt truy cập, dữ liệu chuyển đổi và lỗi.
+
+Quản lý phiên bản: CloudFront cho phép bạn dễ dàng quản lý và phân phối các phiên bản mới của nội dung, đảm bảo rằng người dùng luôn truy cập được nội dung cập nhật nhất.
+
+Amazon CloudFront là một giải pháp mạnh mẽ để cải thiện hiệu suất và bảo mật của ứng dụng web, giúp bạn cung cấp nội dung một cách nhanh chóng và an toàn đến người dùng trên toàn cầu.
+
+
