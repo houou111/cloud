@@ -1,0 +1,186 @@
+I. Aws application concept
+-----------------------------------------------------------------------------------------------------------------------
+1. List aws application service
+-------------------------------------------------------------------
+- AWS API gateway
+
+
+
+II. Aws application Detail
+-----------------------------------------------------------------------------------------------------------------------
+3. API gateway
+-------------------------------------------------------------------
+AWS API Gateway là một dịch vụ được quản lý hoàn toàn của Amazon Web Services (AWS) giúp bạn dễ dàng tạo, duy trì, theo dõi, và bảo mật các API (Application Programming Interface) ở bất kỳ quy mô nào. API Gateway hoạt động như một lớp trung gian giữa các máy khách (client) và backend, cho phép phát triển và triển khai các API RESTful và WebSocket.
+
+Các chức năng chính của AWS API Gateway:
+Tạo và quản lý API:
+
+API Gateway cho phép bạn tạo, triển khai, và quản lý API RESTful hoặc WebSocket API. Bạn có thể tạo API để máy khách giao tiếp với các dịch vụ khác như AWS Lambda, EC2, DynamoDB, S3, hoặc các dịch vụ nội bộ khác.
+Proxy cho backend:
+
+API Gateway hoạt động như một proxy giữa các máy khách và backend của bạn. Các yêu cầu từ máy khách được API Gateway nhận và chuyển tiếp đến backend, như dịch vụ Lambda hoặc cơ sở dữ liệu DynamoDB.
+Quản lý luồng yêu cầu:
+
+API Gateway giúp kiểm soát luồng yêu cầu từ máy khách với các tính năng như giới hạn tần suất yêu cầu (rate limiting), kiểm soát tải, và caching để giảm thiểu tải trên backend.
+Tích hợp với AWS Lambda:
+
+AWS Lambda và API Gateway thường được kết hợp để xây dựng các ứng dụng serverless. API Gateway chuyển các yêu cầu đến Lambda để xử lý logic, mà không cần máy chủ.
+Bảo mật API:
+
+API Gateway cung cấp nhiều cơ chế bảo mật như:
+IAM permissions: Cho phép chỉ định quyền truy cập API thông qua AWS Identity and Access Management (IAM).
+API keys: Bạn có thể yêu cầu máy khách cung cấp khóa API để truy cập các endpoint.
+Amazon Cognito: Tích hợp với Amazon Cognito để xác thực người dùng.
+Lambda authorizers: Bạn có thể xây dựng hệ thống xác thực và ủy quyền tùy chỉnh bằng AWS Lambda.
+Xử lý yêu cầu và phản hồi:
+
+API Gateway có khả năng chuyển đổi các định dạng yêu cầu và phản hồi giữa máy khách và backend. Bạn có thể chuyển đổi dữ liệu từ định dạng JSON thành XML, hoặc từ XML thành JSON, và điều chỉnh phản hồi từ backend cho phù hợp với máy khách.
+Cân bằng tải và mở rộng tự động:
+
+API Gateway tự động cân bằng tải các yêu cầu API đến backend, đồng thời mở rộng và thu hẹp tài nguyên tùy theo khối lượng công việc.
+Monitoring và logging:
+
+API Gateway tích hợp với Amazon CloudWatch để ghi nhận thông tin về các yêu cầu, phản hồi, lỗi, và thời gian xử lý của API. Điều này giúp bạn giám sát hiệu suất và phát hiện vấn đề một cách nhanh chóng.
+Quản lý phiên bản API:
+
+API Gateway cho phép quản lý nhiều phiên bản (versions) và giai đoạn (stages) của API, chẳng hạn như "development", "testing", và "production". Điều này giúp bạn dễ dàng triển khai và duy trì nhiều phiên bản của API mà không ảnh hưởng đến dịch vụ hiện tại.
+Thực hiện tính năng CORS (Cross-Origin Resource Sharing):
+
+API Gateway hỗ trợ CORS, cho phép các ứng dụng từ các miền khác có thể truy cập tài nguyên của API Gateway.
+Kiến trúc hoạt động:
+Máy khách (Client): Có thể là trình duyệt, ứng dụng di động, hoặc ứng dụng IoT gửi yêu cầu HTTP(S) đến API Gateway.
+API Gateway: Nhận các yêu cầu từ máy khách, xử lý các yêu cầu này (bao gồm xác thực, caching, và giới hạn tốc độ), sau đó chuyển tiếp đến backend.
+Backend: Có thể là các dịch vụ như AWS Lambda, EC2, DynamoDB, hoặc các dịch vụ bên ngoài. Backend xử lý logic ứng dụng và trả về phản hồi.
+API Gateway: Nhận phản hồi từ backend và trả lại cho máy khách.
+Tính năng chính của API Gateway:
+REST API: API Gateway hỗ trợ tạo các RESTful API, sử dụng các phương thức HTTP tiêu chuẩn như GET, POST, PUT, DELETE.
+WebSocket API: Hỗ trợ kết nối WebSocket API để xử lý các ứng dụng thời gian thực như trò chuyện (chat) hoặc thông báo theo thời gian thực.
+Request/Response Transformation: Có khả năng chuyển đổi yêu cầu và phản hồi giữa máy khách và backend, giúp tăng tính tương thích.
+API Caching: Hỗ trợ caching để giảm tải backend, tăng tốc độ phản hồi và giảm chi phí.
+Ví dụ về trường hợp sử dụng AWS API Gateway:
+Ứng dụng web serverless: Kết hợp API Gateway với AWS Lambda để tạo ứng dụng web không cần quản lý máy chủ. Các yêu cầu HTTP từ máy khách được chuyển đến Lambda để xử lý logic và trả về kết quả.
+
+API cho ứng dụng di động: Sử dụng API Gateway để làm trung gian giữa ứng dụng di động và các dịch vụ backend (như DynamoDB, Lambda).
+
+Xử lý dữ liệu thời gian thực: Sử dụng WebSocket API của API Gateway để phát triển ứng dụng trò chuyện thời gian thực, hệ thống giám sát hoặc thông báo sự kiện.
+
+Microservices: Xây dựng hệ thống microservices bằng cách sử dụng API Gateway để quản lý các điểm cuối (endpoints) của từng dịch vụ.
+
+Lợi ích của AWS API Gateway:
+Không cần quản lý máy chủ: API Gateway là dịch vụ được quản lý hoàn toàn, không cần phải lo lắng về việc quản lý, duy trì hoặc mở rộng cơ sở hạ tầng.
+Khả năng mở rộng tự động: Dịch vụ tự động mở rộng theo lượng yêu cầu đến API mà không cần cấu hình phức tạp.
+Bảo mật tích hợp: Tích hợp các cơ chế bảo mật mạnh mẽ như IAM, Amazon Cognito, khóa API, và xác thực tùy chỉnh.
+Khả năng tích hợp sâu với AWS: API Gateway dễ dàng tích hợp với các dịch vụ khác của AWS như Lambda, DynamoDB, CloudWatch, S3, và nhiều hơn nữa.
+Kết luận:
+AWS API Gateway là một công cụ mạnh mẽ để xây dựng và quản lý API với hiệu suất cao, khả năng mở rộng và tính bảo mật cao. Nó phù hợp cho nhiều loại ứng dụng từ các dịch vụ nhỏ, đơn giản đến các hệ thống lớn, phức tạp và có tính tương tác thời gian thực.
+
+
+4. AWS Step Functions
+-------------------------------------------------------------------
+AWS Step Functions là một dịch vụ của Amazon Web Services (AWS) cho phép bạn điều phối nhiều dịch vụ AWS thành các quy trình xử lý dữ liệu phức tạp hoặc các luồng công việc (workflows) thông qua các bước liên tiếp một cách dễ dàng. Nó sử dụng các biểu đồ trạng thái (state machine) để định nghĩa trình tự thực hiện của các bước, giúp theo dõi, kiểm soát và quản lý các tác vụ phân tán một cách trực quan.
+
+Các thành phần chính của AWS Step Functions:
+State Machine (Máy trạng thái):
+
+Đây là định nghĩa cho một quy trình hoặc luồng công việc, trong đó mỗi bước của quy trình đại diện cho một trạng thái (state). Các trạng thái này có thể là thực hiện một tác vụ, chờ đợi, xử lý điều kiện, hoặc gọi các dịch vụ khác.
+Một state machine bao gồm nhiều bước và có thể dễ dàng tích hợp với các dịch vụ khác như AWS Lambda, Amazon ECS, AWS Glue, và DynamoDB.
+States (Trạng thái):
+
+Các bước trong quy trình có thể là:
+Task State: Thực hiện một công việc cụ thể, chẳng hạn như gọi hàm Lambda, chạy container ECS.
+Choice State: Dùng để điều hướng theo các điều kiện nếu/thì, giống như cấu trúc điều kiện trong lập trình.
+Parallel State: Thực hiện các tác vụ đồng thời, khi bạn muốn chạy nhiều bước cùng lúc.
+Wait State: Dùng để tạo ra một khoảng dừng trong quy trình.
+Fail/Success State: Xác định điểm kết thúc của quy trình khi có lỗi hoặc khi hoàn thành.
+Workflow Execution (Thực thi luồng công việc):
+
+Khi bạn khởi chạy một state machine, nó sẽ tạo ra một phiên bản thực thi (execution) của quy trình đó. Tất cả các bước của quy trình sẽ được thực hiện theo thứ tự, và bạn có thể theo dõi tiến trình thực thi trong AWS Management Console hoặc qua API.
+Error Handling (Xử lý lỗi):
+
+Step Functions cho phép bạn xác định các quy tắc để xử lý lỗi hoặc thất bại trong quá trình thực hiện công việc. Ví dụ, nếu một bước gặp lỗi, bạn có thể cấu hình để hệ thống thử lại (retry), hoặc thực hiện một bước thay thế để xử lý lỗi.
+Integration với các dịch vụ AWS khác:
+
+Step Functions có khả năng tích hợp chặt chẽ với các dịch vụ AWS khác như Lambda, DynamoDB, SNS, SQS, Glue, EC2, ECS, Fargate, và nhiều dịch vụ khác. Điều này giúp bạn dễ dàng kết hợp và điều phối các dịch vụ AWS để xây dựng các quy trình xử lý phức tạp.
+Serverless:
+
+AWS Step Functions hoàn toàn là dịch vụ serverless, có nghĩa là bạn không cần phải quản lý cơ sở hạ tầng, và dịch vụ tự động mở rộng theo nhu cầu sử dụng.
+Cách hoạt động của AWS Step Functions:
+Thiết kế quy trình: Bạn bắt đầu bằng cách định nghĩa quy trình (workflow) của mình trong file Amazon States Language (JSON-based). Đây là ngôn ngữ dùng để mô tả cách mà các bước trong quy trình được liên kết và điều hướng dựa trên điều kiện.
+
+Thực thi quy trình: Khi bạn thực thi state machine, mỗi bước sẽ được thực hiện tuần tự (hoặc song song) dựa trên cách bạn thiết lập. Bạn có thể theo dõi trạng thái của từng bước, xem được trạng thái hiện tại là gì, đã hoàn thành những bước nào, và nếu có lỗi xảy ra ở đâu.
+
+Theo dõi và ghi nhận: Step Functions tự động ghi lại trạng thái và kết quả của từng bước, giúp bạn dễ dàng kiểm tra và theo dõi tiến trình. Bạn cũng có thể xem các sự kiện, lỗi hoặc các thông tin cần thiết khác qua Amazon CloudWatch.
+
+Các trường hợp sử dụng AWS Step Functions:
+Xây dựng quy trình xử lý phức tạp:
+Khi cần xây dựng một quy trình có nhiều bước liên tiếp, AWS Step Functions là lựa chọn lý tưởng để điều phối. Ví dụ, bạn có thể tạo quy trình xử lý đơn hàng trực tuyến gồm nhiều bước như xác minh thông tin, xử lý thanh toán, và cập nhật trạng
+
+
+5. Amazon Cognito 
+-------------------------------------------------------------------
+Là dịch vụ của AWS giúp bạn dễ dàng thêm tính năng xác thực, ủy quyền và quản lý người dùng vào các ứng dụng web hoặc di động. Với Amazon Cognito, bạn có thể kiểm soát việc đăng nhập và truy cập tài nguyên cho người dùng của mình mà không cần phải xây dựng và duy trì hệ thống quản lý danh tính từ đầu.
+
+Các thành phần chính của Amazon Cognito:
+User Pools (Nhóm người dùng):
+
+User Pool là một cơ chế quản lý danh tính (Identity Management System) cho phép bạn xác thực và quản lý người dùng. Nó cung cấp các tính năng như đăng ký người dùng, đăng nhập, xác thực đa yếu tố (MFA), và quản lý phiên đăng nhập (session management).
+Người dùng có thể đăng ký trực tiếp thông qua Cognito User Pool hoặc đăng nhập bằng các nhà cung cấp danh tính bên ngoài như Google, Facebook, hoặc Amazon.
+Tính năng chính:
+Đăng ký và xác thực người dùng.
+Xác thực đa yếu tố (MFA).
+Khả năng phục hồi mật khẩu, xác minh email, và số điện thoại.
+Tích hợp dễ dàng với các ứng dụng web và di động.
+Tùy chỉnh trang đăng nhập, email xác thực.
+Identity Pools (Nhóm danh tính):
+
+Identity Pool là một cơ chế khác trong Cognito, cho phép người dùng truy cập vào các tài nguyên AWS một cách an toàn. Identity Pool cung cấp quyền truy cập tạm thời vào các dịch vụ AWS (như S3, DynamoDB) dựa trên danh tính của người dùng.
+Người dùng có thể sử dụng danh tính từ User Pools hoặc từ các nhà cung cấp danh tính bên ngoài (Facebook, Google, Amazon, hoặc SAML) để lấy quyền truy cập tạm thời vào các dịch vụ AWS.
+Tính năng chính:
+Cấp quyền truy cập tạm thời (temporary AWS credentials) để truy cập tài nguyên AWS.
+Hỗ trợ xác thực ẩn danh và liên kết danh tính từ nhiều nguồn khác nhau (ví dụ: từ nhiều ứng dụng).
+Xác thực với nhà cung cấp danh tính bên ngoài:
+
+Amazon Cognito hỗ trợ tích hợp với các nhà cung cấp danh tính bên ngoài như Google, Facebook, Amazon, và SAML. Điều này cho phép người dùng sử dụng tài khoản của họ từ các dịch vụ bên ngoài để đăng nhập vào ứng dụng của bạn.
+Điều này cũng giúp tạo ra trải nghiệm người dùng thuận tiện hơn khi họ không cần phải tạo tài khoản mới, mà có thể sử dụng tài khoản sẵn có.
+OAuth 2.0 và OpenID Connect:
+
+Cognito hỗ trợ các tiêu chuẩn xác thực OAuth 2.0 và OpenID Connect, cho phép bạn dễ dàng tích hợp xác thực với các ứng dụng web và di động. Các token (ID token, access token, refresh token) sẽ được tạo ra khi người dùng xác thực thành công.
+Cách thức hoạt động:
+User Pool: Khi một người dùng đăng nhập hoặc đăng ký, Cognito sẽ xác thực họ thông qua User Pool. Sau đó, nếu thành công, người dùng sẽ nhận được token JWT (JSON Web Token) chứa thông tin về danh tính của họ.
+
+Identity Pool: Khi người dùng đã xác thực thông qua User Pool (hoặc nhà cung cấp danh tính bên ngoài), Identity Pool sẽ cấp các thông tin xác thực tạm thời (temporary credentials) để truy cập các dịch vụ AWS.
+
+Các tính năng nổi bật của Amazon Cognito:
+Xác thực đa yếu tố (MFA):
+
+Amazon Cognito hỗ trợ MFA như một lớp bảo mật bổ sung. Người dùng có thể được yêu cầu nhập mã OTP từ ứng dụng Authenticator hoặc nhận qua SMS khi đăng nhập.
+Tích hợp dễ dàng với các ứng dụng AWS:
+
+Cognito tích hợp dễ dàng với các dịch vụ AWS khác, như API Gateway, Lambda, S3, và DynamoDB, để bạn có thể kiểm soát quyền truy cập vào tài nguyên AWS dựa trên danh tính của người dùng.
+Quản lý người dùng tự động:
+
+Cognito giúp bạn tự động hóa các tác vụ quản lý người dùng như xác minh email, đặt lại mật khẩu, và khôi phục tài khoản mà không cần xây dựng thủ công.
+Sử dụng OAuth2.0, OpenID Connect:
+
+Cognito tuân thủ các tiêu chuẩn xác thực phổ biến như OAuth 2.0 và OpenID Connect, đảm bảo khả năng tương thích và bảo mật cao khi tích hợp với các hệ thống khác.
+Xác thực ẩn danh:
+
+Cognito cho phép bạn cho phép người dùng truy cập vào tài nguyên của ứng dụng mà không cần đăng nhập bằng danh tính nào, nhờ vào tính năng xác thực ẩn danh. Điều này có ích trong các trường hợp ứng dụng cần cung cấp trải nghiệm mà không bắt buộc phải đăng nhập.
+Lưu trữ và đồng bộ hóa dữ liệu:
+
+Cognito có thể giúp đồng bộ hóa dữ liệu người dùng giữa các thiết bị bằng cách lưu trữ dữ liệu của người dùng trong Cognito Sync, cho phép các ứng dụng truy cập và đồng bộ hóa dữ liệu từ nhiều thiết bị.
+Trường hợp sử dụng Amazon Cognito:
+Ứng dụng di động: Cognito giúp bạn quản lý người dùng, cung cấp khả năng đăng nhập bằng các tài khoản từ mạng xã hội, và đồng bộ dữ liệu người dùng trên nhiều thiết bị.
+
+Xác thực trong ứng dụng web: Sử dụng Cognito User Pools để quản lý quá trình đăng nhập, xác thực và phân quyền cho người dùng trong ứng dụng web của bạn.
+
+Quản lý quyền truy cập tài nguyên AWS: Nếu bạn có các ứng dụng sử dụng các dịch vụ AWS như S3, DynamoDB, hoặc Lambda, Cognito Identity Pools có thể giúp bạn cấp quyền truy cập cho người dùng một cách an toàn và tạm thời.
+
+Xác thực ẩn danh: Dành cho các ứng dụng mà bạn muốn cho phép người dùng có quyền truy cập vào một số chức năng mà không yêu cầu họ phải đăng nhập hoặc đăng ký tài khoản.
+
+Lợi ích của Amazon Cognito:
+Đơn giản hóa việc quản lý người dùng: Amazon Cognito giúp bạn tập trung vào phát triển tính năng của ứng dụng thay vì phải xây dựng và duy trì hệ thống xác thực và quản lý người dùng.
+Tích hợp mạnh mẽ với các dịch vụ AWS: Dễ dàng tích hợp với các dịch vụ AWS khác để xây dựng các ứng dụng an toàn và có khả năng mở rộng cao.
+Khả năng mở rộng tự động: Cognito tự động mở rộng quy mô để đáp ứng khối lượng người dùng lớn mà không cần phải lo lắng về hạ tầng.
+Kết luận:
+Amazon Cognito là một giải pháp mạnh mẽ và linh hoạt để quản lý danh tính người dùng và xác thực truy cập, đặc biệt trong hệ sinh thái AWS. Nó giúp giảm tải việc xây dựng và bảo trì hệ thống quản lý người dùng, đồng thời cung cấp các tính năng bảo mật mạnh mẽ như MFA, xác thực mạng xã hội, và tích hợp với nhiều dịch vụ khác.

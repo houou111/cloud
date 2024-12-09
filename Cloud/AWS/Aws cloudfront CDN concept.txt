@@ -1,0 +1,67 @@
+I. CloudFront concept:
+--------------------------------------------------------------------------------------------------------------------------------------------------
+AWS CloudFront là một dịch vụ Content Delivery Network (CDN) của Amazon, giúp phân phối nội dung web (như HTML, CSS, JavaScript, hình ảnh, video, API) đến người dùng một cách nhanh chóng và an toàn thông qua một mạng lưới các điểm biên (edge locations) phân phối trên toàn cầu.
+
+Các tính năng chính:
+- Tăng tốc phân phối nội dung: Khi một người dùng truy cập vào nội dung, CloudFront sẽ cung cấp nội dung từ một điểm biên gần nhất, giúp giảm độ trễ và tăng tốc độ tải trang.
+- Caching (Bộ nhớ đệm): CloudFront lưu trữ nội dung tĩnh như hình ảnh, video, tệp JavaScript và CSS tại các điểm biên. Điều này giúp giảm tải cho máy chủ gốc và tăng hiệu suất.
+- Tính bảo mật cao: CloudFront hỗ trợ tích hợp với AWS Shield để bảo vệ chống lại các cuộc tấn công DDoS và hỗ trợ SSL/TLS để bảo mật truyền tải dữ liệu.
+- Tích hợp với các dịch vụ khác của AWS: CloudFront có thể dễ dàng tích hợp với các dịch vụ AWS khác như S3 (để lưu trữ nội dung), EC2, và Elastic Load Balancer.
+- Tăng tốc cả nội dung tĩnh và động: CloudFront không chỉ tăng tốc các nội dung tĩnh mà còn hỗ trợ cả việc phân phối nội dung động và API.
+
+Ứng dụng:
+CloudFront thường được sử dụng cho các trang web có lưu lượng truy cập cao, phân phối video trực tuyến, phân phối phần mềm, và bất kỳ ứng dụng nào yêu cầu tải nội dung nhanh chóng và an toàn.
+
+
+
+II. CloudFront concept:
+--------------------------------------------------------------------------------------------------------------------------------------------------
+1. Các thành phần chính của CloudFront:
+-------------------------------------------------------------------------
+Edge Locations:
+- CloudFront có hơn 450 điểm biên toàn cầu, bao gồm Edge Locations và Regional Edge Caches.
+- Khi một người dùng gửi yêu cầu đến một nội dung (tĩnh hoặc động), CloudFront sẽ định tuyến yêu cầu đó đến Edge Location gần nhất để giảm thiểu độ trễ. Nếu nội dung đã được cache tại đó, CloudFront trả lại ngay cho người dùng, nếu không nó sẽ truy xuất từ nguồn gốc (origin).
+
+Origins (Nguồn gốc): Origin là nơi CloudFront truy xuất nội dung khi không có sẵn trong cache tại Edge Location. Bạn có thể sử dụng các dịch vụ AWS như:
+- Amazon S3: Dùng cho nội dung tĩnh (hình ảnh, video, tệp).
+- Amazon EC2: Phù hợp cho nội dung động (web server, ứng dụng API).
+- Amazon Elastic Load Balancer (ALB/ELB): Để phân phối nội dung động từ nhiều EC2 instances.
+- Amazon API Gateway: Dùng cho phân phối API.
+- Custom Origin: Các máy chủ tự quản lý (on-premise hoặc hosting khác) có thể làm origin.
+
+Distributions:
+- Distribution là thành phần chính của CloudFront. Bạn cấu hình origin cho CloudFront thông qua một distribution, và phân phối nội dung từ các điểm biên (Edge Locations).
+- Có hai loại distribution:
+	- Web distribution: Dùng cho nội dung web tĩnh và động (video, hình ảnh, HTML).
+	- RTMP distribution: Dùng để stream media theo giao thức RTMP (deprecated, không khuyến nghị dùng).
+
+Behaviors:
+- Behaviors giúp bạn kiểm soát cách CloudFront xử lý các yêu cầu đến một phần cụ thể của nội dung. Ví dụ, bạn có thể cấu hình một behavior cho phép CloudFront lưu trữ tạm (cache) nội dung tĩnh (CSS, hình ảnh) và chuyển hướng các yêu cầu động đến ALB hoặc EC2.
+
+Caching:
+- CloudFront sử dụng cơ chế cache để lưu trữ các nội dung tĩnh tại các điểm biên (Edge Locations). Khi một yêu cầu được gửi đến, CloudFront kiểm tra nội dung đã được cache tại điểm biên chưa, nếu có thì trả lại ngay, nếu không thì sẽ truy xuất từ origin.
+- Bạn có thể điều chỉnh thời gian lưu trữ cache (TTL - Time to Live) để kiểm soát thời gian nội dung được lưu trong bộ nhớ cache.
+- Cache invalidation: Bạn có thể chủ động xóa nội dung khỏi cache tại các điểm biên nếu nội dung đã thay đổi.
+
+HTTPS và Bảo mật:
+- CloudFront hỗ trợ SSL/TLS để bảo mật giao tiếp giữa người dùng và điểm biên.
+- Bạn có thể yêu cầu CloudFront phân phối nội dung chỉ qua giao thức HTTPS để bảo mật dữ liệu.
+- Origin Access Identity (OAI): Sử dụng với S3 để giới hạn quyền truy cập chỉ thông qua CloudFront, đảm bảo rằng người dùng không thể truy cập trực tiếp vào bucket S3 mà phải đi qua CDN.
+- AWS WAF (Web Application Firewall): Có thể kết hợp với CloudFront để bảo vệ ứng dụng khỏi các cuộc tấn công như SQL injection, XSS, hoặc DDoS.
+
+Geo Restrictions:
+- CloudFront cho phép bạn giới hạn phân phối nội dung theo vị trí địa lý. Bạn có thể cấu hình để chặn hoặc cho phép nội dung chỉ đến từ một số quốc gia cụ thể.
+
+Field-Level Encryption:
+- Tính năng này cho phép bạn mã hóa dữ liệu nhạy cảm (như số thẻ tín dụng hoặc thông tin cá nhân) trước khi gửi đến ứng dụng backend. Điều này đảm bảo rằng ngay cả khi dữ liệu được phân phối qua nhiều hệ thống, chỉ các hệ thống được phép mới có thể giải mã và xử lý dữ liệu nhạy cảm đó.
+
+Lambda@Edge:
+- Lambda@Edge cho phép bạn chạy mã JavaScript (AWS Lambda function) tại các Edge Locations của CloudFront, giúp thay đổi nội dung hoặc xử lý các yêu cầu ngay tại điểm biên mà không cần truy cập đến origin. Ví dụ:
+	- Tùy chỉnh phản hồi dựa trên địa lý của người dùng.
+	- Thay đổi tiêu đề HTTP hoặc tạo nội dung động trực tiếp từ điểm biên.
+	- Tối ưu hóa cho việc phân phối nội dung với hiệu suất cao hơn.
+
+Monitoring và Logging:
+- Amazon CloudWatch: Giám sát hoạt động của CloudFront bằng cách thu thập các thông số như số lượng yêu cầu, tỷ lệ cache hit/miss, băng thông, độ trễ, v.v.
+- Access Logs: Bạn có thể bật tính năng ghi lại các yêu cầu đến CloudFront và lưu chúng vào Amazon S3 để phân tích sau này.
+
